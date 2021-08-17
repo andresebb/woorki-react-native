@@ -1,11 +1,15 @@
 import React from 'react';
-import {Dimensions, KeyboardAvoidingView} from 'react-native';
 import {StyleSheet, View, Platform, Text, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useForm} from '../hooks/useForm';
+import {AlreadyLog} from './AlreadyLog';
 
-export const RegisterForm = () => {
+interface Props {
+  navigation: any;
+}
+
+export const RegisterForm = ({navigation}: Props) => {
   const {email, password, firstName, lastName, onChange} = useForm({
     firstName: '',
     lastName: '',
@@ -19,8 +23,8 @@ export const RegisterForm = () => {
 
   return (
     <>
-      <View style={styles.formContainer}>
-        <View>
+      <View style={styles.container}>
+        <View style={styles.formContainer}>
           {/* Name Inputs */}
           <View style={styles.doubleInputContainer}>
             <View
@@ -89,7 +93,6 @@ export const RegisterForm = () => {
               // underlineColorAndroid="white"
               style={styles.inputField}
               selectionColor="black"
-              keyboardType="email-address"
               onChangeText={value => onChange(value, 'email')}
               value={email}
               onSubmitEditing={onRegister}
@@ -150,7 +153,7 @@ export const RegisterForm = () => {
           </Text>
 
           {/* Continue */}
-          <View style={styles.buttonContainer}>
+          <View style={{...styles.buttonContainer, opacity: 0.7}}>
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.button}
@@ -158,6 +161,15 @@ export const RegisterForm = () => {
               <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
           </View>
+
+          {/* Already Log */}
+          <AlreadyLog
+            title1="Do you already hace an account ?"
+            title2="Sign In"
+            screen="LoginScreen"
+            color="white"
+            navigation={navigation}
+          />
         </View>
       </View>
     </>
@@ -165,11 +177,15 @@ export const RegisterForm = () => {
 };
 
 const styles = StyleSheet.create({
-  formContainer: {
+  container: {
     flex: 1,
     marginTop: 100,
     position: 'relative',
     justifyContent: 'space-between',
+  },
+
+  formContainer: {
+    marginBottom: 34,
   },
   doubleInputContainer: {
     flexDirection: 'row',

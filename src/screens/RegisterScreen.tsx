@@ -15,7 +15,6 @@ import {BackgroundImage} from '../components/BackgroundImage';
 import {BackArrow} from '../components/BackArrow';
 import {Points} from '../components/Points';
 import {RegisterForm} from '../components/RegisterForm';
-import {AlreadyLog} from '../components/AlreadyLog';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
 
@@ -36,16 +35,7 @@ export const RegisterScreen = ({navigation}: Props) => {
           <Points />
 
           {/* Form Start */}
-          <RegisterForm />
-
-          {/* Already Log */}
-          <AlreadyLog
-            title1="Do you already hace an account ?"
-            title2="Sign In"
-            screen="LoginScreen"
-            color="white"
-            navigation={navigation}
-          />
+          <RegisterForm navigation={navigation} />
 
           {/* Go back */}
           <BackArrow navigation={navigation} />
@@ -58,7 +48,7 @@ export const RegisterScreen = ({navigation}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    padding: 14,
     paddingTop: 24,
   },
   logoContainer: {
@@ -69,6 +59,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     letterSpacing: 8,
     marginBottom: 20,
-    marginTop: 36,
+    marginTop: 42,
   },
 });

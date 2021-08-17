@@ -20,7 +20,7 @@ export const BottomNavigator = () => {
         headerShown: false,
         // tabBarActiveBackgroundColor: 'red',
         tabBarStyle: {
-          backgroundColor: 'yellow',
+          backgroundColor: 'white',
         },
       }}>
       <Tab.Screen

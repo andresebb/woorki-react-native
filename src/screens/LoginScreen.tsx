@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Image} from 'react-native';
+import {TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
   View,
@@ -10,50 +10,35 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {BackArrow} from '../components/BackArrow';
-import {TextInput} from 'react-native-gesture-handler';
-import {ButtonSign} from '../components/ButtonSign';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigation/WelcomeNavigator';
 import {FacebookSignButton} from '../components/FacebookSignButton';
 import {GoogleSignButton} from '../components/GoogleSignButton';
 import {AlreadyLog} from '../components/AlreadyLog';
+import {BackgroundImage} from '../components/BackgroundImage';
+import {BigLogo} from '../components/BigLogo';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
 
 export const LoginScreen = ({navigation}: Props) => {
   return (
-    <ImageBackground
-      source={require('../assets/portada.png')}
-      style={{
-        width: '100%',
-        height: '100%',
-      }}>
+    <BackgroundImage>
       <TouchableWithoutFeedback
         onPress={() => Keyboard.dismiss()}
         style={{
           flex: 1,
         }}>
         <View style={styles.container}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={require('../assets/woorki-no-bg.png')}
-              style={{
-                width: 300,
-                height: 50,
-              }}
-            />
-          </View>
-
-          <View
+          <BigLogo
             style={{
-              backgroundColor: 'white',
-              opacity: 0.9,
-              flex: 1,
-              borderTopLeftRadius: 42,
-              borderTopRightRadius: 42,
-              paddingHorizontal: 24,
-              justifyContent: 'space-between',
-            }}>
+              alignItems: 'center',
+              marginTop: 150,
+              marginBottom: 64,
+            }}
+          />
+
+          <View style={styles.boxContainer}>
             <View style={styles.formContainer}>
               {/* Email Input */}
               <View
@@ -66,7 +51,7 @@ export const LoginScreen = ({navigation}: Props) => {
                   // underlineColorAndroid="white"
                   style={styles.inputField}
                   selectionColor="black"
-                  keyboardType="email-address"
+                  // keyboardType="email-address"
                   // onChangeText={value => onChange(value, 'email')}
                   // value={email}
                   // onSubmitEditing={onRegister}
@@ -133,35 +118,36 @@ export const LoginScreen = ({navigation}: Props) => {
                 title2="Sign Up"
                 screen="RegisterScreen"
                 color="black"
+                navigation={navigation}
               />
             </View>
           </View>
           <BackArrow navigation={navigation} />
         </View>
       </TouchableWithoutFeedback>
-    </ImageBackground>
+    </BackgroundImage>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 0,
-    position: 'relative',
   },
-  imageContainer: {
-    alignItems: 'center',
-    marginTop: 150,
-    marginBottom: 64,
+
+  boxContainer: {
+    backgroundColor: 'white',
+    opacity: 0.9,
+    flex: 1,
+    borderTopLeftRadius: 42,
+    borderTopRightRadius: 42,
+    padding: 14,
+    justifyContent: 'space-between',
   },
 
   // Form Container
 
   formContainer: {
-    flex: 1,
-    marginTop: 18,
-    // position: 'relative',
-    // justifyContent: 'space-between',
+    marginTop: 14,
   },
   inputField: {
     color: 'black',
@@ -173,11 +159,11 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    alignItems: 'center',
     backgroundColor: '#2bc48a',
     borderRadius: 12,
     shadowColor: '#000',
     marginVertical: 24,
+    marginBottom: 54,
     shadowOffset: {
       width: 0,
       height: 10,
@@ -192,6 +178,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
+    textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',
   },
