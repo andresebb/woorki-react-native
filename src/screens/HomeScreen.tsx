@@ -4,6 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {ListHeader} from '../components/ListHeader';
 import {ChefLogo} from '../components/ChefLogo';
+import {CategoriesList} from '../components/CategoriesList';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {JobCard} from '../components/JobCard';
 
 export const HomeScreen = () => {
   const navigator = useNavigation();
@@ -11,25 +14,14 @@ export const HomeScreen = () => {
   return (
     <BackgroundImage>
       <ListHeader />
-
-      <FlatList
-        data={[1, 2, 3, 4, 5, 6]}
-        keyExtractor={item => item}
-        horizontal
-        renderItem={({item}) => (
-          <View
-            style={{
-              backgroundColor: 'white',
-              padding: 14,
-              marginHorizontal: 14,
-              height: 70,
-              borderRadius: 42,
-              alignItems: 'center',
-            }}>
-            <ChefLogo />
-          </View>
-        )}
-      />
+      <CategoriesList />
+      <View
+        style={{
+          flex: 1,
+          padding: 12,
+        }}>
+        <JobCard />
+      </View>
     </BackgroundImage>
   );
 };

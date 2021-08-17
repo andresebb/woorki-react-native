@@ -14,7 +14,7 @@ export const ListHeader = () => {
           placeholderTextColor="white"
           // underlineColorAndroid="white"
           style={styles.inputField}
-          selectionColor="black"
+          selectionColor="white"
           // onChangeText={value => onChange(value, 'email')}
           // value={email}
           // onSubmitEditing={onRegister}
@@ -59,16 +59,18 @@ const styles = StyleSheet.create({
   },
   logoRightContainer: {
     position: 'absolute',
-    top: 12,
+    top: 0,
     right: 6,
+    padding: 10,
   },
   inputField: {
-    color: 'black',
+    color: 'white',
     backgroundColor: '#172051',
     borderRadius: 12,
     fontSize: 16,
     // flex: 1,
-    textAlign: 'center',
+    textAlign: 'left',
     paddingHorizontal: 36,
+    paddingLeft: 46,
   },
 });
