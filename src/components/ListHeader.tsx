@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 12,
+    backgroundColor: '#050F42',
   },
   inputContainer: {
     flex: 1,
@@ -72,5 +73,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     paddingHorizontal: 36,
     paddingLeft: 46,
+    borderWidth: 1,
+    borderColor: 'white',
   },
 });

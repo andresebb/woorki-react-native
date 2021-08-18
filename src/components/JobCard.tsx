@@ -27,11 +27,11 @@ export const JobCard = () => {
           <View>
             <View style={styles.infoText}>
               <Icon name="location-outline" size={20} color="white" />
-              <Text style={{color: 'white'}}>Dallas Tx</Text>
+              <Text style={{marginLeft: 6, color: '#EFEFEF'}}>Dallas Tx</Text>
             </View>
             <View style={styles.infoText}>
               <Icon name="card-outline" size={20} color="white" />
-              <Text style={{color: 'white'}}>$15.00</Text>
+              <Text style={{color: '#efefef', marginLeft: 6}}>$15.00</Text>
             </View>
           </View>
           <View style={styles.contactContainer}>
@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
     padding: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderWidth: 1,
+    // borderColor: 'white',
+    marginVertical: 12,
   },
   infoContainer: {
     flex: 1,
@@ -74,10 +77,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
   description: {
-    color: 'white',
+    color: '#C4C4C4',
     fontSize: 12,
     marginVertical: 8,
   },

@@ -3,6 +3,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from '../screens/HomeScreen';
 import {DetailScreen} from '../screens/DetailScreen';
+import {ListHeader} from '../components/ListHeader';
 
 export type RootStackParams = {
   HomeScreen: undefined;
@@ -21,7 +22,16 @@ export const Tab1 = () => {
           backgroundColor: '#f1f1f1',
         },
       }}>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      {/* TODO: DEFINIR DONDE SE VERA EL HEADER */}
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          // headerShown: false,
+          header: props => <ListHeader />,
+        }}
+        name="HomeScreen"
+        component={HomeScreen}
+      />
       <Stack.Screen name="DetailScreen" component={DetailScreen} />
     </Stack.Navigator>
   );

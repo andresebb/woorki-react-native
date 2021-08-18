@@ -7,6 +7,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <BottomNavigator />
+      {/* <WelcomeNavigator /> */}
     </NavigationContainer>
   );
 }
