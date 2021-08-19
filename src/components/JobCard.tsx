@@ -56,6 +56,7 @@ export const JobCard = () => {
 
 const styles = StyleSheet.create({
   cardContainer: {
+    height: 150,
     backgroundColor: '#172051',
     borderRadius: 12,
     padding: 8,

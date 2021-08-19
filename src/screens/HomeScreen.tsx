@@ -5,6 +5,7 @@ import {ListHeader} from '../components/ListHeader';
 import {CategoriesList} from '../components/CategoriesList';
 import {JobCard} from '../components/JobCard';
 import {ScrollView} from 'react-native-gesture-handler';
+import {NewJobCard} from '../components/NewJobCard';
 
 export const HomeScreen = () => {
   return (
@@ -17,7 +18,6 @@ export const HomeScreen = () => {
             flex: 1,
             padding: 12,
           }}>
-          <JobCard />
           <JobCard />
           <JobCard />
           <JobCard />
