@@ -1,7 +1,5 @@
 import React from 'react';
 import {View, FlatList} from 'react-native';
-import {ListHeader} from '../components/ListHeader';
-import {CategoriesList} from '../components/CategoriesList';
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 
