@@ -1,128 +1,106 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import {Text, View, Image, StyleSheet} from 'react-native';
+import {Text, View, Image, StyleSheet, Dimensions} from 'react-native';
 import {RootStackParams} from '../navigation/Tab1';
-import  Icon from 'react-native-vector-icons/Ionicons';
-import { Map } from '../components/Map';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {Map} from '../components/Map';
+import {ScrollView} from 'react-native-gesture-handler';
+import {OneBackArrow} from '../components/OneBackArrow';
+
+const screemHeight = Dimensions.get('screen').height;
+
 interface Props extends StackScreenProps<RootStackParams, 'JobDetailScreen'> {}
 
-export const JobDetailScreen = ({route}: Props) => {
-  // console.log(route.params);
+export const JobDetailScreen = ({route, navigation}: Props) => {
+  const job = route.params;
 
   return (
-    <View style={styles.flex1}>
+    <ScrollView style={styles.flex1}>
       <View style={styles.flex1}>
+        <OneBackArrow navigation={navigation} />
         <View style={styles.imageContainer}>
           <Image
             source={require('../assets/construction.png')}
             style={{
               height: '100%',
               width: '100%',
-              // borderBottomLeftRadius: 30,
+              borderTopLeftRadius: 40,
               borderBottomRightRadius: 30,
             }}
           />
           <View style={styles.imageShadow}></View>
-          <View
-            style={{
-              // backgroundColor: 'orange',
-              alignItems: 'center',
-              position: 'absolute',
-              zIndex: 9999,
-              bottom: -15,
-              right: 0,
-              left: 0,
-            }}>
-            <Text
-              style={styles.title}>
-              Construction Worker
-            </Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{job.title}</Text>
           </View>
         </View>
 
-        {/* Description */}
-        <Text style={{
-          marginTop: 46,
-          marginBottom: 10,
-          fontSize: 20,
-          letterSpacing: 2,
-          color: "#1B1B1B",
-        }}>Description</Text>
-        <Text style={{
-          color: "#858585",
-        }}>
-          We are looking for a construct ion worker because right now we need more staff so if you are interested jus give me a call and we can startg the process
-        </Text>
-        {/* Salary */}
-        <Text style={{
-          marginVertical: 10,
-          fontSize: 20,
-          letterSpacing: 2,
-          color: "#1B1B1B",
-        }}>Hourly salary:</Text>
-        <Text style={{
-          fontWeight: "bold",
-          color: "#858585"
-        }}>$15.00 / $20.00</Text>
-        
-        {/* Sponsor */}
-        <View style={{
-          marginTop: 16,
-          marginBottom: 28,
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between"
+        <View
+          style={{
+            marginHorizontal: 12,
+            flex: 1,
+            marginBottom: 50,
           }}>
-            <View style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}>
+          {/* Description */}
+          <Text style={styles.descriptionTitle}>Description</Text>
+          <Text style={styles.description}>{job.description}</Text>
+          {/* Salary */}
+          <Text style={styles.salary}>Hourly salary:</Text>
+          <Text style={styles.salaryNumber}>{job.hour}</Text>
+
+          {/* Contact */}
+          <View style={styles.contactContainer}>
+            <View style={styles.contactInfo}>
               <Image
                 source={require('../assets/avatar.png')}
                 style={{
                   height: 50,
                   width: 50,
-                  marginRight: 12
+                  marginRight: 12,
                 }}
               />
               <View>
-                <Text style={{
-                  fontSize: 18,
-                  color: "#1B1B1B"
-                }}>Brian Oconner</Text>
-                <Text style={{
-                  color: "#858585",
-                  fontWeight: "bold"
-                }}>Human Resources</Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#1B1B1B',
+                  }}>
+                  Brian Oconner
+                </Text>
+                <Text
+                  style={{
+                    color: '#858585',
+                    fontWeight: 'bold',
+                  }}>
+                  Human Resources
+                </Text>
               </View>
             </View>
 
-          <View style={{
-            flexDirection: "row",
-            alignItems: "center"
-              }}>
-            <View style={{
-              backgroundColor: "#2bc48a",
-              padding: 12,
-              borderRadius: 12,
-              marginRight: 14,
-            }}>
-              <Icon name="call-outline" size={20} color="white"/>
-            </View>
+            <View style={styles.contactInfo}>
+              <View
+                style={{
+                  ...styles.contactLogo,
+                  marginRight: 14,
+                }}>
+                <Icon name="call-outline" size={20} color="white" />
+              </View>
 
-            <View style={{
-              backgroundColor: "#2bc48a",
-              padding: 12,
-              borderRadius: 12
-            }}>
-              <Icon name="mail-outline" size={20} color="white"/>
+              <View style={styles.contactLogo}>
+                <Icon name="mail-outline" size={20} color="white" />
+              </View>
             </View>
           </View>
+          <View
+            style={{
+              height: 200,
+              width: '100%',
+              backgroundColor: 'red',
+            }}>
+            <Map />
+          </View>
         </View>
-        
-        <Map  />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -132,7 +110,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: '40%',
+    height: screemHeight * 0.3,
   },
   imageShadow: {
     backgroundColor: 'black',
@@ -144,6 +122,15 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     borderBottomRightRadius: 60,
+    borderTopLeftRadius: 60,
+  },
+  titleContainer: {
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 9999,
+    bottom: -15,
+    right: 0,
+    left: 0,
   },
   title: {
     color: 'white',
@@ -154,5 +141,41 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     bottom: -8,
     fontSize: 18,
-  }
+  },
+  descriptionTitle: {
+    marginTop: 46,
+    marginBottom: 10,
+    fontSize: 20,
+    letterSpacing: 2,
+    color: '#1B1B1B',
+  },
+  description: {
+    color: '#858585',
+  },
+  salary: {
+    marginVertical: 10,
+    fontSize: 20,
+    letterSpacing: 2,
+    color: '#1B1B1B',
+  },
+  salaryNumber: {
+    fontWeight: 'bold',
+    color: '#858585',
+  },
+  contactContainer: {
+    marginTop: 16,
+    marginBottom: 28,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  contactInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  contactLogo: {
+    backgroundColor: '#2bc48a',
+    padding: 12,
+    borderRadius: 12,
+  },
 });

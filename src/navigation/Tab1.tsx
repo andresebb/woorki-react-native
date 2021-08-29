@@ -9,9 +9,7 @@ import {JobDetailScreen} from '../screens/JobDetailScreen';
 export type RootStackParams = {
   HomeScreen: undefined;
   DetailScreen: undefined;
-  JobDetailScreen: {
-    job: JobData;
-  };
+  JobDetailScreen: JobData;
 };
 
 const Stack = createStackNavigator<RootStackParams>();
