@@ -18,10 +18,21 @@ import {GoogleSignButton} from '../components/GoogleSignButton';
 import {AlreadyLog} from '../components/AlreadyLog';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {BigLogo} from '../components/BigLogo';
+import {useForm} from '../hooks/useForm';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
 
 export const LoginScreen = ({navigation}: Props) => {
+  const {email, password, onChange} = useForm({
+    email: '',
+    password: '',
+  });
+
+  const onLogin = () => {
+    console.log(email);
+    console.log(password);
+  };
+
   return (
     <BackgroundImage>
       <TouchableWithoutFeedback
@@ -48,13 +59,12 @@ export const LoginScreen = ({navigation}: Props) => {
                 <TextInput
                   placeholder="Email"
                   placeholderTextColor="rgba(0,0,0,0.4)"
-                  // underlineColorAndroid="white"
                   style={styles.inputField}
                   selectionColor="black"
-                  // keyboardType="email-address"
-                  // onChangeText={value => onChange(value, 'email')}
+                  keyboardType="email-address"
+                  onChangeText={value => onChange(value, 'email')}
                   // value={email}
-                  // onSubmitEditing={onRegister}
+                  onSubmitEditing={onLogin}
                   autoCapitalize="none"
                   autoCorrect={false}
                 />
@@ -80,9 +90,9 @@ export const LoginScreen = ({navigation}: Props) => {
                   // underlineColorAndroid="white"
                   style={{...styles.inputField, marginBottom: 12}}
                   selectionColor="black"
-                  // onChangeText={value => onChange(value, 'password')}
+                  onChangeText={value => onChange(value, 'password')}
                   // value={password}
-                  // onSubmitEditing={onRegister}
+                  onSubmitEditing={onLogin}
                   autoCapitalize="none"
                   autoCorrect={false}
                 />

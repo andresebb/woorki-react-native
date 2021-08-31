@@ -7,6 +7,8 @@ import {Tab1} from './Tab1';
 import {Tab2} from './Tab2';
 import {Tab3} from './Tab3';
 import {ListHeader} from '../components/ListHeader';
+import {WelcomeScreen} from '../screens/WelcomeScreen';
+import {Text} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,6 +50,7 @@ export const BottomNavigator = () => {
           ),
         }}
       />
+
       <Tab.Screen
         name="Tab2"
         component={Tab2}

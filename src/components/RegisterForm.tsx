@@ -1,15 +1,19 @@
 import React from 'react';
+import {useContext} from 'react';
 import {StyleSheet, View, Platform, Text, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useForm} from '../hooks/useForm';
 import {AlreadyLog} from './AlreadyLog';
+import {AuthContext} from '../context/AuthContext';
 
 interface Props {
   navigation: any;
 }
 
 export const RegisterForm = ({navigation}: Props) => {
+  const {signUpFirebase} = useContext(AuthContext);
+
   const {email, password, firstName, lastName, onChange} = useForm({
     firstName: '',
     lastName: '',
@@ -18,7 +22,7 @@ export const RegisterForm = ({navigation}: Props) => {
   });
 
   const onRegister = () => {
-    console.log(`${firstName} ${lastName} ${email} ${password}`);
+    signUpFirebase({firstName, lastName, email, password});
   };
 
   return (
@@ -153,10 +157,10 @@ export const RegisterForm = ({navigation}: Props) => {
           </Text>
 
           {/* Continue */}
-          <View style={{...styles.buttonContainer, opacity: 0.7}}>
+          <View>
             <TouchableOpacity
               activeOpacity={0.8}
-              style={styles.button}
+              style={styles.buttonContainer}
               onPress={() => onRegister()}>
               <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>

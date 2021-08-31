@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {WelcomeScreen} from '../screens/WelcomeScreen';
 import {LoginScreen} from '../screens/LoginScreen';
 import {RegisterScreen} from '../screens/RegisterScreen';
+import {AuthContext} from '../context/AuthContext';
 
 export type RootStackParams = {
   WelcomeScreen: undefined;
@@ -13,6 +14,8 @@ export type RootStackParams = {
 const Stack = createStackNavigator<RootStackParams>();
 
 export const WelcomeNavigator = () => {
+  const {status} = useContext(AuthContext);
+
   return (
     <Stack.Navigator
       screenOptions={{
