@@ -2,6 +2,8 @@ import React from 'react';
 import {View, FlatList} from 'react-native';
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useState} from 'react';
 
 const data = [
   {
@@ -67,9 +69,21 @@ const data = [
 ];
 
 export const HomeScreen = () => {
+  const [direction, setDirection] = useState('');
+  const [offset, setOffset] = useState(0);
+
+  const getDirection = (currentOffset: any) => {
+    if (currentOffset > offset) {
+      setDirection('down');
+    } else {
+      setDirection('up');
+    }
+    setOffset(currentOffset);
+    console.log(direction);
+  };
+
   return (
     <BackgroundWhite>
-      {/* <CategoriesList /> */}
       <View
         style={{
           flex: 1,
@@ -77,6 +91,7 @@ export const HomeScreen = () => {
         }}>
         <FlatList
           data={data}
+          onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
           keyExtractor={item => item.id.toString()}
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => <JobCard job={item} />}

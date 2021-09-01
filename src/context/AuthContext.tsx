@@ -4,6 +4,8 @@ import {
   updateProfile,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
 } from 'firebase/auth';
 import {firebaseApp} from '../firebase';
 import {useState} from 'react';
@@ -30,10 +32,10 @@ type AuthContextProps = {
 
 export const AuthContext = createContext({} as AuthContextProps);
 
-const auth = getAuth(firebaseApp);
 export const AuthProvider = ({children}: any) => {
+  const auth = getAuth(firebaseApp);
   const [status, setStatus] = useState<Status>({
-    status: 'checking',
+    status: 'authenticated',
   });
 
   const signUpFirebase = async ({
@@ -42,12 +44,12 @@ export const AuthProvider = ({children}: any) => {
     email,
     password,
   }: RegisterData) => {
-    const userCrendential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
     try {
+      const userCrendential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       setStatus({
         status: 'authenticated',
       });
@@ -62,12 +64,12 @@ export const AuthProvider = ({children}: any) => {
   };
 
   const signInFirebase = async ({email, password}: LoginData) => {
-    const userCrendential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
     try {
+      const userCrendential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       setStatus({
         status: 'authenticated',
       });

@@ -19,6 +19,8 @@ import {AlreadyLog} from '../components/AlreadyLog';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {BigLogo} from '../components/BigLogo';
 import {useForm} from '../hooks/useForm';
+import {useContext} from 'react';
+import {AuthContext} from '../context/AuthContext';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
 
@@ -28,9 +30,10 @@ export const LoginScreen = ({navigation}: Props) => {
     password: '',
   });
 
+  const {signInFirebase} = useContext(AuthContext);
+
   const onLogin = () => {
-    console.log(email);
-    console.log(password);
+    signInFirebase({email, password});
   };
 
   return (
@@ -63,7 +66,7 @@ export const LoginScreen = ({navigation}: Props) => {
                   selectionColor="black"
                   keyboardType="email-address"
                   onChangeText={value => onChange(value, 'email')}
-                  // value={email}
+                  value={email}
                   onSubmitEditing={onLogin}
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -91,7 +94,7 @@ export const LoginScreen = ({navigation}: Props) => {
                   style={{...styles.inputField, marginBottom: 12}}
                   selectionColor="black"
                   onChangeText={value => onChange(value, 'password')}
-                  // value={password}
+                  value={password}
                   onSubmitEditing={onLogin}
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -111,7 +114,7 @@ export const LoginScreen = ({navigation}: Props) => {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   style={styles.button}
-                  onPress={() => console.log()}>
+                  onPress={() => onLogin()}>
                   <Text style={styles.buttonText}>Continue</Text>
                 </TouchableOpacity>
               </View>
