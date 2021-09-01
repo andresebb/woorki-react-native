@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     // borderColor: 'white',
-    marginVertical: 12,
+    marginTop: 42,
   },
   infoContainer: {
     flex: 1,

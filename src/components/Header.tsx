@@ -1,15 +1,28 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Animated,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {TextInput} from 'react-native-gesture-handler';
+import {useContext} from 'react';
+import {AppContext} from '../context/AppContext';
 
 export const Header = () => {
+  const {opacity} = useContext(AppContext);
+
+  // TODO: FIX Header space
+
   return (
     <View
       style={{
         backgroundColor: 'transparent',
-        paddingVertical: 14,
         marginHorizontal: 14,
+        marginTop: 14,
       }}>
       <View style={styles.locationContainer}>
         <View style={styles.location}>
@@ -24,7 +37,7 @@ export const Header = () => {
           }}
         />
       </View>
-      <View style={styles.container}>
+      <Animated.View style={{...styles.container, opacity}}>
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Find a job"
@@ -42,29 +55,33 @@ export const Header = () => {
             <Icon name="search-outline" size={24} color="#B5B5B5" />
           </View>
         </View>
-        <Icon
-          style={styles.filter}
-          name="filter-outline"
-          size={30}
-          color="#B5B5B5"
-        />
-      </View>
+        <TouchableOpacity onPress={() => console.log('hola')}>
+          <Icon
+            style={styles.filter}
+            name="filter-outline"
+            size={30}
+            color="#B5B5B5"
+          />
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
 
   locationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 28,
+    zIndex: 9999,
+    paddingBottom: 4,
+    backgroundColor: 'white',
   },
   location: {
     flexDirection: 'row',

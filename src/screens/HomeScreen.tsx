@@ -4,6 +4,8 @@ import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useState} from 'react';
+import {useContext} from 'react';
+import {AppContext} from '../context/AppContext';
 
 const data = [
   {
@@ -69,18 +71,7 @@ const data = [
 ];
 
 export const HomeScreen = () => {
-  const [direction, setDirection] = useState('');
-  const [offset, setOffset] = useState(0);
-
-  const getDirection = (currentOffset: any) => {
-    if (currentOffset > offset) {
-      setDirection('down');
-    } else {
-      setDirection('up');
-    }
-    setOffset(currentOffset);
-    console.log(direction);
-  };
+  const {getDirection} = useContext(AppContext);
 
   return (
     <BackgroundWhite>

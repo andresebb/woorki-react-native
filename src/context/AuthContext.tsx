@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useReducer} from 'react';
+import React, {createContext} from 'react';
 import {
   getAuth,
   updateProfile,
@@ -9,7 +9,6 @@ import {
 } from 'firebase/auth';
 import {firebaseApp} from '../firebase';
 import {useState} from 'react';
-import {useContext} from 'react';
 import {Status} from '../interfaces/Status';
 
 interface RegisterData {
