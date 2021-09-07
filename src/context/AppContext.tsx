@@ -2,36 +2,38 @@ import React, {createContext, useState, useEffect, useReducer} from 'react';
 import {useAnimation} from '../hooks/useAnimation';
 
 type AppContextProps = {
-  direction: string;
   getDirection: (currentOffset: any) => void;
   show: number;
   opacity: any;
+  position: any;
 };
 
 export const AppContext = createContext({} as AppContextProps);
 
 export const AppProvider = ({children}: any) => {
-  const [direction, setDirection] = useState('up');
   const [show, setShow] = useState(55);
   const [offset, setOffset] = useState(0);
   const {opacity, fadeIn, fadeOut} = useAnimation();
+  const {position, startMovingPosition, downSearch} = useAnimation();
 
   const getDirection = (currentOffset: any) => {
+    // console.log(currentOffset);
+
     if (currentOffset > 30) {
       if (currentOffset > offset) {
-        setDirection('down');
         fadeOut();
-      } else {
-        setDirection('up');
+      }
+
+      if (currentOffset < offset) {
         fadeIn();
       }
-    }
 
-    setOffset(currentOffset);
+      setOffset(currentOffset);
+    }
   };
 
   return (
-    <AppContext.Provider value={{direction, getDirection, show, opacity}}>
+    <AppContext.Provider value={{getDirection, show, opacity, position}}>
       {children}
     </AppContext.Provider>
   );

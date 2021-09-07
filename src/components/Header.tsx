@@ -13,7 +13,9 @@ import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
 
 export const Header = () => {
-  const {opacity} = useContext(AppContext);
+  const {opacity, position} = useContext(AppContext);
+
+  // console.log(position);
 
   // TODO: FIX Header space
 
@@ -21,8 +23,8 @@ export const Header = () => {
     <View
       style={{
         backgroundColor: 'transparent',
-        marginHorizontal: 14,
-        marginTop: 14,
+        marginHorizontal: 12,
+        marginTop: 30,
       }}>
       <View style={styles.locationContainer}>
         <View style={styles.location}>
@@ -52,7 +54,7 @@ export const Header = () => {
             autoCorrect={false}
           />
           <View style={styles.logoLeftContainer}>
-            <Icon name="search-outline" size={24} color="#B5B5B5" />
+            <Icon name="search-outline" size={20} color="#B5B5B5" />
           </View>
         </View>
         <TouchableOpacity onPress={() => console.log('hola')}>
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
+    paddingBottom: 6,
   },
 
   locationContainer: {
@@ -80,7 +83,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     zIndex: 9999,
-    paddingBottom: 4,
     backgroundColor: 'white',
   },
   location: {
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
   },
   logoLeftContainer: {
     position: 'absolute',
-    top: 12,
+    top: 14,
     left: 6,
   },
   inputField: {
@@ -112,6 +114,9 @@ const styles = StyleSheet.create({
     paddingLeft: 46,
     borderWidth: 1,
     borderColor: 'white',
+    alignItems: 'center',
   },
-  filter: {},
+  filter: {
+    marginRight: 10,
+  },
 });

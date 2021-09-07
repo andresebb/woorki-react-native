@@ -28,6 +28,17 @@ export const useAnimation = () => {
     position.setValue(initPosition);
 
     Animated.timing(position, {
+      toValue: -90,
+      duration,
+      useNativeDriver: true,
+      // easing: Easing.bounce
+    }).start();
+  };
+
+  const downSearch = (initPosition: number, duration: number = 300) => {
+    position.setValue(initPosition);
+
+    Animated.timing(position, {
       toValue: 0,
       duration,
       useNativeDriver: true,
@@ -41,5 +52,6 @@ export const useAnimation = () => {
     fadeIn,
     fadeOut,
     startMovingPosition,
+    downSearch,
   };
 };

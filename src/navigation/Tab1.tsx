@@ -19,9 +19,11 @@ export const Tab1 = () => {
     <Stack.Navigator
       screenOptions={{
         cardStyle: {
-          backgroundColor: 'white',
+          // backgroundColor: 'transparent',
+          marginTop: -20,
         },
         header: props => <Header />,
+        headerTransparent: true,
       }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen

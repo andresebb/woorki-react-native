@@ -78,13 +78,14 @@ export const HomeScreen = () => {
       <View
         style={{
           flex: 1,
-          padding: 12,
+          paddingHorizontal: 12,
+          marginTop: 90,
         }}>
         <FlatList
           data={data}
           onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
           keyExtractor={item => item.id.toString()}
-          showsHorizontalScrollIndicator={false}
+          showsHorizontalScrollIndicator={true}
           renderItem={({item}) => <JobCard job={item} />}
         />
       </View>

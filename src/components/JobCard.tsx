@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     padding: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // borderColor: 'white',
+    position: 'relative',
     marginTop: 42,
   },
   infoContainer: {
