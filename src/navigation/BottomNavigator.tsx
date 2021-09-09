@@ -55,9 +55,9 @@ export const BottomNavigator = () => {
         name="Tab2"
         component={Tab2}
         options={{
-          tabBarLabel: 'Search',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({color}) => (
-            <Icon color={color} size={25} name="search-outline" />
+            <Icon color={color} size={25} name="person-outline" />
           ),
         }}
       />

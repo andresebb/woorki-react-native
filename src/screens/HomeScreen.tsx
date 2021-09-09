@@ -6,8 +6,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useState} from 'react';
 import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
+import {JobData} from '../interfaces/JobInterface';
 
-const data = [
+const data: JobData[] = [
   {
     title: 'Warehouse Worker',
     description: 'We need a forklift driver as soon as possible',

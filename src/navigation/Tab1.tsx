@@ -8,7 +8,6 @@ import {JobDetailScreen} from '../screens/JobDetailScreen';
 
 export type RootStackParams = {
   HomeScreen: undefined;
-  DetailScreen: undefined;
   JobDetailScreen: JobData;
 };
 
@@ -19,8 +18,7 @@ export const Tab1 = () => {
     <Stack.Navigator
       screenOptions={{
         cardStyle: {
-          // backgroundColor: 'transparent',
-          marginTop: -20,
+          backgroundColor: 'white',
         },
         header: props => <Header />,
         headerTransparent: true,

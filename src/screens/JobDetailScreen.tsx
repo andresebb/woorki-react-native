@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Map} from '../components/Map';
 import {ScrollView} from 'react-native-gesture-handler';
 import {OneBackArrow} from '../components/OneBackArrow';
+import {BackgroundWhite} from '../components/BackgroundWhite';
 
 const screemHeight = Dimensions.get('screen').height;
 
@@ -16,90 +17,92 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
 
   return (
     <ScrollView style={styles.flex1}>
-      <View style={styles.flex1}>
-        <OneBackArrow navigation={navigation} />
-        <View style={styles.imageContainer}>
-          <Image
-            source={require('../assets/construction.png')}
-            style={{
-              height: '100%',
-              width: '100%',
-              borderTopLeftRadius: 40,
-              borderBottomRightRadius: 30,
-            }}
-          />
-          <View style={styles.imageShadow}></View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{job.title}</Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            marginHorizontal: 12,
-            flex: 1,
-            marginBottom: 50,
-          }}>
-          {/* Description */}
-          <Text style={styles.descriptionTitle}>Description</Text>
-          <Text style={styles.description}>{job.description}</Text>
-          {/* Salary */}
-          <Text style={styles.salary}>Hourly salary:</Text>
-          <Text style={styles.salaryNumber}>{job.hour}</Text>
-
-          {/* Contact */}
-          <View style={styles.contactContainer}>
-            <View style={styles.contactInfo}>
-              <Image
-                source={require('../assets/avatar.png')}
-                style={{
-                  height: 50,
-                  width: 50,
-                  marginRight: 12,
-                }}
-              />
-              <View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: '#1B1B1B',
-                  }}>
-                  Brian Oconner
-                </Text>
-                <Text
-                  style={{
-                    color: '#858585',
-                    fontWeight: 'bold',
-                  }}>
-                  Human Resources
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.contactInfo}>
-              <View
-                style={{
-                  ...styles.contactLogo,
-                  marginRight: 14,
-                }}>
-                <Icon name="call-outline" size={20} color="white" />
-              </View>
-
-              <View style={styles.contactLogo}>
-                <Icon name="mail-outline" size={20} color="white" />
-              </View>
+      <BackgroundWhite>
+        <View style={styles.flex1}>
+          <OneBackArrow navigation={navigation} />
+          <View style={styles.imageContainer}>
+            <Image
+              source={require('../assets/construction.png')}
+              style={{
+                height: '100%',
+                width: '100%',
+                borderTopLeftRadius: 40,
+                borderBottomRightRadius: 30,
+              }}
+            />
+            <View style={styles.imageShadow}></View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{job.title}</Text>
             </View>
           </View>
+
           <View
             style={{
-              height: 200,
-              width: '100%',
-              backgroundColor: 'red',
+              marginHorizontal: 12,
+              flex: 1,
+              marginBottom: 50,
             }}>
-            <Map />
+            {/* Description */}
+            <Text style={styles.descriptionTitle}>Description</Text>
+            <Text style={styles.description}>{job.description}</Text>
+            {/* Salary */}
+            <Text style={styles.salary}>Hourly salary:</Text>
+            <Text style={styles.salaryNumber}>{job.hour}</Text>
+
+            {/* Contact */}
+            <View style={styles.contactContainer}>
+              <View style={styles.contactInfo}>
+                <Image
+                  source={require('../assets/avatar.png')}
+                  style={{
+                    height: 50,
+                    width: 50,
+                    marginRight: 12,
+                  }}
+                />
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: '#1B1B1B',
+                    }}>
+                    Brian Oconner
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#858585',
+                      fontWeight: 'bold',
+                    }}>
+                    Human Resources
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.contactInfo}>
+                <View
+                  style={{
+                    ...styles.contactLogo,
+                    marginRight: 14,
+                  }}>
+                  <Icon name="call-outline" size={20} color="white" />
+                </View>
+
+                <View style={styles.contactLogo}>
+                  <Icon name="mail-outline" size={20} color="white" />
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                height: 200,
+                width: '100%',
+                backgroundColor: 'red',
+              }}>
+              <Map />
+            </View>
           </View>
         </View>
-      </View>
+      </BackgroundWhite>
     </ScrollView>
   );
 };
