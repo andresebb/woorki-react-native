@@ -1,12 +1,5 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
 import {initializeApp} from 'firebase/app';
-import {
-  getAuth,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
+import {getFirestore} from 'firebase/firestore/lite';
 
 // Follow this pattern to import other Firebase services
 // import { } from 'firebase/<service>';

@@ -74,6 +74,10 @@ const data: JobData[] = [
 export const HomeScreen = () => {
   const {getDirection} = useContext(AppContext);
 
+  //TODO: Hacer render de la data, mira el appContext
+  const {jobs} = useContext(AppContext);
+  console.log(jobs);
+
   return (
     <BackgroundWhite>
       <View
