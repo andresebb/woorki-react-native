@@ -9,13 +9,13 @@ import {
 
 import {useAnimation} from '../hooks/useAnimation';
 import {firebaseApp} from '../firebase';
-import {AuthContext} from './AuthContext';
 import {JobData} from '../interfaces/JobInterface';
 
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
   opacity: any;
-  jobs: DocumentData[];
+  jobs: JobData[];
+  loading: boolean;
 };
 
 export const AppContext = createContext({} as AppContextProps);
@@ -24,8 +24,9 @@ export const AppProvider = ({children}: any) => {
   const db = getFirestore(firebaseApp);
 
   const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(false);
   const {opacity, fadeIn, fadeOut} = useAnimation();
-  const [jobs, setJobs] = useState<DocumentData[]>([]);
+  const [jobs, setJobs] = useState<JobData[]>([]);
 
   useEffect(() => {
     getJobs();
@@ -33,10 +34,26 @@ export const AppProvider = ({children}: any) => {
 
   const getJobs = async () => {
     try {
+      setLoading(true);
       const jobsCol = collection(db, 'jobs');
       const jobSnapshot = await getDocs(jobsCol);
-      const jobList = jobSnapshot.docs.map(doc => doc.data());
-      setJobs([jobList]);
+
+      const jobList: JobData[] = jobSnapshot.docs.map(doc => {
+        return {
+          title: doc.data().title,
+          direction: doc.data().direction,
+          description: doc.data().description,
+          location: doc.data().location,
+          hour: doc.data().hour,
+          email: doc.data().email,
+          phone: doc.data().phone,
+          image: doc.data().image,
+          id: doc.id,
+        };
+      });
+
+      setJobs(jobList);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +76,7 @@ export const AppProvider = ({children}: any) => {
   };
 
   return (
-    <AppContext.Provider value={{getDirection, opacity, jobs}}>
+    <AppContext.Provider value={{getDirection, opacity, jobs, loading}}>
       {children}
     </AppContext.Provider>
   );

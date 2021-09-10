@@ -34,7 +34,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({children}: any) => {
   const auth = getAuth(firebaseApp);
   const [status, setStatus] = useState<Status>({
-    status: 'authenticated',
+    status: 'not-authenticated',
   });
 
   const signUpFirebase = async ({
