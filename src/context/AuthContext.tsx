@@ -27,6 +27,7 @@ type AuthContextProps = {
   signUpFirebase: (registerData: RegisterData) => void;
   signInFirebase: (loginData: LoginData) => void;
   status: Status;
+  loading: boolean;
 };
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -36,6 +37,8 @@ export const AuthProvider = ({children}: any) => {
   const [status, setStatus] = useState<Status>({
     status: 'not-authenticated',
   });
+
+  const [loading, setLoading] = useState(false);
 
   const signUpFirebase = async ({
     firstName,
@@ -64,6 +67,7 @@ export const AuthProvider = ({children}: any) => {
 
   const signInFirebase = async ({email, password}: LoginData) => {
     try {
+      setLoading(true);
       const userCrendential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -73,15 +77,16 @@ export const AuthProvider = ({children}: any) => {
         status: 'authenticated',
       });
       const user = userCrendential.user;
-      console.log(user);
+      setLoading(false);
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      console.log(error);
+      setLoading(false);
     }
   };
 
   return (
-    <AuthContext.Provider value={{signUpFirebase, signInFirebase, status}}>
+    <AuthContext.Provider
+      value={{signUpFirebase, signInFirebase, status, loading}}>
       {children}
     </AuthContext.Provider>
   );
