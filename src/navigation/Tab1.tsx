@@ -20,17 +20,12 @@ export const Tab1 = () => {
         cardStyle: {
           backgroundColor: 'white',
         },
-        header: props => <Header />,
-        headerTransparent: true,
+        headerShown: false,
+        // header: props => <Header />,
+        // headerTransparent: true,
       }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen
-        name="JobDetailScreen"
-        options={{
-          headerShown: false,
-        }}
-        component={JobDetailScreen}
-      />
+      <Stack.Screen name="JobDetailScreen" component={JobDetailScreen} />
     </Stack.Navigator>
   );
 };

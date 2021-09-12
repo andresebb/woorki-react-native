@@ -5,6 +5,7 @@ export const useAnimation = () => {
   const opacity = useRef(new Animated.Value(1)).current;
   const position = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0)).current;
+  const translate = useRef(new Animated.Value(0)).current;
 
   const fadeIn = (duration: number = 100) => {
     Animated.timing(opacity, {
@@ -61,12 +62,33 @@ export const useAnimation = () => {
     });
   };
 
+  const translateHeader = () => {
+    Animated.timing(translate, {
+      toValue: -140,
+      duration: 300,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const translateHeaderDown = () => {
+    Animated.timing(translate, {
+      toValue: 0,
+      duration: 300,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return {
     opacity,
     position,
+    translate,
     fadeIn,
     fadeOut,
     loadingLoop,
     scaleLoading,
+    translateHeader,
+    translateHeaderDown,
   };
 };

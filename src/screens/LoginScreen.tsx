@@ -21,7 +21,7 @@ import {BigLogo} from '../components/BigLogo';
 import {useForm} from '../hooks/useForm';
 import {useContext} from 'react';
 import {AuthContext} from '../context/AuthContext';
-import {LoadingScreen} from './LoadingScreen';
+import {LoadingModal} from '../components/loadingModal';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
 
@@ -44,104 +44,101 @@ export const LoginScreen = ({navigation}: Props) => {
         style={{
           flex: 1,
         }}>
-        {loading ? (
-          <LoadingScreen />
-        ) : (
-          <View style={styles.container}>
-            <BigLogo
-              style={{
-                alignItems: 'center',
-                marginTop: 150,
-                marginBottom: 64,
-              }}
-            />
+        <View style={styles.container}>
+          <BigLogo
+            style={{
+              alignItems: 'center',
+              marginTop: 150,
+              marginBottom: 64,
+            }}
+          />
 
-            <View style={styles.boxContainer}>
-              <View style={styles.formContainer}>
-                {/* Email Input */}
+          <View style={styles.boxContainer}>
+            <View style={styles.formContainer}>
+              {/* Email Input */}
+              <View
+                style={{
+                  position: 'relative',
+                }}>
+                <TextInput
+                  placeholder="Email"
+                  placeholderTextColor="rgba(0,0,0,0.4)"
+                  style={styles.inputField}
+                  selectionColor="black"
+                  keyboardType="email-address"
+                  onChangeText={value => onChange(value, 'email')}
+                  value={email}
+                  onSubmitEditing={onLogin}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
                 <View
                   style={{
-                    position: 'relative',
+                    position: 'absolute',
+                    top: 13,
+                    left: 6,
                   }}>
-                  <TextInput
-                    placeholder="Email"
-                    placeholderTextColor="rgba(0,0,0,0.4)"
-                    style={styles.inputField}
-                    selectionColor="black"
-                    keyboardType="email-address"
-                    onChangeText={value => onChange(value, 'email')}
-                    value={email}
-                    onSubmitEditing={onLogin}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: 13,
-                      left: 6,
-                    }}>
-                    <Icon name="mail-outline" size={20} color="gray" />
-                  </View>
-                </View>
-
-                {/* Password Input */}
-                <View
-                  style={{
-                    position: 'relative',
-                  }}>
-                  <TextInput
-                    placeholder="Password"
-                    secureTextEntry
-                    placeholderTextColor="rgba(0,0,0,0.4)"
-                    // underlineColorAndroid="white"
-                    style={{...styles.inputField, marginBottom: 12}}
-                    selectionColor="black"
-                    onChangeText={value => onChange(value, 'password')}
-                    value={password}
-                    onSubmitEditing={onLogin}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: 13,
-                      left: 6,
-                    }}>
-                    <Icon name="lock-closed-outline" size={20} color="gray" />
-                  </View>
-                </View>
-                <Text>Forgot Password?</Text>
-
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.button}
-                    onPress={() => onLogin()}>
-                    <Text style={styles.buttonText}>Continue</Text>
-                  </TouchableOpacity>
+                  <Icon name="mail-outline" size={20} color="gray" />
                 </View>
               </View>
 
-              <View>
-                <View style={styles.buttonsContainer}>
-                  <FacebookSignButton />
-                  <GoogleSignButton />
-                </View>
-                {/* Already Log */}
-                <AlreadyLog
-                  title1="Don't have and account ?"
-                  title2="Sign Up"
-                  screen="RegisterScreen"
-                  color="black"
-                  navigation={navigation}
+              {/* Password Input */}
+              <View
+                style={{
+                  position: 'relative',
+                }}>
+                <TextInput
+                  placeholder="Password"
+                  secureTextEntry
+                  placeholderTextColor="rgba(0,0,0,0.4)"
+                  // underlineColorAndroid="white"
+                  style={{...styles.inputField, marginBottom: 12}}
+                  selectionColor="black"
+                  onChangeText={value => onChange(value, 'password')}
+                  value={password}
+                  onSubmitEditing={onLogin}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                 />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 13,
+                    left: 6,
+                  }}>
+                  <Icon name="lock-closed-outline" size={20} color="gray" />
+                </View>
+              </View>
+              <Text>Forgot Password?</Text>
+
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.button}
+                  onPress={() => onLogin()}>
+                  <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            <BackArrow navigation={navigation} />
+
+            <View>
+              <View style={styles.buttonsContainer}>
+                <FacebookSignButton />
+                <GoogleSignButton />
+              </View>
+              {/* Already Log */}
+              <AlreadyLog
+                title1="Don't have and account ?"
+                title2="Sign Up"
+                screen="RegisterScreen"
+                color="black"
+                navigation={navigation}
+              />
+            </View>
           </View>
-        )}
+          <BackArrow navigation={navigation} />
+          {loading && <LoadingModal />}
+        </View>
       </TouchableWithoutFeedback>
     </BackgroundImage>
   );

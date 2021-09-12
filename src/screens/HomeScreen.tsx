@@ -1,13 +1,12 @@
 import React from 'react';
-import {View, FlatList, Text} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useState} from 'react';
 import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
-import {JobData} from '../interfaces/JobInterface';
-import {LoadingScreen} from './LoadingScreen';
+import {LoadingModal} from '../components/loadingModal';
+import {Header} from '../components/Header';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const HomeScreen = () => {
   const {getDirection} = useContext(AppContext);
@@ -17,24 +16,30 @@ export const HomeScreen = () => {
 
   return (
     <BackgroundWhite>
-      <View
-        style={{
-          flex: 1,
-          paddingHorizontal: 12,
-          marginTop: 90,
-        }}>
-        {loading ? (
-          <LoadingScreen />
-        ) : (
-          <FlatList
-            data={jobs}
-            onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={true}
-            renderItem={({item}) => <JobCard job={item} />}
-          />
-        )}
+      <Header />
+      <View style={styles.listContainer}>
+        <FlatList
+          data={jobs}
+          onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => {
+            if (index === 0) {
+              return <JobCard job={item} first={125} />;
+            } else {
+              return <JobCard job={item} first={32} />;
+            }
+          }}
+        />
       </View>
+      {loading && <LoadingModal />}
     </BackgroundWhite>
   );
 };
+
+const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+    paddingHorizontal: 12,
+  },
+});

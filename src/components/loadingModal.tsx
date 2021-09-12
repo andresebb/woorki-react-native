@@ -1,10 +1,9 @@
-import React, {useRef} from 'react';
-import {transform} from '@babel/core';
-import {Text, View, Animated, Easing} from 'react-native';
+import React from 'react';
+import {Text, View, Animated} from 'react-native';
 import SmallLogo from '../components/SmallLogo';
 import {useAnimation} from '../hooks/useAnimation';
 
-export const LoadingScreen = () => {
+export const LoadingModal = () => {
   const {loadingLoop, scaleLoading} = useAnimation();
 
   return (
@@ -18,7 +17,9 @@ export const LoadingScreen = () => {
         left: 0,
         right: 0,
         bottom: 0,
-        // zIndex: 9999999
+        zIndex: 999999999,
+        backgroundColor: '#B5B5B5',
+        opacity: 0.8,
       }}>
       <View
         style={{

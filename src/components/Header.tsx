@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,24 +7,29 @@ import {
   Animated,
   TextInput,
   TouchableOpacity,
+  Easing,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
 
 export const Header = () => {
-  const {opacity, position} = useContext(AppContext);
+  const {opacity, translate} = useContext(AppContext);
 
-  // console.log(position);
-
-  // TODO: FIX Header space
+  // const {translate} = useAnimation();
+  // const translate = useRef(new Animated.Value(0)).current;
 
   return (
     <View
       style={{
         backgroundColor: 'transparent',
         marginHorizontal: 12,
-        marginTop: 30,
+        marginTop: 10,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 99999,
       }}>
       <View style={styles.locationContainer}>
         <View style={styles.location}>
@@ -36,15 +41,24 @@ export const Header = () => {
           style={{
             width: 48,
             height: 48,
+            marginVertical: 4,
           }}
         />
       </View>
-      <Animated.View style={{...styles.container, opacity}}>
+      <Animated.View
+        style={{
+          ...styles.container,
+          opacity,
+          transform: [
+            {
+              translateY: translate,
+            },
+          ],
+        }}>
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Find a job"
             placeholderTextColor="#B5B5B5"
-            // underlineColorAndroid="white"
             style={styles.inputField}
             selectionColor="black"
             // onChangeText={value => onChange(value, 'email')}
@@ -76,6 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     paddingBottom: 6,
+    marginTop: 0,
   },
 
   locationContainer: {
@@ -84,6 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 9999,
     backgroundColor: 'white',
+    // paddingVertical: 8,
   },
   location: {
     flexDirection: 'row',

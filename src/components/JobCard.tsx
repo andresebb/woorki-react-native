@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {JobData} from '../interfaces/JobInterface';
@@ -6,15 +6,16 @@ import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   job: JobData;
+  first: number;
 }
 
-export const JobCard = ({job}: Props) => {
+export const JobCard = ({job, first}: Props) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('JobDetailScreen', job)}
-      style={styles.cardContainer}>
+      style={{...styles.cardContainer, marginTop: first}}>
       <Image
         source={require('../assets/construction.png')}
         style={{
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 6,
+    flex: 1,
   },
   title: {
     fontSize: 16,

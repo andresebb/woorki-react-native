@@ -14,6 +14,7 @@ import {JobData} from '../interfaces/JobInterface';
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
   opacity: any;
+  translate: any;
   jobs: JobData[];
   loading: boolean;
 };
@@ -25,7 +26,14 @@ export const AppProvider = ({children}: any) => {
 
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
-  const {opacity, fadeIn, fadeOut} = useAnimation();
+  const {
+    opacity,
+    fadeIn,
+    fadeOut,
+    translateHeader,
+    translateHeaderDown,
+    translate,
+  } = useAnimation();
   const [jobs, setJobs] = useState<JobData[]>([]);
 
   useEffect(() => {
@@ -64,11 +72,13 @@ export const AppProvider = ({children}: any) => {
     // console.log(currentOffset);
     if (currentOffset > 30) {
       if (currentOffset > offset) {
-        fadeOut();
+        // fadeOut();
+        translateHeader();
       }
 
       if (currentOffset < offset) {
-        fadeIn();
+        translateHeaderDown();
+        // fadeIn();
       }
 
       setOffset(currentOffset);
@@ -76,7 +86,8 @@ export const AppProvider = ({children}: any) => {
   };
 
   return (
-    <AppContext.Provider value={{getDirection, opacity, jobs, loading}}>
+    <AppContext.Provider
+      value={{getDirection, opacity, jobs, loading, translate}}>
       {children}
     </AppContext.Provider>
   );

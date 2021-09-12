@@ -35,7 +35,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({children}: any) => {
   const auth = getAuth(firebaseApp);
   const [status, setStatus] = useState<Status>({
-    status: 'not-authenticated',
+    status: 'authenticated',
   });
 
   const [loading, setLoading] = useState(false);
@@ -60,8 +60,8 @@ export const AuthProvider = ({children}: any) => {
         displayName: `${firstName} ${lastName}`,
       });
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      const errorCode = error;
+      const errorMessage = error;
     }
   };
 
