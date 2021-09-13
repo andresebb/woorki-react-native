@@ -1,4 +1,4 @@
-import react, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {Animated, Easing} from 'react-native';
 
 export const useAnimation = () => {

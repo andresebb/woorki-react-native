@@ -1,8 +1,6 @@
-import React from 'react';
-import {useContext, useState} from 'react';
-import {Text} from 'react-native';
+import React, {useContext} from 'react';
+
 import {AuthContext} from '../context/AuthContext';
-import {WelcomeScreen} from '../screens/WelcomeScreen';
 import {BottomNavigator} from './BottomNavigator';
 import {WelcomeNavigator} from './WelcomeNavigator';
 

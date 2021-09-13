@@ -1,8 +1,14 @@
-import React from 'react';
-import {useContext} from 'react';
-import {StyleSheet, View, Platform, Text, TouchableOpacity} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import React, {useContext} from 'react';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+
 import {useForm} from '../hooks/useForm';
 import {AlreadyLog} from './AlreadyLog';
 import {AuthContext} from '../context/AuthContext';
@@ -168,7 +174,7 @@ export const RegisterForm = ({navigation}: Props) => {
 
           {/* Already Log */}
           <AlreadyLog
-            title1="Do you already hace an account ?"
+            title1="Do you already have an account ?"
             title2="Sign In"
             screen="LoginScreen"
             color="white"

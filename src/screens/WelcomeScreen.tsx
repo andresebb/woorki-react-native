@@ -1,8 +1,9 @@
 import React from 'react';
-import {Image, View, StyleSheet} from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../navigation/WelcomeNavigator';
 
+import {StackScreenProps} from '@react-navigation/stack';
+import {View, StyleSheet} from 'react-native';
+
+import {RootStackParams} from '../navigation/WelcomeNavigator';
 import {EmailSignButton} from '../components/EmailSignButton';
 import {GoogleSignButton} from '../components/GoogleSignButton';
 import {FacebookSignButton} from '../components/FacebookSignButton';
@@ -29,7 +30,7 @@ export const WelcomeScreen = ({navigation}: Props) => {
 
           {/* Alredy log text */}
           <AlreadyLog
-            title1="Do you already hace an account ?"
+            title1="Do you already have an account ?"
             title2="Sign In"
             screen="LoginScreen"
             color="white"

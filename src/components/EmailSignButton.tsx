@@ -1,7 +1,8 @@
 import React from 'react';
-import {TouchableOpacity, View, Text} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import {TouchableOpacity, View, Text} from 'react-native';
+
 import {SignButtonStyle} from '../theme/SignButtonTheme';
 
 interface Props {

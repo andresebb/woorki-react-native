@@ -1,10 +1,18 @@
-import React, {useEffect} from 'react';
-import {StackScreenProps} from '@react-navigation/stack';
-import {Text, View, Image, StyleSheet, Dimensions} from 'react-native';
-import {RootStackParams} from '../navigation/Tab1';
+import React from 'react';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import {StackScreenProps} from '@react-navigation/stack';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
+
+import {RootStackParams} from '../navigation/Tab1';
 import {Map} from '../components/Map';
-import {ScrollView} from 'react-native-gesture-handler';
 import {OneBackArrow} from '../components/OneBackArrow';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 

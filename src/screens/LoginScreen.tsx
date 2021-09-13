@@ -1,17 +1,18 @@
-import React from 'react';
-import {TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
+import React, {useContext} from 'react';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import {StackScreenProps} from '@react-navigation/stack';
 import {
   View,
   Text,
-  ImageBackground,
   Keyboard,
+  TouchableOpacity,
   StyleSheet,
   TouchableWithoutFeedback,
+  TextInput,
 } from 'react-native';
+
 import {BackArrow} from '../components/BackArrow';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
-import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigation/WelcomeNavigator';
 import {FacebookSignButton} from '../components/FacebookSignButton';
 import {GoogleSignButton} from '../components/GoogleSignButton';
@@ -19,7 +20,6 @@ import {AlreadyLog} from '../components/AlreadyLog';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {BigLogo} from '../components/BigLogo';
 import {useForm} from '../hooks/useForm';
-import {useContext} from 'react';
 import {AuthContext} from '../context/AuthContext';
 import {LoadingModal} from '../components/loadingModal';
 

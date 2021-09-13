@@ -1,4 +1,6 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useContext} from 'react';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
   Text,
@@ -7,17 +9,12 @@ import {
   Animated,
   TextInput,
   TouchableOpacity,
-  Easing,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {useContext} from 'react';
+
 import {AppContext} from '../context/AppContext';
 
 export const Header = () => {
   const {opacity, translate} = useContext(AppContext);
-
-  // const {translate} = useAnimation();
-  // const translate = useRef(new Animated.Value(0)).current;
 
   return (
     <View

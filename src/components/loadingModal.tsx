@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {Text, View, Animated} from 'react-native';
+
 import SmallLogo from '../components/SmallLogo';
 import {useAnimation} from '../hooks/useAnimation';
 

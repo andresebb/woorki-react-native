@@ -1,11 +1,6 @@
 import React, {createContext, useState, useEffect} from 'react';
 
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  DocumentData,
-} from 'firebase/firestore/lite';
+import {getFirestore, collection, getDocs} from 'firebase/firestore/lite';
 
 import {useAnimation} from '../hooks/useAnimation';
 import {firebaseApp} from '../firebase';

@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  View,
-  FlatList,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+
+import {View, FlatList, Text, TouchableOpacity, StyleSheet} from 'react-native';
+
 import {ChefLogo} from './logos/ChefLogo';
 import {CleanLogo} from './logos/CleanLogo';
 import {GardenerLogo} from './logos/GardenerLogo';
