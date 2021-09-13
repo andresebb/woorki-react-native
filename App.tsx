@@ -7,6 +7,11 @@ import {useEffect} from 'react';
 import {ChooseNavigator} from './src/navigation/ChooseNavigator';
 import {AppProvider} from './src/context/AppContext';
 
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs([
+  'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
+]); // Ignore log notification by message
+
 const AppState = ({children}: any) => {
   return (
     <AuthProvider>
