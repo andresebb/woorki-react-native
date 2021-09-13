@@ -35,7 +35,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({children}: any) => {
   const auth = getAuth(firebaseApp);
   const [status, setStatus] = useState<Status>({
-    status: 'not-authenticated',
+    status: 'authenticated',
   });
 
   const [loading, setLoading] = useState(false);

@@ -14,6 +14,16 @@ interface Props {
 export const JobCard = ({job, first}: Props) => {
   const navigation = useNavigation();
 
+  const reduceDescription = (description: string) => {
+    let shortDescription = description.slice(0, 60);
+
+    if (shortDescription.length < description.length) {
+      return `${shortDescription}...`;
+    } else {
+      return `${shortDescription}.`;
+    }
+  };
+
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('JobDetailScreen', job)}
@@ -28,12 +38,19 @@ export const JobCard = ({job, first}: Props) => {
       />
       <View style={styles.infoContainer}>
         <View style={styles.topContainer}>
-          <View>
-            <Text style={styles.title}>{job.title}</Text>
-            <Text style={styles.description}>{job.description}</Text>
-          </View>
-          <Icon name="heart-outline" size={24} color="#B5B5B5" />
+          <Text style={styles.title}>{job.title}</Text>
+          <TouchableOpacity onPress={() => console.log('gola')}>
+            <View
+              style={{
+                padding: 2,
+              }}>
+              <Icon name="heart-outline" size={24} color="#B5B5B5" />
+            </View>
+          </TouchableOpacity>
         </View>
+        <Text style={styles.description}>
+          {reduceDescription(job.description)}
+        </Text>
 
         <View style={styles.bottomContainer}>
           <View>
@@ -74,9 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 8,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     position: 'relative',
-    marginTop: 42,
   },
   infoContainer: {
     flex: 1,
@@ -85,13 +100,14 @@ const styles = StyleSheet.create({
   topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 6,
-    flex: 1,
+    // marginBottom: 6,
+    alignItems: 'center',
   },
   title: {
     fontSize: 16,
     color: '#1B1B1B',
     fontWeight: '700',
+    margin: 0,
   },
   description: {
     color: '#858585',
@@ -99,6 +115,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   bottomContainer: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
