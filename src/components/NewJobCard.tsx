@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 
 export const NewJobCard = () => {

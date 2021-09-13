@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import {JobData} from '../interfaces/JobInterface';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+
+import {JobData} from '../interfaces/JobInterface';
 
 interface Props {
   job: JobData;

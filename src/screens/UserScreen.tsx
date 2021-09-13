@@ -1,9 +1,16 @@
 import React from 'react';
-import {Text, View, Image, Dimensions, StyleSheet} from 'react-native';
-import {BackgroundWhite} from '../components/BackgroundWhite';
-import {BackgroundImage} from '../components/BackgroundImage';
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  Text,
+  View,
+  Image,
+  Dimensions,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
+
+import {BackgroundWhite} from '../components/BackgroundWhite';
 
 const screemWidth = Dimensions.get('screen').width;
 

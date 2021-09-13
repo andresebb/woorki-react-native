@@ -1,13 +1,13 @@
 import React, {createContext} from 'react';
+
 import {
   getAuth,
   updateProfile,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  setPersistence,
-  browserSessionPersistence,
 } from 'firebase/auth';
 import {firebaseApp} from '../firebase';
+
 import {useState} from 'react';
 import {Status} from '../interfaces/Status';
 
@@ -35,7 +35,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({children}: any) => {
   const auth = getAuth(firebaseApp);
   const [status, setStatus] = useState<Status>({
-    status: 'authenticated',
+    status: 'not-authenticated',
   });
 
   const [loading, setLoading] = useState(false);

@@ -1,12 +1,13 @@
 import React from 'react';
+
 import {View, FlatList, StyleSheet} from 'react-native';
+
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
 import {LoadingModal} from '../components/loadingModal';
 import {Header} from '../components/Header';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export const HomeScreen = () => {
   const {getDirection} = useContext(AppContext);

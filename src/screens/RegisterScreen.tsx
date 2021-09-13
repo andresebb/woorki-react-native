@@ -1,16 +1,16 @@
 import React from 'react';
+
+import {RootStackParams} from '../navigation/WelcomeNavigator';
+import {StackScreenProps} from '@react-navigation/stack';
 import {
-  ImageBackground,
   StyleSheet,
   View,
   Text,
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {RootStackParams} from '../navigation/WelcomeNavigator';
-import {StackScreenProps} from '@react-navigation/stack';
-import {LogoSvg} from '../components/LogoSvg';
 
+import {LogoSvg} from '../components/LogoSvg';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {BackArrow} from '../components/BackArrow';
 import {Points} from '../components/Points';

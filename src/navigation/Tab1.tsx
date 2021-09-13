@@ -3,7 +3,6 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from '../screens/HomeScreen';
 import {JobData} from '../interfaces/JobInterface';
-import {Header} from '../components/Header';
 import {JobDetailScreen} from '../screens/JobDetailScreen';
 
 export type RootStackParams = {
