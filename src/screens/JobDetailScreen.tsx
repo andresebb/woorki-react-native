@@ -30,7 +30,7 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
           <OneBackArrow navigation={navigation} />
           <View style={styles.imageContainer}>
             <Image
-              source={require('../assets/construction.png')}
+              source={{uri: `${job.image}`}}
               style={{
                 height: '100%',
                 width: '100%',
