@@ -12,8 +12,6 @@ interface Props {
 }
 
 export const JobCard = ({job, first}: Props) => {
-  console.log(job);
-
   const navigation = useNavigation();
 
   const reduceDescription = (description: string) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {View, FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, StyleSheet, Image} from 'react-native';
 
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
@@ -18,6 +18,7 @@ export const HomeScreen = () => {
   return (
     <BackgroundWhite>
       <Header />
+
       <View style={styles.listContainer}>
         <FlatList
           data={jobs}
