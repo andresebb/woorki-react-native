@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 
 import MapView, {Callout, LatLng, MapEvent, Marker} from 'react-native-maps';
 import {
@@ -19,7 +19,7 @@ import {TouchableOpacity} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.8;
+const CARD_WIDTH = width * 0.9;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 interface Mark {
@@ -49,6 +49,8 @@ const initialState = {
   region: {
     latitude: 33.080410065642,
     longitude: -96.83049704879522,
+    latitudeDelta: 0.1864195044303443,
+    longitudeDelta: 0.1840142817690068,
   },
 };
 
@@ -72,12 +74,44 @@ export const Map = () => {
   const _map = useRef(null);
   const _ScrollView = useRef(null);
 
+  let mapIndex = 0;
+  let mapAnimation = new Animated.Value(0);
+
+  useEffect(() => {
+    mapAnimation.addListener(({value}) => {
+      let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
+
+      if (index >= state.markers.length) {
+        index = state.markers.length - 1;
+      }
+      if (index <= 0) {
+        index = 0;
+      }
+
+      const regionTimeout = setTimeout(() => {
+        if (mapIndex !== index) {
+          mapIndex = index;
+          const {coordinate} = state.markers[index];
+          _map.current.animateToRegion(
+            {
+              ...coordinate,
+              latitudeDelta: state.region.latitudeDelta,
+              longitudeDelta: state.region.longitudeDelta,
+            },
+            350,
+          );
+        }
+      }, 10);
+    });
+  });
+
   return (
     <>
       <MapView
         style={{
           flex: 1,
         }}
+        ref={_map}
         showsUserLocation
         onLongPress={coordinate => getCordenadas(coordinate)}
         // onMarkerPress={() => console.log('quetalco amifo')}
@@ -188,12 +222,28 @@ export const Map = () => {
         horizontal
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        snapToInterval={CARD_WIDTH + 20}
+        snapToAlignment="center"
         style={{
-          backgroundColor: 'red',
+          // backgroundColor: 'red',
           position: 'absolute',
           bottom: 30,
-          padding: 12,
-        }}>
+          paddingVertical: 12,
+          paddingRight: 30,
+        }}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  x: mapAnimation,
+                },
+              },
+            },
+          ],
+          {useNativeDriver: true},
+        )}>
         {state.markers.map((marker, index) => (
           <View style={styles.card} key={index}>
             <Image
