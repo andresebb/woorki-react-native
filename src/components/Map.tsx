@@ -10,6 +10,7 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  _ScrollView,
 } from 'react-native';
 import {JobMap} from './JobMap';
 import {markers} from './mapData';
@@ -72,7 +73,7 @@ export const Map = () => {
   };
 
   const _map = useRef(null);
-  const _ScrollView = useRef(null);
+  const _scrollView = useRef(null);
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
@@ -105,6 +106,33 @@ export const Map = () => {
     });
   });
 
+  const interpolations = state.markers.map((marker, index) => {
+    const inputRange = [
+      (index - 1) * CARD_WIDTH,
+      index * CARD_WIDTH,
+      (index + 1) * CARD_WIDTH,
+    ];
+
+    const scale = mapAnimation.interpolate({
+      inputRange,
+      outputRange: [1, 1.5, 1],
+      extrapolate: 'clamp',
+    });
+
+    return {scale};
+  });
+
+  const onMarkerPress = (mapEventData: any) => {
+    const markerID = mapEventData._targetInst.return.key;
+
+    let x = markerID * CARD_WIDTH + markerID * 20;
+    if (Platform.OS === 'ios') {
+      x = x - SPACING_FOR_CARD_INSET;
+    }
+
+    _scrollView.current.scrollTo({x: x, y: 0, animated: true});
+  };
+
   return (
     <>
       <MapView
@@ -134,21 +162,27 @@ export const Map = () => {
         />
       ))} */}
 
+        {/* Marcadores */}
         {state.markers.map((marker, index) => {
+          const scaleStyle = {
+            transform: [
+              {
+                scale: interpolations[index].scale,
+              },
+            ],
+          };
           return (
-            <Marker key={index} coordinate={marker.coordinate}>
-              {/* <Animated.View
-              style={{
-                backgroundColor: 'red',
-                height: 50,
-                width: 50,
-              }}> */}
-              {/* <Animated.Image
-                source={{
-                  uri: marker.image,
-                }}
-              /> */}
-              {/* </Animated.View> */}
+            <Marker
+              key={index}
+              coordinate={marker.coordinate}
+              onPress={e => onMarkerPress(e)}>
+              <Animated.View style={[styles.markerWrap]}>
+                <Animated.Image
+                  source={require('../assets/pointer.png')}
+                  style={[styles.marker, scaleStyle]}
+                  resizeMode="cover"
+                />
+              </Animated.View>
             </Marker>
           );
         })}
@@ -219,6 +253,7 @@ export const Map = () => {
       {/* ANIMATION SCROLL */}
 
       <Animated.ScrollView
+        ref={_scrollView}
         horizontal
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
