@@ -46,7 +46,7 @@ export const BottomNavigator = () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Tab2"
         component={Tab2}
         options={{
@@ -55,7 +55,7 @@ export const BottomNavigator = () => {
             <Icon color={color} size={25} name="person-outline" />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 
 import {AppContext} from '../context/AppContext';
+import {useNavigation} from '@react-navigation/native';
 
 export const Header = () => {
+  const navigation = useNavigation();
   const {opacity, translate} = useContext(AppContext);
 
   return (
@@ -33,14 +35,16 @@ export const Header = () => {
           <Icon name="location" size={30} color="#2bc48a" />
           <Text style={styles.locationText}>Dallas Tx</Text>
         </View>
-        <Image
-          source={require('../assets/avatar.png')}
-          style={{
-            width: 48,
-            height: 48,
-            marginVertical: 4,
-          }}
-        />
+        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+          <Image
+            source={require('../assets/avatar.png')}
+            style={{
+              width: 48,
+              height: 48,
+              marginVertical: 4,
+            }}
+          />
+        </TouchableOpacity>
       </View>
       <Animated.View
         style={{
