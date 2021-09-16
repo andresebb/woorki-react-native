@@ -11,12 +11,13 @@ import {
   ScrollView,
   Platform,
   _ScrollView,
+  TextInput,
 } from 'react-native';
-import {JobMap} from './JobMap';
+
 import {markers} from './mapData';
-import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native';
+import {moveMaptoTheJob, onMarkerPress} from '../helpers/MapHelpers';
 
 const {width, height} = Dimensions.get('window');
 const CARD_HEIGHT = 220;
@@ -56,21 +57,7 @@ const initialState = {
 };
 
 export const Map = () => {
-  const [Markers, setMarkers] = useState<Mark[]>([]);
-
   const [state, setstate] = useState(initialState);
-
-  const getCordenadas = (coordenadas: MapEvent<{}>) => {
-    const {latitude, longitude} = coordenadas.nativeEvent.coordinate;
-
-    setMarkers([
-      ...Markers,
-      {
-        latitude,
-        longitude,
-      },
-    ]);
-  };
 
   const _map = useRef(null);
   const _scrollView = useRef(null);
@@ -80,32 +67,23 @@ export const Map = () => {
 
   useEffect(() => {
     mapAnimation.addListener(({value}) => {
+      //Value is the card Width.
+      //We get the index so we know what job we are going to move to.
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
 
       if (index >= state.markers.length) {
         index = state.markers.length - 1;
       }
+
       if (index <= 0) {
         index = 0;
       }
 
-      const regionTimeout = setTimeout(() => {
-        if (mapIndex !== index) {
-          mapIndex = index;
-          const {coordinate} = state.markers[index];
-          _map.current.animateToRegion(
-            {
-              ...coordinate,
-              latitudeDelta: state.region.latitudeDelta,
-              longitudeDelta: state.region.longitudeDelta,
-            },
-            350,
-          );
-        }
-      }, 10);
+      moveMaptoTheJob(state, index, _map, mapIndex);
     });
   });
 
+  //Scale Marker
   const interpolations = state.markers.map((marker, index) => {
     const inputRange = [
       (index - 1) * CARD_WIDTH,
@@ -122,17 +100,6 @@ export const Map = () => {
     return {scale};
   });
 
-  const onMarkerPress = (mapEventData: any) => {
-    const markerID = mapEventData._targetInst.return.key;
-
-    let x = markerID * CARD_WIDTH + markerID * 20;
-    if (Platform.OS === 'ios') {
-      x = x - SPACING_FOR_CARD_INSET;
-    }
-
-    _scrollView.current.scrollTo({x: x, y: 0, animated: true});
-  };
-
   return (
     <>
       <MapView
@@ -141,28 +108,14 @@ export const Map = () => {
         }}
         ref={_map}
         showsUserLocation
-        onLongPress={coordinate => getCordenadas(coordinate)}
-        // onMarkerPress={() => console.log('quetalco amifo')}
+        // onLongPress={coordinate => getCordenadas(coordinate)}
         initialRegion={{
           latitude: 33.005121,
           longitude: -96.825859,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.1864195044303443,
+          longitudeDelta: 0.1840142817690068,
         }}>
-        {/* Show all Locations */}
-        {/* {Markers.map((marker, index) => (
-        <Marker
-          key={index}
-          coordinate={{
-            latitude: marker.latitude,
-            longitude: marker.longitude,
-          }}
-          // title={marker.title}
-          // description={marker.description}
-        />
-      ))} */}
-
-        {/* Marcadores */}
+        {/* Markers */}
         {state.markers.map((marker, index) => {
           const scaleStyle = {
             transform: [
@@ -175,7 +128,14 @@ export const Map = () => {
             <Marker
               key={index}
               coordinate={marker.coordinate}
-              onPress={e => onMarkerPress(e)}>
+              onPress={e =>
+                onMarkerPress(
+                  e,
+                  _scrollView,
+                  CARD_WIDTH,
+                  SPACING_FOR_CARD_INSET,
+                )
+              }>
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
                   source={require('../assets/pointer.png')}
@@ -186,34 +146,6 @@ export const Map = () => {
             </Marker>
           );
         })}
-
-        {/* <Marker
-        coordinate={{
-          latitude: 33.080410065642,
-          longitude: -96.83049704879522,
-        }}
-        title="Este es el titulo"
-        description="Soy la descripcion">
-        <JobMap />
-      </Marker>
-      <Marker
-        coordinate={{
-          latitude: 33.12780410065642,
-          longitude: -96.83049704879522,
-        }}
-        title="Este es el titulo"
-        description="Soy la descripcion">
-        <JobMap />
-      </Marker>
-      <Marker
-        coordinate={{
-          latitude: 33.0580410065642,
-          longitude: -96.85049704879522,
-        }}
-        title="Este es el titulo"
-        description="Soy la descripcion">
-        <JobMap />
-      </Marker> */}
       </MapView>
 
       {/* SEARCH */}
@@ -250,8 +182,7 @@ export const Map = () => {
         ))}
       </ScrollView>
 
-      {/* ANIMATION SCROLL */}
-
+      {/*CARD LIST ANIMATION SCROLL */}
       <Animated.ScrollView
         ref={_scrollView}
         horizontal

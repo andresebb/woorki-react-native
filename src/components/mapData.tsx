@@ -31,7 +31,7 @@ export const markers = [
   },
   {
     coordinate: {
-      latitude: 33.02780410065642,
+      latitude: 33.03780410065642,
       longitude: -96.83049704879522,
     },
     title: 'Hyatt Regency',
