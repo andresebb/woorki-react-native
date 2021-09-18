@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   useWindowDimensions,
   View,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
+
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
@@ -24,7 +26,7 @@ export const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerType: dimensions.width >= 768 ? 'permanent' : 'front',
+        // drawerType: dimensions.width >= 768 ? 'permanent' : 'front',
         swipeEdgeWidth: 120,
         headerShown: false,
       }}
@@ -37,31 +39,74 @@ export const DrawerNavigation = () => {
 
 const MenuInterno = ({navigation}: any) => {
   return (
-    <DrawerContentScrollView>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+      }}>
       <View style={styles.avatarContainer}>
-        <Image
-          source={{
-            uri: 'https://medgoldresources.com/wp-content/uploads/2018/02/avatar-placeholder.gif',
-          }}
-          style={styles.avatar}
-        />
+        <Image source={require('../assets/avatar.png')} style={styles.avatar} />
+        <Text
+          style={{
+            fontSize: 20,
+            marginVertical: 14,
+            fontWeight: 'bold',
+            opacity: 0.8,
+          }}>
+          Andres Betancourt
+        </Text>
       </View>
 
       {/* Opciones de menú */}
       <View style={styles.menuContainer}>
-        <TouchableOpacity
-          style={styles.menuBoton}
-          onPress={() => navigation.navigate('MapScreen')}>
-          <Text style={styles.menuTexto}>Navegacion</Text>
-        </TouchableOpacity>
+        <View style={styles.line} />
+        <View
+          style={{
+            paddingHorizontal: 20,
+          }}>
+          <TouchableOpacity
+            style={styles.menuBoton}
+            onPress={() => console.log('hola')}>
+            <Icon name="person-outline" size={24} color="black" />
+            <Text style={styles.menuTexto}>Profile Settings</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.menuBoton}
-          onPress={() => navigation.navigate('SettingScreen')}>
-          <Text style={styles.menuTexto}>Ajustes</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuBoton}
+            onPress={() => navigation.navigate('SettingScreen')}>
+            <Icon color="black" size={24} name="build-outline" />
+            <Text style={styles.menuTexto}>Work Profile</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuBoton}
+            onPress={() => navigation.navigate('SettingScreen')}>
+            <Icon color="black" size={24} name="lock-open-outline" />
+            <Text style={styles.menuTexto}>Security Settings</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuBoton}
+            onPress={() => navigation.navigate('SettingScreen')}>
+            <Icon color="black" size={24} name="warning-outline" />
+            <Text style={styles.menuTexto}>Danger Zone</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.line} />
       </View>
-    </DrawerContentScrollView>
+
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          padding: 10,
+          marginBottom: 12,
+        }}
+        onPress={() => console.log('out')}>
+        <Text style={{...styles.menuTexto, marginRight: 5}}>Sign Out</Text>
+        <Icon color="#2bc48a" size={24} name="chevron-forward-outline" />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -69,23 +114,10 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 30,
   },
-  botonGrande: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'red',
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
-  },
-  botonGrandeTexto: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   avatarContainer: {
-    alignItems: 'center',
     marginTop: 20,
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
   avatar: {
     width: 80,
@@ -93,13 +125,22 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
   },
   menuContainer: {
-    marginVertical: 30,
-    marginHorizontal: 50,
+    // marginVertical: 20,
+    flex: 1,
   },
   menuBoton: {
-    marginVertical: 10,
+    marginVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   menuTexto: {
-    fontSize: 20,
+    fontSize: 18,
+    marginLeft: 12,
+    color: 'black',
+  },
+
+  line: {
+    height: 0.5,
+    backgroundColor: '#b5b5b5',
   },
 });

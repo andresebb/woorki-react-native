@@ -84,7 +84,7 @@ export const Map = () => {
   });
 
   //Scale Marker
-  const interpolations = state.markers.map((marker, index) => {
+  const scaleMarker = state.markers.map((marker, index) => {
     const inputRange = [
       (index - 1) * CARD_WIDTH,
       index * CARD_WIDTH,
@@ -120,7 +120,7 @@ export const Map = () => {
           const scaleStyle = {
             transform: [
               {
-                scale: interpolations[index].scale,
+                scale: scaleMarker[index].scale,
               },
             ],
           };

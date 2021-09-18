@@ -52,6 +52,7 @@ export const AppProvider = ({children}: any) => {
           phone: doc.data().phone,
           image: doc.data().image,
           id: doc.id,
+          coordinate: doc.data().coordinate,
         };
       });
 
