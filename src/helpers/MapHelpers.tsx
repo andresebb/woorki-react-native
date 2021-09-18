@@ -1,26 +1,23 @@
 import {Platform} from 'react-native';
 
 export const moveMaptoTheJob = (
-  state: any,
+  jobs: any,
   index: number,
   _map: any,
   mapIndex: number,
 ) => {
   setTimeout(() => {
-    if (mapIndex !== index) {
-      mapIndex = index;
-      //We get the coordinates from the state and move to that position
-      const {coordinate} = state.markers[index];
-      if (_map !== null) {
-        _map.current.animateToRegion(
-          {
-            ...coordinate,
-            latitudeDelta: state.region.latitudeDelta,
-            longitudeDelta: state.region.longitudeDelta,
-          },
-          350,
-        );
-      }
+    //We get the coordinates from the state and move to that position
+    const {coordinate} = jobs[index];
+    if (_map !== null) {
+      _map.current.animateToRegion(
+        {
+          ...coordinate,
+          latitudeDelta: 0.1864195044303443,
+          longitudeDelta: 0.1840142817690068,
+        },
+        350,
+      );
     }
   }, 200);
 };

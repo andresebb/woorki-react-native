@@ -9,6 +9,9 @@ import {LogBox} from 'react-native';
 LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
 ]); // Ignore log notification by message
+LogBox.ignoreLogs([
+  'If you want to use Reanimated 2 then go through our installation steps ',
+]); // Ignore log notification by message
 
 const AppState = ({children}: any) => {
   return (

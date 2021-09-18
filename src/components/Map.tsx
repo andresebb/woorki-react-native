@@ -18,6 +18,8 @@ import {markers} from './mapData';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native';
 import {moveMaptoTheJob, onMarkerPress} from '../helpers/MapHelpers';
+import {useContext} from 'react';
+import {AppContext} from '../context/AppContext';
 
 const {width, height} = Dimensions.get('window');
 const CARD_HEIGHT = 220;
@@ -29,34 +31,36 @@ interface Mark {
   longitude: number;
 }
 
-const initialState = {
-  markers,
-  categories: [
-    {
-      name: 'Hotels',
-    },
-    {
-      name: 'Construcctions',
-    },
-    {
-      name: 'Kitchen',
-    },
-    {
-      name: 'Landscaping',
-    },
-    {
-      name: 'Painting',
-    },
-  ],
-  region: {
-    latitude: 33.080410065642,
-    longitude: -96.83049704879522,
-    latitudeDelta: 0.1864195044303443,
-    longitudeDelta: 0.1840142817690068,
-  },
-};
-
 export const Map = () => {
+  const {jobs} = useContext(AppContext);
+
+  const initialState = {
+    markers,
+    categories: [
+      {
+        name: 'Hotels',
+      },
+      {
+        name: 'Construcctions',
+      },
+      {
+        name: 'Kitchen',
+      },
+      {
+        name: 'Landscaping',
+      },
+      {
+        name: 'Painting',
+      },
+    ],
+    region: {
+      latitude: 33.080410065642,
+      longitude: -96.83049704879522,
+      latitudeDelta: 0.1864195044303443,
+      longitudeDelta: 0.1840142817690068,
+    },
+  };
+
   const [state, setstate] = useState(initialState);
 
   const _map = useRef(null);
@@ -71,20 +75,20 @@ export const Map = () => {
       //We get the index so we know what job we are going to move to.
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
 
-      if (index >= state.markers.length) {
-        index = state.markers.length - 1;
+      if (index >= jobs.length) {
+        index = jobs.length - 1;
       }
 
       if (index <= 0) {
         index = 0;
       }
 
-      moveMaptoTheJob(state, index, _map, mapIndex);
+      moveMaptoTheJob(jobs, index, _map, mapIndex);
     });
   });
 
   //Scale Marker
-  const scaleMarker = state.markers.map((marker, index) => {
+  const scaleMarker = jobs.map((marker, index) => {
     const inputRange = [
       (index - 1) * CARD_WIDTH,
       index * CARD_WIDTH,
@@ -116,7 +120,7 @@ export const Map = () => {
           longitudeDelta: 0.1840142817690068,
         }}>
         {/* Markers */}
-        {state.markers.map((marker, index) => {
+        {jobs.map((marker, index) => {
           const scaleStyle = {
             transform: [
               {
@@ -160,7 +164,7 @@ export const Map = () => {
       </View>
 
       {/* HORIZONTAL CATEGORIES */}
-      <ScrollView
+      {/* <ScrollView
         horizontal
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
@@ -180,7 +184,7 @@ export const Map = () => {
             <Text>{category.name}</Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </ScrollView> */}
 
       {/*CARD LIST ANIMATION SCROLL */}
       <Animated.ScrollView
@@ -210,7 +214,7 @@ export const Map = () => {
           ],
           {useNativeDriver: true},
         )}>
-        {state.markers.map((marker, index) => (
+        {jobs.map((marker, index) => (
           <View style={styles.card} key={index}>
             <Image
               source={{uri: marker.image}}

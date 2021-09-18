@@ -8,4 +8,10 @@ export interface JobData {
   image: string;
   id: string;
   direction?: any;
+  coordinate: coordinate;
+}
+
+interface coordinate {
+  latitude: number;
+  longitude: number;
 }

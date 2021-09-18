@@ -22,7 +22,7 @@ export const markers = [
   {
     coordinate: {
       latitude: 33.0580410065642,
-      longitude: -96.85049704879522,
+      longitude: -96.732546,
     },
     title: 'GMI',
     description: 'Looking for a sheet rock constructor',
