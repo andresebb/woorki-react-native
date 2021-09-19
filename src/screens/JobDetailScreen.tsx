@@ -15,6 +15,7 @@ import {RootStackParams} from '../navigation/Tab1';
 import {Map} from '../components/Map';
 import {OneBackArrow} from '../components/OneBackArrow';
 import {BackgroundWhite} from '../components/BackgroundWhite';
+import MapView, {Marker} from 'react-native-maps';
 
 const screemHeight = Dimensions.get('screen').height;
 
@@ -106,7 +107,19 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
                 width: '100%',
                 backgroundColor: 'red',
               }}>
-              <Map />
+              <MapView
+                style={{
+                  flex: 1,
+                }}
+                liteMode
+                initialRegion={{
+                  latitude: job.coordinate.latitude,
+                  longitude: job.coordinate.longitude,
+                  latitudeDelta: 0.1864195044303443,
+                  longitudeDelta: 0.1840142817690068,
+                }}>
+                <Marker coordinate={job.coordinate} />
+              </MapView>
             </View>
           </View>
         </View>

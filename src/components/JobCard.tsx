@@ -40,7 +40,10 @@ export const JobCard = ({job, first}: Props) => {
       />
       <View style={styles.infoContainer}>
         <View style={styles.topContainer}>
-          <Text style={styles.title}>{job.title}</Text>
+          <View>
+            <Text style={styles.title}>{job.title}</Text>
+            <Text style={styles.employer}>Hyatt Regency</Text>
+          </View>
           <TouchableOpacity onPress={() => console.log('gola')}>
             <View
               style={{
@@ -55,19 +58,19 @@ export const JobCard = ({job, first}: Props) => {
         </Text>
 
         <View style={styles.bottomContainer}>
-          <View>
-            <View style={styles.infoText}>
-              <Icon name="location-outline" size={20} color="#2bc48a" />
-              <Text style={{marginLeft: 6, color: '#858585'}}>
-                {job.location}
-              </Text>
-            </View>
-            <View style={styles.infoText}>
-              <Icon name="card-outline" size={20} color="#2bc48a" />
-              <Text style={{color: '#858585', marginLeft: 6}}>${job.hour}</Text>
-            </View>
+          {/* <View> */}
+          <View style={styles.infoText}>
+            <Icon name="location-outline" size={20} color="#2bc48a" />
+            <Text style={{marginLeft: 6, color: '#858585'}}>
+              {job.location}
+            </Text>
           </View>
-          <View style={styles.contactContainer}>
+          <View style={styles.infoText}>
+            <Icon name="card-outline" size={20} color="#2bc48a" />
+            <Text style={{color: '#858585', marginLeft: 6}}>${job.hour}</Text>
+          </View>
+          {/* </View> */}
+          {/* <View style={styles.contactContainer}>
             <Icon
               style={{paddingHorizontal: 5}}
               name="mail-outline"
@@ -80,7 +83,7 @@ export const JobCard = ({job, first}: Props) => {
               size={24}
               color="#B5B5B5"
             />
-          </View>
+          </View> */}
         </View>
       </View>
     </TouchableOpacity>
@@ -104,6 +107,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // marginBottom: 6,
     alignItems: 'center',
+    marginBottom: 10,
+  },
+  employer: {
+    fontSize: 12,
+    color: '#858585',
+    fontWeight: '700',
+    margin: 0,
   },
   title: {
     fontSize: 16,
@@ -114,12 +124,14 @@ const styles = StyleSheet.create({
   description: {
     color: '#858585',
     fontSize: 12,
-    marginVertical: 8,
+    marginBottom: 8,
   },
   bottomContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // backgroundColor: 'red',
+    alignItems: 'center',
   },
   infoText: {
     flexDirection: 'row',

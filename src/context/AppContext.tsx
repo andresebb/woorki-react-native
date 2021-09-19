@@ -21,14 +21,10 @@ export const AppProvider = ({children}: any) => {
 
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
-  const {
-    opacity,
-    fadeIn,
-    fadeOut,
-    translateHeader,
-    translateHeaderDown,
-    translate,
-  } = useAnimation();
+
+  const {opacity, translateHeader, translateHeaderDown, translate} =
+    useAnimation();
+
   const [jobs, setJobs] = useState<JobData[]>([]);
 
   useEffect(() => {
@@ -68,13 +64,11 @@ export const AppProvider = ({children}: any) => {
     // console.log(currentOffset);
     if (currentOffset > 30) {
       if (currentOffset > offset) {
-        // fadeOut();
         translateHeader();
       }
 
       if (currentOffset < offset) {
         translateHeaderDown();
-        // fadeIn();
       }
 
       setOffset(currentOffset);
