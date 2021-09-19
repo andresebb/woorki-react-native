@@ -77,7 +77,13 @@ export const AppProvider = ({children}: any) => {
 
   return (
     <AppContext.Provider
-      value={{getDirection, opacity, jobs, loading, translate}}>
+      value={{
+        getDirection,
+        opacity,
+        jobs,
+        loading,
+        translate,
+      }}>
       {children}
     </AppContext.Provider>
   );
