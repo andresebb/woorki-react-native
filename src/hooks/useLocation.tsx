@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
+import {GOOGLE_API} from '@env';
 
 interface Location {
   latitude: number;
@@ -7,7 +9,10 @@ interface Location {
 }
 
 export const useLocation = () => {
+  Geocoder.init(GOOGLE_API);
+
   const [hasLocation, sethasLocation] = useState(false);
+  const [city, setCity] = useState('');
 
   const [initialLocation, setInitialLocation] = useState<Location>({
     longitude: 0,
@@ -37,8 +42,21 @@ export const useLocation = () => {
       setInitialLocation(location);
       setUserLocation(location);
       sethasLocation(true);
+
+      getUserCity(location.latitude, location.longitude);
     });
   }, []);
+
+  const getUserCity = (latitude: number, longitude: number) => {
+    Geocoder.from(latitude, longitude)
+      .then(location => {
+        const city = location.results[6].formatted_address;
+        const splitCity = city.split(',');
+        const newCity = `${splitCity[0]}, ${splitCity[1]}`;
+        setCity(newCity);
+      })
+      .catch(err => console.log(err));
+  };
 
   const getCurrentLocation = (): Promise<Location> => {
     return new Promise((resolve, reject) => {
@@ -60,5 +78,6 @@ export const useLocation = () => {
     initialLocation,
     getCurrentLocation,
     userLocation,
+    city,
   };
 };

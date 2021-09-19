@@ -10,10 +10,7 @@ import {LoadingModal} from '../components/loadingModal';
 import {Header} from '../components/Header';
 
 export const HomeScreen = () => {
-  const {getDirection} = useContext(AppContext);
-
-  //TODO: Hacer render de la data, mira el appContext
-  const {jobs, loading} = useContext(AppContext);
+  const {getDirection, jobs, loading} = useContext(AppContext);
 
   return (
     <BackgroundWhite>

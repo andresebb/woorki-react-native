@@ -13,9 +13,11 @@ import {
 
 import {AppContext} from '../context/AppContext';
 import {useNavigation} from '@react-navigation/native';
+import {useLocation} from '../hooks/useLocation';
 
 export const Header = () => {
   const navigation = useNavigation();
+  const {city} = useLocation();
   const {opacity, translate} = useContext(AppContext);
 
   return (
@@ -33,7 +35,7 @@ export const Header = () => {
       <View style={styles.locationContainer}>
         <View style={styles.location}>
           <Icon name="location" size={30} color="#2bc48a" />
-          <Text style={styles.locationText}>Dallas Tx</Text>
+          <Text style={styles.locationText}>{city}</Text>
         </View>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <Image

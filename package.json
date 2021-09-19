@@ -19,6 +19,8 @@
     "firebase": "^9.0.0",
     "react": "17.0.1",
     "react-native": "0.64.1",
+    "react-native-dotenv": "^3.2.0",
+    "react-native-geocoding": "^0.5.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-maps": "0.28.0",
     "react-native-reanimated": "^2.2.2",
