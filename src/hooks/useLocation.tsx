@@ -10,7 +10,7 @@ interface Location {
 
 export const useLocation = () => {
   const [hasLocation, sethasLocation] = useState(false);
-  const [city, setCity] = useState('location');
+  const [city, setCity] = useState('Location');
 
   const [initialLocation, setInitialLocation] = useState<Location>({
     longitude: 0,
@@ -53,7 +53,6 @@ export const useLocation = () => {
   const getUserCity = (latitude: number, longitude: number) => {
     Geocoder.from(latitude, longitude)
       .then(location => {
-        console.log(location.results);
         const city = location.results[4].formatted_address;
         const splitCity = city.split(',');
         const newCity = `${splitCity[0]}, ${splitCity[1]}`;
