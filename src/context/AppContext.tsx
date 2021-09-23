@@ -1,17 +1,26 @@
-import React, {createContext, useState, useEffect} from 'react';
+import React, {createContext, useState, useEffect, useReducer} from 'react';
 
 import {getFirestore, collection, getDocs} from 'firebase/firestore/lite';
 
 import {useAnimation} from '../hooks/useAnimation';
 import {firebaseApp} from '../firebase';
 import {JobData} from '../interfaces/JobInterface';
+import {appReducer, AppState} from './appReducer';
 
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
   opacity: any;
   translate: any;
-  jobs: JobData[];
   loading: boolean;
+  jobs: JobData[];
+  filterJobByName: JobData[];
+  favorites: JobData[];
+};
+
+const appInitialState: AppState = {
+  jobs: [],
+  filterJobByName: [],
+  favorites: [],
 };
 
 export const AppContext = createContext({} as AppContextProps);
@@ -19,17 +28,13 @@ export const AppContext = createContext({} as AppContextProps);
 export const AppProvider = ({children}: any) => {
   const db = getFirestore(firebaseApp);
 
+  const [state, dispatch] = useReducer(appReducer, appInitialState);
+
+  // const [jobs, setJobs] = useState<JobData[]>([]);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
-  const {
-    opacity,
-    fadeIn,
-    fadeOut,
-    translateHeader,
-    translateHeaderDown,
-    translate,
-  } = useAnimation();
-  const [jobs, setJobs] = useState<JobData[]>([]);
+  const {opacity, translateHeader, translateHeaderDown, translate} =
+    useAnimation();
 
   useEffect(() => {
     getJobs();
@@ -56,7 +61,11 @@ export const AppProvider = ({children}: any) => {
         };
       });
 
-      setJobs(jobList);
+      dispatch({
+        type: 'getJobs',
+        payload: {jobs: jobList},
+      });
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -83,7 +92,7 @@ export const AppProvider = ({children}: any) => {
 
   return (
     <AppContext.Provider
-      value={{getDirection, opacity, jobs, loading, translate}}>
+      value={{...state, getDirection, opacity, loading, translate}}>
       {children}
     </AppContext.Provider>
   );
