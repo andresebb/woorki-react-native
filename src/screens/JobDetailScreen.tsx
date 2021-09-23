@@ -105,7 +105,7 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
               style={{
                 height: 200,
                 width: '100%',
-                backgroundColor: 'red',
+                backgroundColor: '#FEFEFE',
               }}>
               <MapView
                 style={{

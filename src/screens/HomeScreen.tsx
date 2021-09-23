@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {View, FlatList, StyleSheet, Image} from 'react-native';
 
@@ -8,9 +8,32 @@ import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
 import {LoadingModal} from '../components/loadingModal';
 import {Header} from '../components/Header';
+import {JobData} from '../interfaces/JobInterface';
 
 export const HomeScreen = () => {
-  const {getDirection, jobs, loading} = useContext(AppContext);
+  const [list, setList] = useState<JobData[]>([]);
+  const {getDirection, jobs, loading, filterJobs} = useContext(AppContext);
+
+  // const list = () => ()
+  //   if (filterJobs.length > 0) {
+  //     return filterJobs;
+  //   }
+
+  //   return jobs;
+  // };
+
+  useEffect(() => {
+    // setList(jobs);
+    definedRender();
+  }, [filterJobs]);
+
+  const definedRender = () => {
+    setList(jobs);
+
+    if (filterJobs.length > 0) {
+      setList(filterJobs);
+    }
+  };
 
   return (
     <BackgroundWhite>
@@ -18,7 +41,7 @@ export const HomeScreen = () => {
 
       <View style={styles.listContainer}>
         <FlatList
-          data={jobs}
+          data={list}
           onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}

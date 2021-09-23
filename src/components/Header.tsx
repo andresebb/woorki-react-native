@@ -7,7 +7,6 @@ import {
   View,
   Image,
   Animated,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 
@@ -19,12 +18,14 @@ import {SearchInput} from './SearchInput';
 export const Header = () => {
   const navigation = useNavigation();
   const {city} = useLocation();
-  const {opacity, translate} = useContext(AppContext);
+  const {opacity, translate, filterJobByName, resetFilterJobs} =
+    useContext(AppContext);
   const [term, setTerm] = useState('');
 
-  //filter Jobs
+  //Usedebounced
   useEffect(() => {
-    console.log(term);
+    if (term.length > 0) filterJobByName(term);
+    if (term.length === 0) resetFilterJobs();
   }, [term]);
 
   return (

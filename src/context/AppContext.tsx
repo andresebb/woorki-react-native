@@ -9,17 +9,19 @@ import {appReducer, AppState} from './appReducer';
 
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
+  filterJobByName: (value: string) => void;
+  resetFilterJobs: () => void;
   opacity: any;
   translate: any;
   loading: boolean;
   jobs: JobData[];
-  filterJobByName: JobData[];
+  filterJobs: JobData[];
   favorites: JobData[];
 };
 
 const appInitialState: AppState = {
   jobs: [],
-  filterJobByName: [],
+  filterJobs: [],
   favorites: [],
 };
 
@@ -88,9 +90,42 @@ export const AppProvider = ({children}: any) => {
     }
   };
 
+  const filterJobByName = (value: string) => {
+    setLoading(true);
+
+    const jobsFilter = state.jobs.filter(
+      job =>
+        job.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+        job.description
+          .toLocaleLowerCase()
+          .includes(value.toLocaleLowerCase()) ||
+        job.location.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+    );
+
+    dispatch({
+      type: 'filterJob',
+      payload: {filterJob: jobsFilter},
+    });
+    setLoading(false);
+  };
+
+  const resetFilterJobs = () => {
+    dispatch({
+      type: 'resetFilterJobs',
+    });
+  };
+
   return (
     <AppContext.Provider
-      value={{...state, getDirection, opacity, loading, translate}}>
+      value={{
+        ...state,
+        getDirection,
+        opacity,
+        loading,
+        translate,
+        filterJobByName,
+        resetFilterJobs,
+      }}>
       {children}
     </AppContext.Provider>
   );
