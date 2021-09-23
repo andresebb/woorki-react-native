@@ -14,7 +14,6 @@ import {
 import {AppContext} from '../context/AppContext';
 import {useNavigation} from '@react-navigation/native';
 import {useLocation} from '../hooks/useLocation';
-import {useDebouncedValue} from '../hooks/useDebouncedValue';
 import {SearchInput} from './SearchInput';
 
 export const Header = () => {

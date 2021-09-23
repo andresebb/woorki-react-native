@@ -9,10 +9,8 @@ interface Location {
 }
 
 export const useLocation = () => {
-  Geocoder.init(GOOGLE_API);
-
   const [hasLocation, sethasLocation] = useState(false);
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState('location');
 
   const [initialLocation, setInitialLocation] = useState<Location>({
     longitude: 0,
@@ -26,6 +24,11 @@ export const useLocation = () => {
 
   const watchId = useRef<number>();
   const isMounted = useRef(true);
+
+  //Google APi
+  useEffect(() => {
+    if (GOOGLE_API) Geocoder.init(GOOGLE_API);
+  }, [GOOGLE_API]);
 
   //Evitar errores, con esto sabremos cuando el componente este o no montado
   useEffect(() => {
@@ -50,7 +53,8 @@ export const useLocation = () => {
   const getUserCity = (latitude: number, longitude: number) => {
     Geocoder.from(latitude, longitude)
       .then(location => {
-        const city = location.results[6].formatted_address;
+        console.log(location.results);
+        const city = location.results[4].formatted_address;
         const splitCity = city.split(',');
         const newCity = `${splitCity[0]}, ${splitCity[1]}`;
         setCity(newCity);
