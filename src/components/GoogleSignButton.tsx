@@ -3,11 +3,16 @@ import React from 'react';
 import {TouchableOpacity, View, Text, Image} from 'react-native';
 
 import {SignButtonStyle} from '../theme/SignButtonTheme';
+import {useContext} from 'react';
+import {AuthContext} from '../context/AuthContext';
 
 export const GoogleSignButton = () => {
+  const {signInwithGoogle} = useContext(AuthContext);
+
   return (
     <TouchableOpacity
-      style={{...SignButtonStyle.buttonContainer, backgroundColor: '#EBF8FF'}}>
+      style={{...SignButtonStyle.buttonContainer, backgroundColor: '#EBF8FF'}}
+      onPress={() => signInwithGoogle()}>
       <View>
         <View style={SignButtonStyle.textContainer}>
           <Image

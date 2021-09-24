@@ -7,12 +7,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithRedirect,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import {firebaseApp} from '../firebase';
 
 import {authReducer, AuthState} from './authReducer';
 import {User} from '../interfaces/UserInterface';
-import {LoadingModal} from '../components/loadingModal';
 
 interface RegisterData {
   firstName: string;
@@ -29,6 +31,7 @@ interface LoginData {
 type AuthContextProps = {
   signUpFirebase: (registerData: RegisterData) => void;
   signInFirebase: (loginData: LoginData) => void;
+  signInwithGoogle: () => void;
   signOutFirebase: () => void;
   loading: boolean;
   currentUser: User | null;
@@ -51,6 +54,8 @@ export const AuthProvider = ({children}: any) => {
   const [loading, setLoading] = useState(false);
 
   const [state, dispatch] = useReducer(authReducer, authInicialState);
+
+  const googleProvider = new GoogleAuthProvider();
 
   //Check if we have user
   useEffect(() => {
@@ -122,6 +127,9 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
+  const signInwithGoogle = () => {};
+
+  //TODO: MAKE GOOGLE SING IN
   const signOutFirebase = () => {
     signOut(auth)
       .then(() => {
@@ -139,6 +147,7 @@ export const AuthProvider = ({children}: any) => {
         loading,
         signUpFirebase,
         signInFirebase,
+        signInwithGoogle,
         signOutFirebase,
       }}>
       {children}

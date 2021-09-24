@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 
 import {AuthContext} from '../context/AuthContext';
-import {BottomNavigator} from './BottomNavigator';
 import {WelcomeNavigator} from './WelcomeNavigator';
 import {DrawerNavigation} from './DrawerNavigation';
 import {LoadingModal} from '../components/loadingModal';

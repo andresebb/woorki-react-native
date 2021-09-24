@@ -59,13 +59,14 @@ export const LoginScreen = ({navigation}: Props) => {
               <View
                 style={{
                   position: 'relative',
+                  // marginTop: 50,
                 }}>
                 <TextInput
                   placeholder="Email"
                   placeholderTextColor="rgba(0,0,0,0.4)"
                   style={styles.inputField}
                   selectionColor="black"
-                  keyboardType="email-address"
+                  // keyboardType="email-address"
                   onChangeText={value => onChange(value, 'email')}
                   value={email}
                   onSubmitEditing={onLogin}
