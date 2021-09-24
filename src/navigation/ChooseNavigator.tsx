@@ -4,12 +4,15 @@ import {AuthContext} from '../context/AuthContext';
 import {BottomNavigator} from './BottomNavigator';
 import {WelcomeNavigator} from './WelcomeNavigator';
 import {DrawerNavigation} from './DrawerNavigation';
+import {LoadingModal} from '../components/loadingModal';
 
 //We did chooseNavigator because we were not allow to do the if in the app.tsx
 export const ChooseNavigator = () => {
-  const {status} = useContext(AuthContext);
+  const {status, currentUser} = useContext(AuthContext);
 
-  if (status.status !== 'authenticated') {
+  if (status === 'checking') return <LoadingModal />;
+
+  if (status !== 'authenticated' && !currentUser) {
     return <WelcomeNavigator />;
   } else {
     return <DrawerNavigation />;

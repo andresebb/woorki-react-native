@@ -9,18 +9,11 @@ import {AppContext} from '../context/AppContext';
 import {LoadingModal} from '../components/loadingModal';
 import {Header} from '../components/Header';
 import {JobData} from '../interfaces/JobInterface';
+import {AuthContext} from '../context/AuthContext';
 
 export const HomeScreen = () => {
   const [list, setList] = useState<JobData[]>([]);
   const {getDirection, jobs, loading, filterJobs} = useContext(AppContext);
-
-  // const list = () => ()
-  //   if (filterJobs.length > 0) {
-  //     return filterJobs;
-  //   }
-
-  //   return jobs;
-  // };
 
   useEffect(() => {
     // setList(jobs);

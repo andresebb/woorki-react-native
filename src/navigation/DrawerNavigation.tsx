@@ -18,6 +18,8 @@ import {
 
 import {BottomNavigator} from './BottomNavigator';
 import {MapScreen} from '../screens/MapScreen';
+import {useContext} from 'react';
+import {AuthContext} from '../context/AuthContext';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,6 +40,8 @@ export const DrawerNavigation = () => {
 };
 
 const MenuInterno = ({navigation}: any) => {
+  const {signOutFirebase} = useContext(AuthContext);
+
   return (
     <View
       style={{
@@ -102,7 +106,7 @@ const MenuInterno = ({navigation}: any) => {
           padding: 10,
           marginBottom: 12,
         }}
-        onPress={() => console.log('out')}>
+        onPress={() => signOutFirebase()}>
         <Text style={{...styles.menuTexto, marginRight: 5}}>Sign Out</Text>
         <Icon color="#2bc48a" size={24} name="chevron-forward-outline" />
       </TouchableOpacity>

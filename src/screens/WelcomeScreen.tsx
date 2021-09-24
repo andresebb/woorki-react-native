@@ -10,6 +10,7 @@ import {FacebookSignButton} from '../components/FacebookSignButton';
 import {AlreadyLog} from '../components/AlreadyLog';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {BigLogo} from '../components/BigLogo';
+import SmallLogo from '../components/SmallLogo';
 
 interface Props extends StackScreenProps<RootStackParams, 'WelcomeScreen'> {}
 
@@ -17,12 +18,20 @@ export const WelcomeScreen = ({navigation}: Props) => {
   return (
     <BackgroundImage>
       <View style={styles.container}>
-        <BigLogo
+        <View
           style={{
             alignItems: 'center',
-            marginTop: 200,
-          }}
-        />
+          }}>
+          <BigLogo
+            style={{
+              alignItems: 'center',
+              marginTop: 200,
+              marginBottom: 40,
+            }}
+          />
+
+          <SmallLogo />
+        </View>
         <View style={styles.buttonsContainer}>
           <EmailSignButton navigation={navigation} />
           <FacebookSignButton />
