@@ -5,6 +5,7 @@ import {BottomNavigator} from './BottomNavigator';
 import {WelcomeNavigator} from './WelcomeNavigator';
 import {DrawerNavigation} from './DrawerNavigation';
 
+//We did chooseNavigator because we were not allow to do the if in the app.tsx
 export const ChooseNavigator = () => {
   const {status} = useContext(AuthContext);
 
