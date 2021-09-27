@@ -1,10 +1,16 @@
 import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {HomeScreen} from '../screens/HomeScreen';
 import {MapScreen} from '../screens/MapScreen';
+import {JobDetailScreen} from '../screens/JobDetailScreen';
+import {JobData} from '../interfaces/JobInterface';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+  MapScreen: undefined;
+  JobDetailScreen: JobData;
+};
+
+const Stack = createStackNavigator<RootStackParams>();
 
 export const Tab3 = () => {
   return (
@@ -16,7 +22,7 @@ export const Tab3 = () => {
         },
       }}>
       <Stack.Screen name="MapScreen" component={MapScreen} />
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="JobDetailScreen" component={JobDetailScreen} />
     </Stack.Navigator>
   );
 };

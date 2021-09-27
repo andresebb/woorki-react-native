@@ -23,7 +23,7 @@ export const OneBackArrow = ({navigation}: Props) => {
         top: 20,
         left: 10,
       }}>
-      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+      <TouchableOpacity onPress={() => navigation.pop()}>
         <Icon name="chevron-back-outline" size={30} color="black" />
       </TouchableOpacity>
     </View>
