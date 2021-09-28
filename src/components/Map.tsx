@@ -154,7 +154,7 @@ export const Map = () => {
       </MapView>
 
       {/* SEARCH */}
-      <View style={styles.searchBox}>
+      {/* <View style={styles.searchBox}>
         <TextInput
           placeholder="Search here"
           placeholderTextColor="#000"
@@ -162,7 +162,7 @@ export const Map = () => {
           style={{flex: 1, padding: 0}}
         />
         <Icon name="ios-search" size={20} />
-      </View>
+      </View> */}
 
       {/* HORIZONTAL CATEGORIES */}
       {/* <ScrollView
