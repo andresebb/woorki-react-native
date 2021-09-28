@@ -23,6 +23,7 @@ export const BottomNavigator = () => {
         headerShown: false,
         // header: props => <ListHeader />,
       }}>
+      {/* Home */}
       <Tab.Screen
         name="Tab1"
         component={Tab1}
@@ -35,6 +36,20 @@ export const BottomNavigator = () => {
           // header: props => <ListHeader />,
         }}
       />
+
+      {/* Create */}
+      <Tab.Screen
+        name="Tab2"
+        component={Tab2}
+        options={{
+          tabBarLabel: 'Create',
+          tabBarIcon: ({color}) => (
+            <Icon color={color} size={25} name="bulb-outline" />
+          ),
+        }}
+      />
+
+      {/*Map  */}
       <Tab.Screen
         name="Tab3"
         component={Tab3}
@@ -45,17 +60,6 @@ export const BottomNavigator = () => {
           ),
         }}
       />
-
-      {/* <Tab.Screen
-        name="Tab2"
-        component={Tab2}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({color}) => (
-            <Icon color={color} size={25} name="person-outline" />
-          ),
-        }}
-      /> */}
     </Tab.Navigator>
   );
 };
