@@ -10,7 +10,7 @@ interface Props {
 export const SearchInput = ({onDebounce}: Props) => {
   const [textValue, setTextValue] = useState('');
 
-  const debouncedValue = useDebouncedValue(textValue, 1000);
+  const debouncedValue = useDebouncedValue(textValue, 300);
 
   useEffect(() => {
     onDebounce(debouncedValue);
