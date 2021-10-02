@@ -61,7 +61,7 @@ export const CreateJobScreen2 = ({navigation}: Props) => {
             />
           </MapView>
         </View>
-        <NextButton screen="ff" />
+        <NextButton screen="CreateJobScreen3" />
       </View>
     </BackgroundWhite>
   );
