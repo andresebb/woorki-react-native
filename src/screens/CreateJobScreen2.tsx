@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,67 +6,82 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, {MapEvent, Marker} from 'react-native-maps';
 import {BackgroundWhite} from '../components/BackgroundWhite';
+import {OneBackArrow} from '../components/OneBackArrow';
 import SmallLogo from '../components/SmallLogo';
+import {StackScreenProps} from '@react-navigation/stack';
 
-export const CreateJobScreen2 = () => {
+import {RootStackParams} from '../navigation/Tab2';
+import {CreateJobImage} from '../components/CreateJobImage';
+import {NextButton} from '../components/NextButton';
+
+interface Props extends StackScreenProps<RootStackParams, 'CreateJobScreen2'> {}
+
+export const CreateJobScreen2 = ({navigation}: Props) => {
+  const [marker, setMarker] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+
+  const getCordenadas = (coordenadas: MapEvent<{}>) => {
+    const {latitude, longitude} = coordenadas.nativeEvent.coordinate;
+
+    setMarker({
+      latitude,
+      longitude,
+    });
+  };
+
   return (
     <BackgroundWhite>
-      <View style={styles.containerScreenTitle}>
-        <SmallLogo />
-        <Text style={styles.screenTitle}>New Job</Text>
-      </View>
-
-      <View style={{flex: 1, padding: 24}}>
-        <Text>
-          Move around the map and press in the zone that is located the place of
-          the work
+      <View style={styles.container}>
+        <CreateJobImage />
+        <OneBackArrow navigation={navigation} />
+        <Text style={styles.text}>
+          Move around the map and do a long press on the exact point where the
+          work place is located.
         </Text>
-        <MapView
-          style={{
-            flex: 1,
-          }}
-          initialRegion={{
-            latitude: 33.005028,
-            longitude: -96.824821,
-            latitudeDelta: 0.1864195044303443,
-            longitudeDelta: 0.1840142817690068,
-          }}></MapView>
-        <TouchableOpacity
-          style={{
-            marginBottom: 28,
-            alignItems: 'flex-end',
-          }}>
-          <Text
-            style={{
-              backgroundColor: '#2bc48a',
-              paddingHorizontal: 24,
-              marginTop: 24,
-              paddingVertical: 12,
-              borderRadius: 12,
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 18,
+        <View style={styles.mapContainer}>
+          <MapView
+            style={styles.map}
+            showsUserLocation
+            onLongPress={e => getCordenadas(e)}
+            initialRegion={{
+              latitude: 33.005028,
+              longitude: -96.824821,
+              latitudeDelta: 0.1864195044303443,
+              longitudeDelta: 0.1840142817690068,
             }}>
-            Next
-          </Text>
-        </TouchableOpacity>
+            <Marker
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+            />
+          </MapView>
+        </View>
+        <NextButton screen="ff" />
       </View>
     </BackgroundWhite>
   );
 };
 
 const styles = StyleSheet.create({
-  containerScreenTitle: {
-    alignItems: 'center',
-    marginTop: 24,
+  container: {
+    padding: 12,
+    flex: 1,
   },
-  screenTitle: {
-    textAlign: 'center',
-    fontSize: 24,
-    marginBottom: 12,
-    color: '#2bc48a',
-    fontWeight: 'bold',
+  text: {
+    marginVertical: 12,
+  },
+  mapContainer: {
+    flex: 1,
+    marginVertical: 12,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  map: {
+    flex: 1,
   },
 });

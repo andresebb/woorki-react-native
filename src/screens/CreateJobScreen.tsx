@@ -20,55 +20,21 @@ import SmallLogo from '../components/SmallLogo';
 import MapView from 'react-native-maps';
 import {CreateJob1} from '../components/CreateJob1';
 import {useNavigation} from '@react-navigation/native';
+import {NextButton} from '../components/NextButton';
+import {OneBackArrow} from '../components/OneBackArrow';
+import {CreateJobImage} from '../components/CreateJobImage';
 
 export const CreateJobScreen = () => {
-  const navigation = useNavigation();
-
   return (
     <BackgroundWhite>
-      <View style={styles.containerScreenTitle}>
-        <SmallLogo />
-        <Text style={styles.screenTitle}>New Job</Text>
-      </View>
+      <CreateJobImage />
       <ScrollView
         style={{
           padding: 12,
         }}>
         <CreateJob1 />
-        <TouchableOpacity
-          style={{
-            marginBottom: 28,
-            alignItems: 'flex-end',
-          }}
-          onPress={() => navigation.navigate('CreateJobScreen2')}>
-          <Text
-            style={{
-              backgroundColor: '#2bc48a',
-              paddingHorizontal: 24,
-              paddingVertical: 12,
-              borderRadius: 12,
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 18,
-            }}>
-            Next
-          </Text>
-        </TouchableOpacity>
+        <NextButton screen="CreateJobScreen2" />
       </ScrollView>
     </BackgroundWhite>
   );
 };
-
-const styles = StyleSheet.create({
-  containerScreenTitle: {
-    alignItems: 'center',
-    marginTop: 24,
-  },
-  screenTitle: {
-    textAlign: 'center',
-    fontSize: 24,
-    marginBottom: 12,
-    color: '#2bc48a',
-    fontWeight: 'bold',
-  },
-});
