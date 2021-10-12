@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "385049627589",
+    "firebase_url": "https://woorki-ve.firebaseio.com",
+    "project_id": "woorki-ve",
+    "storage_bucket": "woorki-ve.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385049627589:android:c63e0d261d19cf0dc319ac",
+        "android_client_info": {
+          "package_name": "com.newreactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385049627589-pk7vnmtp2j8s4kgn3rvv0afraov05mnn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.newreactnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "385049627589-sg9rsitf2vakcetvunhs5dmc0s40fia3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH5j6Sd0xu4co_NUQ9Wr3SNBDiOpKhqu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385049627589-sg9rsitf2vakcetvunhs5dmc0s40fia3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

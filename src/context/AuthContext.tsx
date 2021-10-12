@@ -1,18 +1,5 @@
 import React, {createContext, useEffect, useState, useReducer} from 'react';
 
-import {
-  getAuth,
-  updateProfile,
-  signOut,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithRedirect,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
-import {firebaseApp} from '../firebase';
-
 import {authReducer, AuthState} from './authReducer';
 import {User} from '../interfaces/UserInterface';
 
@@ -40,9 +27,10 @@ type AuthContextProps = {
   errorMessage: string;
 };
 
+//TODO CAMBIA EL STATUS A CHECKING
 const authInicialState: AuthState = {
   currentUser: null,
-  status: 'checking',
+  status: 'authenticated',
   token: null,
   errorMessage: '',
 };
@@ -50,41 +38,41 @@ const authInicialState: AuthState = {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({children}: any) => {
-  const auth = getAuth(firebaseApp);
+  // const auth = getAuth(firebaseApp);
   const [loading, setLoading] = useState(false);
 
   const [state, dispatch] = useReducer(authReducer, authInicialState);
 
-  const googleProvider = new GoogleAuthProvider();
+  // const googleProvider = new GoogleAuthProvider();
 
   //Check if we have user
-  useEffect(() => {
-    checkUserExist();
-  }, [onAuthStateChanged]);
+  // useEffect(() => {
+  //   checkUserExist();
+  // }, [onAuthStateChanged]);
 
   const checkUserExist = () => {
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        dispatch({
-          type: 'signUp',
-          payload: {
-            token: '12565',
-            user: {
-              displayName: user.displayName,
-              email: user.email,
-              photoURL: user.photoURL,
-              phoneNumber: user.phoneNumber,
-              emailVerified: user.emailVerified,
-              uid: user.uid,
-            },
-          },
-        });
-      } else {
-        dispatch({
-          type: 'notAuthenticated',
-        });
-      }
-    });
+    // onAuthStateChanged(auth, user => {
+    //   if (user) {
+    //     dispatch({
+    //       type: 'signUp',
+    //       payload: {
+    //         token: '12565',
+    //         user: {
+    //           displayName: user.displayName,
+    //           email: user.email,
+    //           photoURL: user.photoURL,
+    //           phoneNumber: user.phoneNumber,
+    //           emailVerified: user.emailVerified,
+    //           uid: user.uid,
+    //         },
+    //       },
+    //     });
+    //   } else {
+    //     dispatch({
+    //       type: 'notAuthenticated',
+    //     });
+    //   }
+    // });
   };
 
   const signUpFirebase = async ({
@@ -93,51 +81,49 @@ export const AuthProvider = ({children}: any) => {
     email,
     password,
   }: RegisterData) => {
-    try {
-      const userCrendential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      const user = userCrendential.user;
-      updateProfile(user, {
-        displayName: `${firstName} ${lastName}`,
-      });
-    } catch (error) {
-      const errorCode = error;
-      const errorMessage = error;
-    }
+    // try {
+    //   const userCrendential = await createUserWithEmailAndPassword(
+    //     auth,
+    //     email,
+    //     password,
+    //   );
+    //   const user = userCrendential.user;
+    //   updateProfile(user, {
+    //     displayName: `${firstName} ${lastName}`,
+    //   });
+    // } catch (error) {
+    //   const errorCode = error;
+    //   const errorMessage = error;
+    // }
   };
 
   const signInFirebase = async ({email, password}: LoginData) => {
-    try {
-      setLoading(true);
-      const userCrendential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      const user = userCrendential.user;
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
+    // try {
+    //   setLoading(true);
+    //   const userCrendential = await signInWithEmailAndPassword(
+    //     auth,
+    //     email,
+    //     password,
+    //   );
+    //   const user = userCrendential.user;
+    //   setLoading(false);
+    // } catch (error) {
+    //   console.log(error);
+    //   setLoading(false);
+    // }
   };
 
   const signInwithGoogle = () => {};
 
   //TODO: MAKE GOOGLE SING IN
   const signOutFirebase = () => {
-    signOut(auth)
-      .then(() => {
-        console.log('Estas fuera');
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // signOut(auth)
+    //   .then(() => {
+    //     console.log('Estas fuera');
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   return (

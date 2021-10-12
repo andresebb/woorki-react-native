@@ -1,11 +1,13 @@
 import React, {createContext, useState, useEffect, useReducer} from 'react';
 
-import {getFirestore, collection, getDocs} from 'firebase/firestore/lite';
+// import {getFirestore, collection, getDocs} from 'firebase/firestore/lite';
+// import {firebaseApp} from '../firebase';
 
-import {useAnimation} from '../hooks/useAnimation';
-import {firebaseApp} from '../firebase';
+import firestore from '@react-native-firebase/firestore';
+
 import {JobData} from '../interfaces/JobInterface';
 import {appReducer, AppState} from './appReducer';
+import {useAnimation} from '../hooks/useAnimation';
 
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
@@ -28,7 +30,7 @@ const appInitialState: AppState = {
 export const AppContext = createContext({} as AppContextProps);
 
 export const AppProvider = ({children}: any) => {
-  const db = getFirestore(firebaseApp);
+  // const db = getFirestore(firebaseApp);
 
   const [state, dispatch] = useReducer(appReducer, appInitialState);
 
@@ -45,32 +47,34 @@ export const AppProvider = ({children}: any) => {
   const getJobs = async () => {
     try {
       setLoading(true);
-      const jobsCol = collection(db, 'jobs');
-      const jobSnapshot = await getDocs(jobsCol);
+      firestore()
+        .collection('jobs')
+        .get()
+        .then(querySnapshot => {
+          const jobList: JobData[] = querySnapshot.docs.map(doc => {
+            return {
+              title: doc.data().title,
+              direction: doc.data().direction,
+              description: doc.data().description,
+              location: doc.data().location,
+              hour: doc.data().hour,
+              email: doc.data().email,
+              phone: doc.data().phone,
+              image: doc.data().image,
+              id: doc.id,
+              coordinate: doc.data().coordinate,
+            };
+          });
 
-      const jobList: JobData[] = jobSnapshot.docs.map(doc => {
-        return {
-          title: doc.data().title,
-          direction: doc.data().direction,
-          description: doc.data().description,
-          location: doc.data().location,
-          hour: doc.data().hour,
-          email: doc.data().email,
-          phone: doc.data().phone,
-          image: doc.data().image,
-          id: doc.id,
-          coordinate: doc.data().coordinate,
-        };
-      });
-
-      dispatch({
-        type: 'getJobs',
-        payload: {jobs: jobList},
-      });
+          dispatch({
+            type: 'getJobs',
+            payload: {jobs: jobList},
+          });
+        });
 
       setLoading(false);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -91,22 +95,20 @@ export const AppProvider = ({children}: any) => {
   };
 
   const filterJobByName = (value: string) => {
-    setLoading(true);
-
-    const jobsFilter = state.jobs.filter(
-      job =>
-        job.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
-        job.description
-          .toLocaleLowerCase()
-          .includes(value.toLocaleLowerCase()) ||
-        job.location.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
-    );
-
-    dispatch({
-      type: 'filterJob',
-      payload: {filterJob: jobsFilter},
-    });
-    setLoading(false);
+    // setLoading(true);
+    // const jobsFilter = state.jobs.filter(
+    //   job =>
+    //     job.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
+    //     job.description
+    //       .toLocaleLowerCase()
+    //       .includes(value.toLocaleLowerCase()) ||
+    //     job.location.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+    // );
+    // dispatch({
+    //   type: 'filterJob',
+    //   payload: {filterJob: jobsFilter},
+    // });
+    // setLoading(false);
   };
 
   const resetFilterJobs = () => {

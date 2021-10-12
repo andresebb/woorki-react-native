@@ -6,7 +6,7 @@ export interface JobData {
   email: string;
   phone: string;
   image: string;
-  id: string;
+  id: string | number;
   direction?: any;
   coordinate: coordinate;
 }
