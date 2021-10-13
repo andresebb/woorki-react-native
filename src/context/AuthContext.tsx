@@ -1,6 +1,11 @@
 import React, {createContext, useEffect, useState, useReducer} from 'react';
 
 import auth from '@react-native-firebase/auth';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 import {authReducer, AuthState} from './authReducer';
 import {User} from '../interfaces/UserInterface';
@@ -32,7 +37,7 @@ type AuthContextProps = {
 //TODO CAMBIA EL STATUS A CHECKING
 const authInicialState: AuthState = {
   currentUser: null,
-  status: 'not-authenticated',
+  status: 'checking',
   token: null,
   errorMessage: '',
 };
@@ -129,9 +134,23 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
-  const signInwithGoogle = () => {};
-
   //TODO: MAKE GOOGLE SING IN
+  const signInwithGoogle = async () => {
+    GoogleSignin.configure({
+      webClientId:
+        '385049627589-sg9rsitf2vakcetvunhs5dmc0s40fia3.apps.googleusercontent.com',
+    });
+
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  };
+
   const signOutFirebase = () => {
     auth()
       .signOut()
