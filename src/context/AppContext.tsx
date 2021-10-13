@@ -4,6 +4,7 @@ import React, {createContext, useState, useEffect, useReducer} from 'react';
 // import {firebaseApp} from '../firebase';
 
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 import {JobData} from '../interfaces/JobInterface';
 import {appReducer, AppState} from './appReducer';
@@ -13,6 +14,7 @@ type AppContextProps = {
   getDirection: (currentOffset: any) => void;
   filterJobByName: (value: string) => void;
   resetFilterJobs: () => void;
+  uploadImageStorage: (image: any) => void;
   opacity: any;
   translate: any;
   loading: boolean;
@@ -117,6 +119,11 @@ export const AppProvider = ({children}: any) => {
     });
   };
 
+  const uploadImageStorage = async (image: any) => {
+    const reference = storage().ref('woorki/post/miImagenBonita.png');
+    await reference.putFile(image);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -127,6 +134,7 @@ export const AppProvider = ({children}: any) => {
         translate,
         filterJobByName,
         resetFilterJobs,
+        uploadImageStorage,
       }}>
       {children}
     </AppContext.Provider>

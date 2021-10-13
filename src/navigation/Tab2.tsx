@@ -22,9 +22,9 @@ export const Tab2 = () => {
           backgroundColor: 'white',
         },
       }}>
+      <Stack.Screen name="CreateJobScreen3" component={CreateJobScreen3} />
       <Stack.Screen name="CreateJobScreen" component={CreateJobScreen} />
       <Stack.Screen name="CreateJobScreen2" component={CreateJobScreen2} />
-      <Stack.Screen name="CreateJobScreen3" component={CreateJobScreen3} />
     </Stack.Navigator>
   );
 };

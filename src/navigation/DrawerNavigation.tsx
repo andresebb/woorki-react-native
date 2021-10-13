@@ -40,7 +40,7 @@ export const DrawerNavigation = () => {
 };
 
 const MenuInterno = ({navigation}: any) => {
-  const {signOutFirebase} = useContext(AuthContext);
+  const {signOutFirebase, currentUser} = useContext(AuthContext);
 
   return (
     <View
@@ -57,7 +57,7 @@ const MenuInterno = ({navigation}: any) => {
             fontWeight: 'bold',
             opacity: 0.8,
           }}>
-          Andres Betancourt
+          {currentUser?.displayName}
         </Text>
       </View>
 

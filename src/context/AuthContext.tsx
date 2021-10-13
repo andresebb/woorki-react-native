@@ -1,5 +1,7 @@
 import React, {createContext, useEffect, useState, useReducer} from 'react';
 
+import auth from '@react-native-firebase/auth';
+
 import {authReducer, AuthState} from './authReducer';
 import {User} from '../interfaces/UserInterface';
 
@@ -30,7 +32,7 @@ type AuthContextProps = {
 //TODO CAMBIA EL STATUS A CHECKING
 const authInicialState: AuthState = {
   currentUser: null,
-  status: 'authenticated',
+  status: 'not-authenticated',
   token: null,
   errorMessage: '',
 };
@@ -38,41 +40,42 @@ const authInicialState: AuthState = {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({children}: any) => {
-  // const auth = getAuth(firebaseApp);
   const [loading, setLoading] = useState(false);
 
   const [state, dispatch] = useReducer(authReducer, authInicialState);
 
   // const googleProvider = new GoogleAuthProvider();
 
-  //Check if we have user
-  // useEffect(() => {
-  //   checkUserExist();
-  // }, [onAuthStateChanged]);
+  // Check if we have user
+  useEffect(() => {
+    checkUserExist();
+  }, [auth().onAuthStateChanged]);
 
   const checkUserExist = () => {
-    // onAuthStateChanged(auth, user => {
-    //   if (user) {
-    //     dispatch({
-    //       type: 'signUp',
-    //       payload: {
-    //         token: '12565',
-    //         user: {
-    //           displayName: user.displayName,
-    //           email: user.email,
-    //           photoURL: user.photoURL,
-    //           phoneNumber: user.phoneNumber,
-    //           emailVerified: user.emailVerified,
-    //           uid: user.uid,
-    //         },
-    //       },
-    //     });
-    //   } else {
-    //     dispatch({
-    //       type: 'notAuthenticated',
-    //     });
-    //   }
-    // });
+    setLoading(true);
+    auth().onAuthStateChanged(user => {
+      if (user) {
+        dispatch({
+          type: 'signUp',
+          payload: {
+            token: '12565',
+            user: {
+              displayName: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              phoneNumber: user.phoneNumber,
+              emailVerified: user.emailVerified,
+              uid: user.uid,
+            },
+          },
+        });
+      } else {
+        dispatch({
+          type: 'notAuthenticated',
+        });
+      }
+    });
+    setLoading(false);
   };
 
   const signUpFirebase = async ({
@@ -81,49 +84,59 @@ export const AuthProvider = ({children}: any) => {
     email,
     password,
   }: RegisterData) => {
-    // try {
-    //   const userCrendential = await createUserWithEmailAndPassword(
-    //     auth,
-    //     email,
-    //     password,
-    //   );
-    //   const user = userCrendential.user;
-    //   updateProfile(user, {
-    //     displayName: `${firstName} ${lastName}`,
-    //   });
-    // } catch (error) {
-    //   const errorCode = error;
-    //   const errorMessage = error;
-    // }
+    try {
+      const userCrendential = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+
+      const user = userCrendential.user;
+
+      await user.updateProfile({
+        displayName: `${firstName} ${lastName}`,
+      });
+
+      //We called to get user data.
+      checkUserExist();
+    } catch (error) {
+      const errorCode = error;
+      const errorMessage = error;
+    }
   };
 
   const signInFirebase = async ({email, password}: LoginData) => {
-    // try {
-    //   setLoading(true);
-    //   const userCrendential = await signInWithEmailAndPassword(
-    //     auth,
-    //     email,
-    //     password,
-    //   );
-    //   const user = userCrendential.user;
-    //   setLoading(false);
-    // } catch (error) {
-    //   console.log(error);
-    //   setLoading(false);
-    // }
+    try {
+      setLoading(true);
+      auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          console.log('Everything good');
+        })
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
+          }
+
+          if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
+          }
+
+          console.error(error);
+        });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const signInwithGoogle = () => {};
 
   //TODO: MAKE GOOGLE SING IN
   const signOutFirebase = () => {
-    // signOut(auth)
-    //   .then(() => {
-    //     console.log('Estas fuera');
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'))
+      .catch(e => console.log(e));
   };
 
   return (
