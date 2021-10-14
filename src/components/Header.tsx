@@ -14,13 +14,15 @@ import {AppContext} from '../context/AppContext';
 import {useNavigation} from '@react-navigation/native';
 import {useLocation} from '../hooks/useLocation';
 import {SearchInput} from './SearchInput';
+import {AuthContext} from '../context/AuthContext';
 
 export const Header = () => {
   const navigation = useNavigation();
+  const {currentUser} = useContext(AuthContext);
   const {city} = useLocation();
+  const [term, setTerm] = useState('');
   const {opacity, translate, filterJobByName, resetFilterJobs} =
     useContext(AppContext);
-  const [term, setTerm] = useState('');
 
   //Usedebounced
   useEffect(() => {
@@ -36,14 +38,27 @@ export const Header = () => {
           <Text style={styles.locationText}>{city}</Text>
         </View>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Image
-            source={require('../assets/avatar.png')}
-            style={{
-              width: 48,
-              height: 48,
-              marginVertical: 4,
-            }}
-          />
+          {currentUser?.photoURL ? (
+            <Image
+              source={{uri: currentUser.photoURL}}
+              style={{
+                width: 48,
+                height: 48,
+                marginVertical: 4,
+                borderRadius: 24,
+              }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/avatar.png')}
+              style={{
+                width: 48,
+                height: 48,
+                marginVertical: 4,
+                borderRadius: 24,
+              }}
+            />
+          )}
         </TouchableOpacity>
       </View>
       <Animated.View

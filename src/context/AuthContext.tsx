@@ -60,6 +60,7 @@ export const AuthProvider = ({children}: any) => {
     setLoading(true);
     auth().onAuthStateChanged(user => {
       if (user) {
+        // console.log(user);
         dispatch({
           type: 'signUp',
           payload: {
@@ -136,25 +137,32 @@ export const AuthProvider = ({children}: any) => {
 
   //TODO: MAKE GOOGLE SING IN
   const signInwithGoogle = async () => {
-    GoogleSignin.configure({
-      webClientId:
-        '385049627589-sg9rsitf2vakcetvunhs5dmc0s40fia3.apps.googleusercontent.com',
-    });
+    try {
+      GoogleSignin.configure({
+        webClientId:
+          '385049627589-sg9rsitf2vakcetvunhs5dmc0s40fia3.apps.googleusercontent.com',
+      });
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
 
-    // Get the users ID token
-    const {idToken} = await GoogleSignin.signIn();
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
+    } catch (error) {
+      console.log('no quizo');
+    }
   };
 
-  const signOutFirebase = () => {
+  const signOutFirebase = async () => {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'))
+      .catch(e => console.log(e));
+
+    await GoogleSignin.signOut()
+      .then(() => console.log('fuera'))
       .catch(e => console.log(e));
   };
 
