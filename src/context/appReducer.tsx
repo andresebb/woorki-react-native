@@ -9,7 +9,8 @@ export interface AppState {
 type AppAction =
   | {type: 'getJobs'; payload: {jobs: JobData[]}}
   | {type: 'filterJob'; payload: {filterJob: JobData[]}}
-  | {type: 'resetFilterJobs'};
+  | {type: 'resetFilterJobs'}
+  | {type: 'updateJobOffer'; paylod: any};
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
@@ -29,6 +30,11 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       return {
         ...state,
         filterJobs: [],
+      };
+
+    case 'updateJobOffer':
+      return {
+        ...state,
       };
 
     default:

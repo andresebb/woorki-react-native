@@ -36,7 +36,7 @@ export const HomeScreen = () => {
         <FlatList
           data={list}
           onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => {
             if (index === 0) {

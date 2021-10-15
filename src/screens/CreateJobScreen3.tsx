@@ -16,12 +16,14 @@ import {OneBackArrow} from '../components/OneBackArrow';
 import {RootStackParams} from '../navigation/Tab2';
 import {useContext} from 'react';
 import {AppContext} from '../context/AppContext';
+import {LoadingModal} from '../components/loadingModal';
 
 interface Props extends StackScreenProps<RootStackParams, 'CreateJobScreen3'> {}
 
 export const CreateJobScreen3 = ({navigation}: Props) => {
   const [imageUri, setImageUri] = useState('');
-  const {uploadImageStorage} = useContext(AppContext);
+  const {uploadImageStorage, sendJobToFirebase, loading} =
+    useContext(AppContext);
   const [showModal, setShowModal] = useState(false);
 
   const takePhotoFromGallery = () => {
@@ -35,7 +37,7 @@ export const CreateJobScreen3 = ({navigation}: Props) => {
         if (!resp.assets?.[0].uri) return;
         setImageUri(resp.assets?.[0].uri);
         setShowModal(false);
-        // uploadImageStorage(resp.assets?.[0].uri);
+        uploadImageStorage(resp.assets?.[0].uri);
       },
     );
   };
@@ -51,6 +53,7 @@ export const CreateJobScreen3 = ({navigation}: Props) => {
         if (!resp.assets?.[0].uri) return;
         setImageUri(resp.assets?.[0].uri);
         setShowModal(false);
+        uploadImageStorage(resp.assets?.[0].uri);
       },
     );
   };
@@ -82,11 +85,12 @@ export const CreateJobScreen3 = ({navigation}: Props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.boton}>
+          <TouchableOpacity onPress={sendJobToFirebase} style={styles.boton}>
             <Text style={styles.buttonText}>Create job</Text>
           </TouchableOpacity>
         </View>
       </View>
+      {loading && <LoadingModal />}
 
       {showModal && (
         <TouchableOpacity

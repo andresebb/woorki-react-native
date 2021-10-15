@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useContext} from 'react';
+import {AppContext} from '../context/AppContext';
 
 const categories = [
   {name: 'HouseKeeping'},
@@ -20,6 +22,8 @@ export const CreateJob1 = () => {
 
   const [arrow, setArrow] = useState('0deg');
   const [show, setShow] = useState('none');
+
+  const {updateNewOfferJob} = useContext(AppContext);
 
   useEffect(() => {
     changeVisibility();
@@ -42,11 +46,19 @@ export const CreateJob1 = () => {
     <>
       <View style={styles.boxContaier}>
         <Text style={styles.inputTitle}>Job title</Text>
-        <TextInput style={styles.inputField} placeholder="housekeeping" />
+        <TextInput
+          style={styles.inputField}
+          onChangeText={e => updateNewOfferJob('title', e)}
+          placeholder="housekeeping"
+        />
       </View>
       <View style={styles.boxContaier}>
         <Text style={styles.inputTitle}>Job Place</Text>
-        <TextInput style={styles.inputField} placeholder="Hyatt Hotel" />
+        <TextInput
+          style={styles.inputField}
+          onChangeText={e => updateNewOfferJob('jobPlace', e)}
+          placeholder="Hyatt Hotel"
+        />
       </View>
       <View style={styles.boxContaier}>
         <Text style={styles.inputTitle}>Which category ?</Text>
@@ -76,7 +88,9 @@ export const CreateJob1 = () => {
               <TouchableOpacity
                 key={category.name}
                 onPress={() => {
-                  setVisible(!visible), changeVisibility(category.name);
+                  setVisible(!visible),
+                    changeVisibility(category.name),
+                    updateNewOfferJob('category', category.name);
                 }}>
                 <Text style={styles.categoryText}>{category.name}</Text>
               </TouchableOpacity>
@@ -88,6 +102,7 @@ export const CreateJob1 = () => {
         <Text style={styles.inputTitle}>Description about the job</Text>
         <TextInput
           style={styles.inputFieldDescription}
+          onChangeText={e => updateNewOfferJob('description', e)}
           placeholder="We are looking for a very responsible person..."
           multiline={true}
           numberOfLines={4}
@@ -99,15 +114,24 @@ export const CreateJob1 = () => {
         <TextInput
           style={styles.inputField}
           placeholder="4689 Warren Pkway Frisco."
+          onChangeText={e => updateNewOfferJob('address', e)}
         />
       </View>
       <View style={styles.boxContaier}>
         <Text style={styles.inputTitle}>City</Text>
-        <TextInput style={styles.inputField} placeholder="Dallas" />
+        <TextInput
+          style={styles.inputField}
+          placeholder="Dallas"
+          onChangeText={e => updateNewOfferJob('city', e)}
+        />
       </View>
       <View style={styles.boxContaier}>
         <Text style={styles.inputTitle}>Hour</Text>
-        <TextInput style={styles.inputField} placeholder="20.00" />
+        <TextInput
+          style={styles.inputField}
+          placeholder="20.00"
+          onChangeText={e => updateNewOfferJob('hour', e)}
+        />
       </View>
     </>
   );

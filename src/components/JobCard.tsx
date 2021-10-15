@@ -61,9 +61,7 @@ export const JobCard = ({job, first}: Props) => {
           {/* <View> */}
           <View style={styles.infoText}>
             <Icon name="location-outline" size={20} color="#2bc48a" />
-            <Text style={{marginLeft: 6, color: '#858585'}}>
-              {job.location}
-            </Text>
+            <Text style={{marginLeft: 6, color: '#858585'}}>{job.city}</Text>
           </View>
           <View style={styles.infoText}>
             <Icon name="card-outline" size={20} color="#2bc48a" />

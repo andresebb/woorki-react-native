@@ -1,8 +1,12 @@
 export interface JobData {
   title: string;
+  jobPlace: string;
+  category: string;
   description: string;
   location: string;
-  hour: string;
+  city: string;
+  address?: string;
+  hour: number;
   email: string;
   phone: string;
   image: string;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigation/Tab2';
 import {CreateJobImage} from '../components/CreateJobImage';
 import {NextButton} from '../components/NextButton';
+import {AppContext} from '../context/AppContext';
 
 interface Props extends StackScreenProps<RootStackParams, 'CreateJobScreen2'> {}
 
@@ -24,10 +25,17 @@ export const CreateJobScreen2 = ({navigation}: Props) => {
     longitude: 0,
   });
 
+  const {updateNewOfferJob} = useContext(AppContext);
+
   const getCordenadas = (coordenadas: MapEvent<{}>) => {
     const {latitude, longitude} = coordenadas.nativeEvent.coordinate;
 
     setMarker({
+      latitude,
+      longitude,
+    });
+
+    updateNewOfferJob('coordinate', {
       latitude,
       longitude,
     });
