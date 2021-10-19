@@ -1,11 +1,7 @@
 import React, {createContext, useEffect, useState, useReducer} from 'react';
 
 import auth from '@react-native-firebase/auth';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 import {authReducer, AuthState} from './authReducer';
 import {User} from '../interfaces/UserInterface';
@@ -26,6 +22,7 @@ type AuthContextProps = {
   signUpFirebase: (registerData: RegisterData) => void;
   signInFirebase: (loginData: LoginData) => void;
   signInwithGoogle: () => void;
+  signInwithFacebook: () => void;
   signOutFirebase: () => void;
   loading: boolean;
   currentUser: User | null;
@@ -48,8 +45,6 @@ export const AuthProvider = ({children}: any) => {
   const [loading, setLoading] = useState(false);
 
   const [state, dispatch] = useReducer(authReducer, authInicialState);
-
-  // const googleProvider = new GoogleAuthProvider();
 
   // Check if we have user
   useEffect(() => {
@@ -135,7 +130,9 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
-  //TODO: MAKE GOOGLE SING IN
+  //TODO
+  const signInwithFacebook = async () => {};
+
   const signInwithGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -170,11 +167,12 @@ export const AuthProvider = ({children}: any) => {
     <AuthContext.Provider
       value={{
         ...state,
-        loading,
         signUpFirebase,
         signInFirebase,
         signInwithGoogle,
+        signInwithFacebook,
         signOutFirebase,
+        loading,
       }}>
       {children}
     </AuthContext.Provider>

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Icon from 'react-native-vector-icons/Ionicons';
 import {
   useWindowDimensions,
   View,
@@ -9,17 +8,14 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import {
-  createDrawerNavigator,
-  DrawerContentComponentProps,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {BottomNavigator} from './BottomNavigator';
 import {MapScreen} from '../screens/MapScreen';
 import {useContext} from 'react';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../context/authContext';
 
 const Drawer = createDrawerNavigator();
 
@@ -49,7 +45,27 @@ const MenuInterno = ({navigation}: any) => {
         justifyContent: 'space-between',
       }}>
       <View style={styles.avatarContainer}>
-        <Image source={require('../assets/avatar.png')} style={styles.avatar} />
+        {currentUser?.photoURL ? (
+          <Image
+            source={{uri: currentUser.photoURL}}
+            style={{
+              width: 80,
+              height: 80,
+              marginVertical: 4,
+              borderRadius: 48,
+            }}
+          />
+        ) : (
+          <Image
+            source={require('../assets/avatar.png')}
+            style={{
+              width: 80,
+              height: 80,
+              marginVertical: 4,
+              borderRadius: 48,
+            }}
+          />
+        )}
         <Text
           style={{
             fontSize: 20,

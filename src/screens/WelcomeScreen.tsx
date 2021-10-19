@@ -34,7 +34,6 @@ export const WelcomeScreen = ({navigation}: Props) => {
         </View>
         <View style={styles.buttonsContainer}>
           <EmailSignButton navigation={navigation} />
-          <FacebookSignButton />
           <GoogleSignButton />
 
           {/* Alredy log text */}

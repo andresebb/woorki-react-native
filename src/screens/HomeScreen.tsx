@@ -5,11 +5,11 @@ import {View, FlatList, StyleSheet, Image} from 'react-native';
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 import {useContext} from 'react';
-import {AppContext} from '../context/AppContext';
+import {AppContext} from '../context/appContext';
 import {LoadingModal} from '../components/loadingModal';
 import {Header} from '../components/Header';
 import {JobData} from '../interfaces/JobInterface';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../context/authContext';
 
 export const HomeScreen = () => {
   const [list, setList] = useState<JobData[]>([]);
@@ -20,6 +20,7 @@ export const HomeScreen = () => {
     definedRender();
   }, [filterJobs]);
 
+  //Choose if we are to show all jobs or filter jobs
   const definedRender = () => {
     setList(jobs);
 
@@ -36,7 +37,7 @@ export const HomeScreen = () => {
         <FlatList
           data={list}
           onScroll={e => getDirection(e.nativeEvent.contentOffset.y)}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.title}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => {
             if (index === 0) {

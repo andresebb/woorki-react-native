@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useContext} from 'react';
-import {AppContext} from '../context/AppContext';
+import {AppContext} from '../context/appContext';
 
 const categories = [
   {name: 'HouseKeeping'},

@@ -1,18 +1,18 @@
+import {User} from './UserInterface';
+
 export interface JobData {
   title: string;
   jobPlace: string;
   category: string;
   description: string;
-  location: string;
+  address: string;
   city: string;
-  address?: string;
   hour: number;
-  email: string;
-  phone: string;
+  coordinate: coordinate;
   image: string;
   id: string | number;
-  direction?: any;
-  coordinate: coordinate;
+  createdAt: any;
+  user: User;
 }
 
 interface coordinate {

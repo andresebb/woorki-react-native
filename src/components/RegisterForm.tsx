@@ -11,7 +11,7 @@ import {
 
 import {useForm} from '../hooks/useForm';
 import {AlreadyLog} from './AlreadyLog';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../context/authContext';
 
 interface Props {
   navigation: any;

@@ -20,7 +20,7 @@ import {AlreadyLog} from '../components/AlreadyLog';
 import {BackgroundImage} from '../components/BackgroundImage';
 import {BigLogo} from '../components/BigLogo';
 import {useForm} from '../hooks/useForm';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../context/authContext';
 import {LoadingModal} from '../components/loadingModal';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {AuthProvider} from './src/context/AuthContext';
+import {AuthProvider} from './src/context/authContext';
 import {ChooseNavigator} from './src/navigation/ChooseNavigator';
-import {AppProvider} from './src/context/AppContext';
+import {AppProvider} from './src/context/appContext';
 
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs([

@@ -15,7 +15,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigation/Tab2';
 import {CreateJobImage} from '../components/CreateJobImage';
 import {NextButton} from '../components/NextButton';
-import {AppContext} from '../context/AppContext';
+import {AppContext} from '../context/appContext';
 
 interface Props extends StackScreenProps<RootStackParams, 'CreateJobScreen2'> {}
 

@@ -14,7 +14,7 @@ export const EmailSignButton = ({navigation}: Props) => {
     <TouchableOpacity
       onPress={() => navigation.navigate('RegisterScreen')}
       activeOpacity={0.8}
-      style={{...SignButtonStyle.buttonContainer, backgroundColor: 'white'}}>
+      style={{...SignButtonStyle.buttonContainer, backgroundColor: '#fefefe'}}>
       <View>
         <View style={SignButtonStyle.textContainer}>
           <Icon name="mail-outline" size={26} color="black" />

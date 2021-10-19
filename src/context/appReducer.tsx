@@ -3,14 +3,15 @@ import {JobData} from '../interfaces/JobInterface';
 export interface AppState {
   jobs: JobData[];
   filterJobs: JobData[];
-  favorites: [];
+  favorites: JobData[];
+  newJob: JobData;
 }
 
 type AppAction =
   | {type: 'getJobs'; payload: {jobs: JobData[]}}
   | {type: 'filterJob'; payload: {filterJob: JobData[]}}
   | {type: 'resetFilterJobs'}
-  | {type: 'updateJobOffer'; paylod: any};
+  | {type: 'updateJobOffer'; payload: {field: string; data: any}};
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
@@ -35,6 +36,10 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case 'updateJobOffer':
       return {
         ...state,
+        newJob: {
+          ...state.newJob,
+          [action.payload.field]: action.payload.data,
+        },
       };
 
     default:

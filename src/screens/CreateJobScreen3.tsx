@@ -15,7 +15,7 @@ import {CreateJobImage} from '../components/CreateJobImage';
 import {OneBackArrow} from '../components/OneBackArrow';
 import {RootStackParams} from '../navigation/Tab2';
 import {useContext} from 'react';
-import {AppContext} from '../context/AppContext';
+import {AppContext} from '../context/appContext';
 import {LoadingModal} from '../components/loadingModal';
 
 interface Props extends StackScreenProps<RootStackParams, 'CreateJobScreen3'> {}

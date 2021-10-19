@@ -29,6 +29,7 @@ export const JobCard = ({job, first}: Props) => {
       onPress={() => navigation.navigate('JobDetailScreen', job)}
       style={{...styles.cardContainer, marginTop: first}}>
       <Image
+        onLoad={() => <Text>Loading...</Text>}
         source={{
           uri: `${job.image}`,
         }}

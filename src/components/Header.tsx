@@ -10,11 +10,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {AppContext} from '../context/AppContext';
+import {AppContext} from '../context/appContext';
 import {useNavigation} from '@react-navigation/native';
 import {useLocation} from '../hooks/useLocation';
 import {SearchInput} from './SearchInput';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../context/authContext';
 
 export const Header = () => {
   const navigation = useNavigation();

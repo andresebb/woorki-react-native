@@ -6,18 +6,14 @@ import React, {
   useReducer,
 } from 'react';
 
-// import {getFirestore, collection, getDocs} from 'firebase/firestore/lite';
-// import {firebaseApp} from '../firebase';
-
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
-import {JobData} from '../interfaces/JobInterface';
 import {appReducer, AppState} from './appReducer';
 import {useAnimation} from '../hooks/useAnimation';
-import {useForm} from '../hooks/useForm';
 import {Platform} from 'react-native';
-import {AuthContext} from './AuthContext';
+import {AuthContext} from './authContext';
+import {JobData} from '../interfaces/JobInterface';
 
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
@@ -29,7 +25,6 @@ type AppContextProps = {
   opacity: any;
   translate: any;
   loading: boolean;
-  bytesTransfered: number;
   jobs: JobData[];
   filterJobs: JobData[];
   favorites: JobData[];
@@ -39,6 +34,30 @@ const appInitialState: AppState = {
   jobs: [],
   filterJobs: [],
   favorites: [],
+  newJob: {
+    title: '',
+    jobPlace: '',
+    category: '',
+    description: '',
+    address: '',
+    city: '',
+    hour: 0,
+    coordinate: {
+      latitude: 0,
+      longitude: 0,
+    },
+    image: '',
+    id: '',
+    createdAt: new Date(),
+    user: {
+      displayName: '',
+      email: '',
+      photoURL: '',
+      phoneNumber: '',
+      emailVerified: false,
+      uid: '',
+    },
+  },
 };
 
 export const AppContext = createContext({} as AppContextProps);
@@ -47,49 +66,46 @@ export const AppProvider = ({children}: any) => {
   const {currentUser} = useContext(AuthContext);
   const [state, dispatch] = useReducer(appReducer, appInitialState);
   const [offset, setOffset] = useState(0);
-  const [bytesTransfered, setBytesTransferred] = useState(0);
   const [loading, setLoading] = useState(false);
   const {opacity, translateHeader, translateHeaderDown, translate} =
     useAnimation();
 
-  //Job Offer
-  const [offerJob, setOfferJob] = useState({
-    title: '',
-    category: 'Housekeping',
-    description: '',
-    location: '',
-    hour: '',
-    email: `${currentUser?.email}`,
-    phone: `${currentUser?.phoneNumber}`,
-    image: '',
-    id: '',
-    direction: '',
-    coordinate: '',
-  });
-
   useEffect(() => {
     getJobs();
   }, []);
+
+  //Update newJob with the current user
+  useEffect(() => {
+    if (currentUser) {
+      dispatch({
+        type: 'updateJobOffer',
+        payload: {field: 'user', data: currentUser},
+      });
+    }
+  }, [currentUser]);
 
   const getJobs = async () => {
     try {
       setLoading(true);
       firestore()
         .collection('jobs')
+        .orderBy('createdAt', 'desc')
         .get()
         .then(querySnapshot => {
           const jobList: JobData[] = querySnapshot.docs.map(doc => {
             return {
               title: doc.data().title,
-              direction: doc.data().direction,
+              jobPlace: doc.data().jobPlace,
+              category: doc.data().category,
               description: doc.data().description,
-              location: doc.data().location,
+              address: doc.data().address,
+              city: doc.data().city,
               hour: doc.data().hour,
-              email: doc.data().email,
-              phone: doc.data().phone,
+              coordinate: doc.data().coordinate,
               image: doc.data().image,
               id: doc.id,
-              coordinate: doc.data().coordinate,
+              createdAt: doc.data().createdAt,
+              user: doc.data().user,
             };
           });
 
@@ -154,20 +170,21 @@ export const AppProvider = ({children}: any) => {
     setLoading(true);
 
     task.on('state_changed', snapshot => {
-      setBytesTransferred(
-        Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-      );
+      console.log(`totalBytes: ${snapshot.totalBytes}`);
+      console.log(`bytesTransferred: ${snapshot.bytesTransferred}`);
     });
 
+    //Download image and save it into jobs
     task
       .then(async () => {
         console.log('Image Uploaded');
 
         // Get image url from firebase
         const url = await storage().ref(filename).getDownloadURL();
-        setOfferJob({
-          ...offerJob,
-          image: url,
+
+        dispatch({
+          type: 'updateJobOffer',
+          payload: {field: 'image', data: url},
         });
 
         setLoading(false);
@@ -179,20 +196,18 @@ export const AppProvider = ({children}: any) => {
   };
 
   const updateNewOfferJob = (value: string, property: any) => {
-    console.log(property);
-
-    setOfferJob({
-      ...offerJob,
-      [value]: property,
+    dispatch({
+      type: 'updateJobOffer',
+      payload: {field: value, data: property},
     });
   };
 
   const sendJobToFirebase = async () => {
     firestore()
       .collection('jobs')
-      .add(offerJob)
+      .add(state.newJob)
       .then(() => {
-        console.log('User added!');
+        console.log('Job added!');
       })
       .catch(() => {
         console.log('negativo');
@@ -203,16 +218,15 @@ export const AppProvider = ({children}: any) => {
     <AppContext.Provider
       value={{
         ...state,
-        getDirection,
-        opacity,
-        loading,
-        translate,
-        bytesTransfered,
         filterJobByName,
+        getDirection,
         resetFilterJobs,
         uploadImageStorage,
         updateNewOfferJob,
         sendJobToFirebase,
+        opacity,
+        loading,
+        translate,
       }}>
       {children}
     </AppContext.Provider>

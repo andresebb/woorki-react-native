@@ -4,7 +4,7 @@ import {TouchableOpacity, View, Text, Image} from 'react-native';
 
 import {SignButtonStyle} from '../theme/SignButtonTheme';
 import {useContext} from 'react';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../context/authContext';
 
 export const GoogleSignButton = () => {
   const {signInwithGoogle} = useContext(AuthContext);
