@@ -11,7 +11,8 @@ type AppAction =
   | {type: 'getJobs'; payload: {jobs: JobData[]}}
   | {type: 'filterJob'; payload: {filterJob: JobData[]}}
   | {type: 'resetFilterJobs'}
-  | {type: 'updateJobOffer'; payload: {field: string; data: any}};
+  | {type: 'updateJobOffer'; payload: {field: string; data: any}}
+  | {type: 'resetNewJob'};
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
@@ -39,6 +40,35 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         newJob: {
           ...state.newJob,
           [action.payload.field]: action.payload.data,
+        },
+      };
+
+    case 'resetNewJob':
+      return {
+        ...state,
+        newJob: {
+          title: '',
+          jobPlace: '',
+          category: '',
+          description: '',
+          address: '',
+          city: '',
+          hour: 0,
+          coordinate: {
+            latitude: 0,
+            longitude: 0,
+          },
+          image: '',
+          id: '',
+          createdAt: new Date(),
+          user: {
+            displayName: '',
+            email: '',
+            photoURL: '',
+            phoneNumber: '',
+            emailVerified: false,
+            uid: '',
+          },
         },
       };
 

@@ -142,10 +142,7 @@ export const AppProvider = ({children}: any) => {
     const jobsFilter = state.jobs.filter(
       job =>
         job.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
-        job.description
-          .toLocaleLowerCase()
-          .includes(value.toLocaleLowerCase()) ||
-        job.location.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+        job.description.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
     );
     dispatch({
       type: 'filterJob',
@@ -208,6 +205,10 @@ export const AppProvider = ({children}: any) => {
       .add(state.newJob)
       .then(() => {
         console.log('Job added!');
+
+        dispatch({
+          type: 'resetNewJob',
+        });
       })
       .catch(() => {
         console.log('negativo');
