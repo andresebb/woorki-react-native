@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Tab1} from './Tab1';
 import {Tab2} from './Tab2';
 import {Tab3} from './Tab3';
+import {Tab4} from './Tab4';
 
 const Tab = createBottomTabNavigator();
 
@@ -57,6 +58,18 @@ export const BottomNavigator = () => {
           tabBarLabel: 'Search',
           tabBarIcon: ({color}) => (
             <Icon color={color} size={25} name="map-outline" />
+          ),
+        }}
+      />
+
+      {/*Messages  */}
+      <Tab.Screen
+        name="Tab4"
+        component={Tab4}
+        options={{
+          tabBarLabel: 'Messages',
+          tabBarIcon: ({color}) => (
+            <Icon color={color} size={25} name="mail-outline" />
           ),
         }}
       />

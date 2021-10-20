@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -22,10 +22,12 @@ import {BigLogo} from '../components/BigLogo';
 import {useForm} from '../hooks/useForm';
 import {AuthContext} from '../context/authContext';
 import {LoadingModal} from '../components/loadingModal';
+import {ForgotPasswordModal} from '../components/ForgotPasswordModal';
 
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
 
 export const LoginScreen = ({navigation}: Props) => {
+  const [showModal, setShowModal] = useState(false);
   const {email, password, onChange} = useForm({
     email: '',
     password: '',
@@ -110,7 +112,15 @@ export const LoginScreen = ({navigation}: Props) => {
                   <Icon name="lock-closed-outline" size={20} color="gray" />
                 </View>
               </View>
-              <Text>Forgot Password?</Text>
+              <Text
+                onPress={() => setShowModal(true)}
+                style={{
+                  fontWeight: 'bold',
+                  opacity: 0.3,
+                  padding: 10,
+                }}>
+                Forgot Password?
+              </Text>
 
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -124,7 +134,6 @@ export const LoginScreen = ({navigation}: Props) => {
 
             <View>
               <View style={styles.buttonsContainer}>
-                <FacebookSignButton />
                 <GoogleSignButton />
               </View>
               {/* Already Log */}
@@ -141,6 +150,7 @@ export const LoginScreen = ({navigation}: Props) => {
           {loading && <LoadingModal />}
         </View>
       </TouchableWithoutFeedback>
+      {showModal && <ForgotPasswordModal showModal={setShowModal} />}
     </BackgroundImage>
   );
 };

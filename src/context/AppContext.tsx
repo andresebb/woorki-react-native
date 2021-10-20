@@ -142,7 +142,10 @@ export const AppProvider = ({children}: any) => {
     const jobsFilter = state.jobs.filter(
       job =>
         job.title.toLocaleLowerCase().includes(value.toLocaleLowerCase()) ||
-        job.description.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+        job.description
+          .toLocaleLowerCase()
+          .includes(value.toLocaleLowerCase()) ||
+        job.city.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
     );
     dispatch({
       type: 'filterJob',

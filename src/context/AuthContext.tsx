@@ -22,8 +22,8 @@ type AuthContextProps = {
   signUpFirebase: (registerData: RegisterData) => void;
   signInFirebase: (loginData: LoginData) => void;
   signInwithGoogle: () => void;
-  signInwithFacebook: () => void;
   signOutFirebase: () => void;
+  resetUserPassword: (email: string) => void;
   loading: boolean;
   currentUser: User | null;
   status: 'checking' | 'authenticated' | 'not-authenticated';
@@ -130,9 +130,6 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
-  //TODO
-  const signInwithFacebook = async () => {};
-
   const signInwithGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -163,6 +160,21 @@ export const AuthProvider = ({children}: any) => {
       .catch(e => console.log(e));
   };
 
+  const resetUserPassword = (email: string) => {
+    if (email) {
+      auth()
+        .sendPasswordResetEmail(email)
+        .then(function (user) {
+          console.log('please check your email');
+        })
+        .catch(function (e) {
+          console.log(e);
+        });
+    } else {
+      console.log('write your email');
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -170,8 +182,8 @@ export const AuthProvider = ({children}: any) => {
         signUpFirebase,
         signInFirebase,
         signInwithGoogle,
-        signInwithFacebook,
         signOutFirebase,
+        resetUserPassword,
         loading,
       }}>
       {children}

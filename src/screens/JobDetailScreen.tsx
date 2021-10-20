@@ -61,14 +61,27 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
             {/* Contact */}
             <View style={styles.contactContainer}>
               <View style={styles.contactInfo}>
-                <Image
-                  source={require('../assets/avatar.png')}
-                  style={{
-                    height: 50,
-                    width: 50,
-                    marginRight: 12,
-                  }}
-                />
+                {job.user.photoURL ? (
+                  <Image
+                    source={{uri: `${job.user.photoURL}`}}
+                    style={{
+                      height: 50,
+                      width: 50,
+                      marginRight: 12,
+                      borderRadius: 24,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={require('../assets/avatar.png')}
+                    style={{
+                      height: 50,
+                      width: 50,
+                      marginRight: 12,
+                    }}
+                  />
+                )}
+
                 <View>
                   <Text
                     style={{

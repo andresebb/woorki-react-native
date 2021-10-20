@@ -23,6 +23,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         jobs: action.payload.jobs,
       };
     case 'filterJob':
+      console.log(action.payload.filterJob);
+
       return {
         ...state,
         filterJobs: action.payload.filterJob,
