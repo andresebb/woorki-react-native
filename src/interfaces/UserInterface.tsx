@@ -4,5 +4,7 @@ export interface User {
   photoURL: string | null;
   phoneNumber: string | null;
   emailVerified: boolean;
+  isOnline?: boolean;
+  createdAt?: any;
   uid: string | null;
 }

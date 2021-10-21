@@ -48,7 +48,7 @@ const appInitialState: AppState = {
     },
     image: '',
     id: '',
-    createdAt: new Date(),
+    createdAt: firestore.Timestamp.fromDate(new Date()),
     user: {
       displayName: '',
       email: '',

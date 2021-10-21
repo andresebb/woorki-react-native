@@ -1,8 +1,9 @@
 import React, {createContext, useEffect, useState, useReducer} from 'react';
 
 import auth from '@react-native-firebase/auth';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import firestore from '@react-native-firebase/firestore';
 
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {authReducer, AuthState} from './authReducer';
 import {User} from '../interfaces/UserInterface';
 
@@ -25,7 +26,7 @@ type AuthContextProps = {
   signOutFirebase: () => void;
   resetUserPassword: (email: string) => void;
   loading: boolean;
-  currentUser: User | null;
+  currentUser: User | undefined;
   status: 'checking' | 'authenticated' | 'not-authenticated';
   token: null | string;
   errorMessage: string;
@@ -33,7 +34,7 @@ type AuthContextProps = {
 
 //TODO CAMBIA EL STATUS A CHECKING
 const authInicialState: AuthState = {
-  currentUser: null,
+  currentUser: undefined,
   status: 'checking',
   token: null,
   errorMessage: '',
@@ -53,6 +54,7 @@ export const AuthProvider = ({children}: any) => {
 
   const checkUserExist = () => {
     setLoading(true);
+
     auth().onAuthStateChanged(user => {
       if (user) {
         // console.log(user);
@@ -97,11 +99,31 @@ export const AuthProvider = ({children}: any) => {
         displayName: `${firstName} ${lastName}`,
       });
 
-      //We called to get user data.
+      //We called to get CurrentUser state data.
       checkUserExist();
+
+      //Save Users in the DB
+      firestore()
+        .collection('Users')
+        .doc(user.uid)
+        .set({
+          displayName: `${firstName} ${lastName}`,
+          email: user.email,
+          photoURL: user.photoURL,
+          phoneNumber: user.phoneNumber,
+          emailVerified: user.emailVerified,
+          uid: user.uid,
+          isOnline: true,
+          createdAt: firestore.Timestamp.fromDate(new Date()),
+        })
+        .then(() => {
+          console.log('User added!');
+        })
+        .catch(e => {
+          console.log('No User add');
+        });
     } catch (error) {
-      const errorCode = error;
-      const errorMessage = error;
+      console.log(error);
     }
   };
 
@@ -110,8 +132,18 @@ export const AuthProvider = ({children}: any) => {
       setLoading(true);
       auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => {
+        .then(data => {
           console.log('Everything good');
+          // Set IsOnline to true
+          firestore()
+            .collection('Users')
+            .doc(data.user.uid)
+            .update({
+              isOnline: true,
+            })
+            .then(() => {
+              console.log('User updated!');
+            });
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -143,12 +175,51 @@ export const AuthProvider = ({children}: any) => {
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
       // Sign-in the user with the credential
-      return auth().signInWithCredential(googleCredential);
+      const data = await auth().signInWithCredential(googleCredential);
+
+      if (data.additionalUserInfo?.isNewUser === true) {
+        firestore()
+          .collection('Users')
+          .doc(data.user.uid)
+          .set({
+            displayName: data.user.displayName,
+            email: data.user.email,
+            photoURL: data.user.photoURL,
+            phoneNumber: data.user.phoneNumber,
+            emailVerified: data.user.emailVerified,
+            uid: data.user.uid,
+            isOnline: true,
+            createdAt: firestore.Timestamp.fromDate(new Date()),
+          })
+          .then(() => {
+            console.log('User added!');
+          })
+          .catch(e => {
+            console.log('No User add');
+          });
+      } else {
+        firestore()
+          .collection('Users')
+          .doc(data.user.uid)
+          .update({
+            isOnline: true,
+          })
+          .then(() => {
+            console.log('User updated!');
+          })
+          .catch(e => {
+            console.log('No User updated');
+            console.log(e);
+          });
+      }
+
+      console.log(data);
     } catch (error) {
       console.log('no quizo');
     }
   };
 
+  //TODO: SIGNOUT GOOGLE
   const signOutFirebase = async () => {
     auth()
       .signOut()
@@ -158,6 +229,20 @@ export const AuthProvider = ({children}: any) => {
     await GoogleSignin.signOut()
       .then(() => console.log('fuera'))
       .catch(e => console.log(e));
+
+    firestore()
+      .collection('Users')
+      .doc(state.currentUser.uid)
+      .update({
+        isOnline: false,
+      })
+      .then(() => {
+        console.log('User updated!');
+      })
+      .catch(e => {
+        console.log('No User updated');
+        console.log(e);
+      });
   };
 
   const resetUserPassword = (email: string) => {
