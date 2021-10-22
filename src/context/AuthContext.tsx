@@ -44,6 +44,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({children}: any) => {
   const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState([]);
 
   const [state, dispatch] = useReducer(authReducer, authInicialState);
 
@@ -162,6 +163,7 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
+  //Once you Login with google, you can't use your email login again.
   const signInwithGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -212,8 +214,6 @@ export const AuthProvider = ({children}: any) => {
             console.log(e);
           });
       }
-
-      console.log(data);
     } catch (error) {
       console.log('no quizo');
     }
@@ -232,7 +232,7 @@ export const AuthProvider = ({children}: any) => {
 
     firestore()
       .collection('Users')
-      .doc(state.currentUser.uid)
+      .doc(state.currentUser?.uid)
       .update({
         isOnline: false,
       })

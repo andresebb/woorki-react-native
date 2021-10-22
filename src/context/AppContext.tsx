@@ -14,6 +14,7 @@ import {useAnimation} from '../hooks/useAnimation';
 import {Platform} from 'react-native';
 import {AuthContext} from './authContext';
 import {JobData} from '../interfaces/JobInterface';
+import {User} from '../interfaces/UserInterface';
 
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
@@ -28,6 +29,7 @@ type AppContextProps = {
   jobs: JobData[];
   filterJobs: JobData[];
   favorites: JobData[];
+  users: User[];
 };
 
 const appInitialState: AppState = {
@@ -67,12 +69,29 @@ export const AppProvider = ({children}: any) => {
   const [state, dispatch] = useReducer(appReducer, appInitialState);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
   const {opacity, translateHeader, translateHeaderDown, translate} =
     useAnimation();
 
   useEffect(() => {
     getJobs();
   }, []);
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Users')
+      .where('uid', '!=', `${currentUser?.uid}`)
+      .onSnapshot(documentSnapshot => {
+        let users: any[] = [];
+        documentSnapshot.forEach(doc => {
+          users.push(doc.data());
+        });
+        setUsers(users);
+      });
+
+    // // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, [currentUser?.uid]);
 
   //Update newJob with the current user
   useEffect(() => {
@@ -231,6 +250,7 @@ export const AppProvider = ({children}: any) => {
         opacity,
         loading,
         translate,
+        users,
       }}>
       {children}
     </AppContext.Provider>
