@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
+import storage, {firebase} from '@react-native-firebase/storage';
 
 import {appReducer, AppState} from './appReducer';
 import {useAnimation} from '../hooks/useAnimation';
@@ -15,7 +15,9 @@ import {Platform} from 'react-native';
 import {AuthContext} from './authContext';
 import {JobData} from '../interfaces/JobInterface';
 import {User} from '../interfaces/UserInterface';
+import {whileStatement} from '@babel/types';
 
+//Lo que exponemos en el context
 type AppContextProps = {
   getDirection: (currentOffset: any) => void;
   filterJobByName: (value: string) => void;
@@ -23,13 +25,15 @@ type AppContextProps = {
   uploadImageStorage: (image: any) => void;
   updateNewOfferJob: (value: string, property: any) => void;
   sendJobToFirebase: () => void;
+  selectChat: (user?: User, allUserGoing?: User[]) => void;
   opacity: any;
   translate: any;
   loading: boolean;
   jobs: JobData[];
   filterJobs: JobData[];
   favorites: JobData[];
-  users: User[];
+  allUsers: User[];
+  chatsActives: User[];
 };
 
 const appInitialState: AppState = {
@@ -60,16 +64,17 @@ const appInitialState: AppState = {
       uid: '',
     },
   },
+  allUsers: [],
 };
 
 export const AppContext = createContext({} as AppContextProps);
 
 export const AppProvider = ({children}: any) => {
-  const {currentUser} = useContext(AuthContext);
   const [state, dispatch] = useReducer(appReducer, appInitialState);
+  const {currentUser} = useContext(AuthContext);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
+  const [chatsActives, setChatActives] = useState<User[]>([]);
   const {opacity, translateHeader, translateHeaderDown, translate} =
     useAnimation();
 
@@ -77,6 +82,7 @@ export const AppProvider = ({children}: any) => {
     getJobs();
   }, []);
 
+  //Watch User collection
   useEffect(() => {
     const subscriber = firestore()
       .collection('Users')
@@ -86,7 +92,11 @@ export const AppProvider = ({children}: any) => {
         documentSnapshot.forEach(doc => {
           users.push(doc.data());
         });
-        setUsers(users);
+        dispatch({
+          type: 'setAllUsers',
+          payload: {allUsers: users},
+        });
+        selectChat(undefined, users);
       });
 
     // // Stop listening for updates when no longer required
@@ -237,6 +247,54 @@ export const AppProvider = ({children}: any) => {
       });
   };
 
+  //It's crazy I know
+  const selectChat = (userToChat?: User, allUserGoing?: User[]) => {
+    try {
+      let usersTotalk: any[] = [];
+
+      //Add user to Chat Actives.
+      if (userToChat) {
+        const userToAdd = state.allUsers.filter(data => {
+          if (data.uid === userToChat.uid) return data;
+        });
+
+        firestore()
+          .collection(`chatsActives-${currentUser?.uid}`)
+          .doc(userToAdd[0].uid)
+          .set(userToAdd[0])
+          .then(querySnapchot => {
+            console.log('Chat actives added');
+          });
+      }
+
+      //Get Users from chatActives and setChatActives
+      if (allUserGoing) {
+        firestore()
+          .collection(`chatsActives-${currentUser?.uid}`)
+          .get()
+          .then(snapshot => {
+            let userArray: any[] = [];
+            snapshot.forEach(doc => {
+              userArray.push(doc.data());
+            });
+            setChatActives(userArray);
+
+            //We put the type of user from AllUser in chatActives
+            //So we can know when the user is online
+            const usersWithChatActives = allUserGoing.filter((data: any) => {
+              for (let i = 0; i < userArray.length; i++) {
+                if (data.uid === userArray[i].uid) return data;
+              }
+            });
+
+            setChatActives(usersWithChatActives);
+          });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -247,10 +305,11 @@ export const AppProvider = ({children}: any) => {
         uploadImageStorage,
         updateNewOfferJob,
         sendJobToFirebase,
+        selectChat,
         opacity,
         loading,
         translate,
-        users,
+        chatsActives,
       }}>
       {children}
     </AppContext.Provider>

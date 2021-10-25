@@ -6,5 +6,5 @@ export interface User {
   emailVerified: boolean;
   isOnline?: boolean;
   createdAt?: any;
-  uid: string | null;
+  uid: string | undefined;
 }

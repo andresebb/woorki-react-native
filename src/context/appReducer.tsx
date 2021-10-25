@@ -1,14 +1,17 @@
 import {JobData} from '../interfaces/JobInterface';
+import {User} from '../interfaces/UserInterface';
 
 export interface AppState {
   jobs: JobData[];
   filterJobs: JobData[];
   favorites: JobData[];
   newJob: JobData;
+  allUsers: User[];
 }
 
 type AppAction =
   | {type: 'getJobs'; payload: {jobs: JobData[]}}
+  | {type: 'setAllUsers'; payload: {allUsers: User[]}}
   | {type: 'filterJob'; payload: {filterJob: JobData[]}}
   | {type: 'resetFilterJobs'}
   | {type: 'updateJobOffer'; payload: {field: string; data: any}}
@@ -21,6 +24,11 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         filterJobs: [],
         jobs: action.payload.jobs,
+      };
+    case 'setAllUsers':
+      return {
+        ...state,
+        allUsers: action.payload.allUsers,
       };
     case 'filterJob':
       console.log(action.payload.filterJob);

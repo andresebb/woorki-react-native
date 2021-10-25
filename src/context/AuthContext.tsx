@@ -44,8 +44,6 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({children}: any) => {
   const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
-
   const [state, dispatch] = useReducer(authReducer, authInicialState);
 
   // Check if we have user

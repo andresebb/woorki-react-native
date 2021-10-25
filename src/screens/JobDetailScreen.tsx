@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -12,10 +12,11 @@ import {
 } from 'react-native';
 
 import {RootStackParams} from '../navigation/Tab1';
-import {Map} from '../components/Map';
 import {OneBackArrow} from '../components/OneBackArrow';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 import MapView, {Marker} from 'react-native-maps';
+import {TouchableOpacity} from 'react-native';
+import {AppContext} from '../context/appContext';
 
 const screemHeight = Dimensions.get('screen').height;
 
@@ -23,6 +24,7 @@ interface Props extends StackScreenProps<RootStackParams, 'JobDetailScreen'> {}
 
 export const JobDetailScreen = ({route, navigation}: Props) => {
   const job = route.params;
+  const {selectChat} = useContext(AppContext);
 
   return (
     <ScrollView style={styles.flex1}>
@@ -88,7 +90,7 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
                       fontSize: 18,
                       color: '#1B1B1B',
                     }}>
-                    Brian Oconner
+                    {job.user.displayName}
                   </Text>
                   <Text
                     style={{
@@ -109,9 +111,11 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
                   <Icon name="call-outline" size={20} color="white" />
                 </View>
 
-                <View style={styles.contactLogo}>
+                <TouchableOpacity
+                  onPress={() => selectChat(job.user)}
+                  style={styles.contactLogo}>
                   <Icon name="mail-outline" size={20} color="white" />
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
             <View
