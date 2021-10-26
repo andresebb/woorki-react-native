@@ -1,68 +1,41 @@
 import React, {useEffect, useContext} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {BackgroundWhite} from '../components/BackgroundWhite';
-import firestore from '@react-native-firebase/firestore';
-import {AuthContext} from '../context/authContext';
 import {AppContext} from '../context/appContext';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParams} from '../navigation/Tab4';
+import {UserActiveCard} from '../components/UserActiveCard';
+import {FlatList} from 'react-native-gesture-handler';
 
-export const MessagesScreen = () => {
-  const {chatsActives, allUsers} = useContext(AppContext);
+interface Props
+  extends StackScreenProps<RootStackParams, 'UserMessageScreen'> {}
 
-  // useEffect(() => {
-  //   const userToAdd = users.filter(data => {
-  //     for (let i = 0; i < chatsActives.length; i++) {
-  //       if (data.uid === chatsActives[i].uid) return data;
-  //     }
-  //   });
-
-  // }, []);
-
-  // console.log(chatsActives);
+export const MessagesScreen = ({navigation}: Props) => {
+  const {chatsActives} = useContext(AppContext);
 
   return (
     <BackgroundWhite>
       {chatsActives.length > 0 ? (
-        <View
-          style={{
-            flex: 1,
-          }}>
-          {chatsActives.map(user => (
-            <View
-              key={user.uid}
-              style={{
-                marginVertical: 10,
-                padding: 12,
-                borderTopWidth: 1,
-                borderBottomWidth: 1,
-                borderColor: 'gray',
-                flexDirection: 'row',
-              }}>
-              <Image
-                source={require('../assets/avatar.png')}
-                style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: 48,
-                }}
-              />
-              <Text>{user.displayName}</Text>
-            </View>
-          ))}
+        <View style={styles.container}>
+          <Text style={styles.title}>Chat Actives</Text>
+          <FlatList
+            data={chatsActives}
+            keyExtractor={user => user.uid}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}: any) => {
+              return (
+                <UserActiveCard
+                  key={item.uid}
+                  user={item}
+                  navigation={navigation}
+                />
+              );
+            }}
+          />
         </View>
       ) : (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              opacity: 0.5,
-              letterSpacing: 1.5,
-            }}>
+        <View style={styles.newConversationContainer}>
+          <Text style={styles.newConversationText}>
             Start a new conversation
           </Text>
         </View>
@@ -70,3 +43,25 @@ export const MessagesScreen = () => {
     </BackgroundWhite>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 14,
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 20,
+  },
+  newConversationContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  newConversationText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    opacity: 0.5,
+    letterSpacing: 1.5,
+  },
+});
