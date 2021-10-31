@@ -20,6 +20,7 @@ export const Tab4 = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+
         cardStyle: {
           backgroundColor: 'white',
         },

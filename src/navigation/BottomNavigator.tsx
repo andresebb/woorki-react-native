@@ -67,6 +67,7 @@ export const BottomNavigator = () => {
         name="Tab4"
         component={Tab4}
         options={{
+          // headerShown: true,
           tabBarLabel: 'Messages',
           tabBarIcon: ({color}) => (
             <Icon color={color} size={25} name="mail-outline" />
