@@ -25,7 +25,7 @@ type AppContextProps = {
   uploadImageStorage: (image: any) => void;
   updateNewOfferJob: (value: string, property: any) => void;
   sendJobToFirebase: () => void;
-  selectChat: (user?: User, allUserGoing?: User[]) => void;
+  addUserToChatActive: (users: User) => void;
   opacity: any;
   translate: any;
   loading: boolean;
@@ -72,11 +72,14 @@ export const AppContext = createContext({} as AppContextProps);
 export const AppProvider = ({children}: any) => {
   const [state, dispatch] = useReducer(appReducer, appInitialState);
   const {currentUser} = useContext(AuthContext);
+  const [userToChatId, setUserToChatId] = useState('');
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [chatsActives, setChatActives] = useState<User[]>([]);
   const {opacity, translateHeader, translateHeaderDown, translate} =
     useAnimation();
+
+  const user1 = currentUser?.uid;
 
   useEffect(() => {
     getJobs();
@@ -96,7 +99,7 @@ export const AppProvider = ({children}: any) => {
           type: 'setAllUsers',
           payload: {allUsers: users},
         });
-        selectChat(undefined, users);
+        getUsersWithChatActive(users);
       });
 
     // // Stop listening for updates when no longer required
@@ -247,52 +250,73 @@ export const AppProvider = ({children}: any) => {
       });
   };
 
-  //It's crazy I know
-  const selectChat = (userToChat?: User, allUserGoing?: User[]) => {
+  const addUserToChatActive = async (user: User) => {
     try {
-      let usersTotalk: any[] = [];
+      const user1Id = currentUser?.uid;
+      const user2Id = user.uid;
 
-      //Add user to Chat Actives.
-      if (userToChat) {
-        const userToAdd = state.allUsers.filter(data => {
-          if (data.uid === userToChat.uid) return data;
+      //Add user2 to user1
+      firestore()
+        .collection('chatActives')
+        .doc(user1Id)
+        .collection('users')
+        .add(user)
+        .then(() => {
+          console.log('User added!');
         });
 
-        firestore()
-          .collection(`chatsActives-${currentUser?.uid}`)
-          .doc(userToAdd[0].uid)
-          .set(userToAdd[0])
-          .then(querySnapchot => {
-            console.log('Chat actives added');
-          });
-      }
-
-      //Get Users from chatActives and setChatActives
-      if (allUserGoing) {
-        firestore()
-          .collection(`chatsActives-${currentUser?.uid}`)
-          .get()
-          .then(snapshot => {
-            let userArray: any[] = [];
-            snapshot.forEach(doc => {
-              userArray.push(doc.data());
-            });
-            setChatActives(userArray);
-
-            //We put the type of user from AllUser in chatActives
-            //So we can know when the user is online
-            const usersWithChatActives = allUserGoing.filter((data: any) => {
-              for (let i = 0; i < userArray.length; i++) {
-                if (data.uid === userArray[i].uid) return data;
-              }
-            });
-
-            setChatActives(usersWithChatActives);
-          });
-      }
+      getUsersWithChatActive(state.allUsers);
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const getUsersWithChatActive = (users: User[]) => {
+    firestore()
+      .collection('chatActives')
+      .doc(currentUser?.uid)
+      .collection('users')
+      .get()
+      .then(snapshot => {
+        let userArray: any[] = [];
+        snapshot.forEach(doc => {
+          userArray.push(doc.data());
+        });
+
+        // //Don't touch
+        // setChatActives(userArray);
+
+        //We put the type of user from Users collection in chatActives
+        //So we can know when the user is online
+        const usersWithChatActives = users.filter((data: any) => {
+          for (let i = 0; i < userArray.length; i++) {
+            if (data.uid === userArray[i].uid) return data;
+          }
+        });
+
+        setChatActives(usersWithChatActives);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const sendMessageToUser = () => {
+    // const user2 = userToChatId
+
+    console.log(userToChatId);
+
+    firestore()
+      .collection('Mensajesitos')
+      .doc('esteeselid')
+      .collection('chat')
+      .add({
+        name: 'Ada Lovelace',
+        age: 30,
+      })
+      .then(() => {
+        console.log('User added!');
+      });
   };
 
   return (
@@ -305,7 +329,7 @@ export const AppProvider = ({children}: any) => {
         uploadImageStorage,
         updateNewOfferJob,
         sendJobToFirebase,
-        selectChat,
+        addUserToChatActive,
         opacity,
         loading,
         translate,

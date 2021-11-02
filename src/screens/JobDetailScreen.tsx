@@ -24,7 +24,7 @@ interface Props extends StackScreenProps<RootStackParams, 'JobDetailScreen'> {}
 
 export const JobDetailScreen = ({route, navigation}: Props) => {
   const job = route.params;
-  const {selectChat} = useContext(AppContext);
+  const {addUserToChatActive} = useContext(AppContext);
 
   return (
     <ScrollView style={styles.flex1}>
@@ -112,7 +112,7 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => selectChat(job.user)}
+                  onPress={() => addUserToChatActive(job.user)}
                   style={styles.contactLogo}>
                   <Icon name="mail-outline" size={20} color="white" />
                 </TouchableOpacity>

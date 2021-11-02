@@ -12,12 +12,32 @@ import {RootStackParams} from '../navigation/Tab4';
 import {BackArrow} from '../components/BackArrow';
 import {OneBackArrow} from '../components/OneBackArrow';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useForm} from '../hooks/useForm';
+import firestore from '@react-native-firebase/firestore';
 
 interface Props
   extends StackScreenProps<RootStackParams, 'UserMessageScreen'> {}
 
 export const UserMessageScreen = ({route, navigation}: Props) => {
   const user = route.params;
+
+  const {text, onChange} = useForm({
+    text: '',
+  });
+
+  const handleSubmit = () => {
+    firestore()
+      .collection('Mensajesitos')
+      .doc('esteeselid')
+      .collection('chat')
+      .add({
+        name: 'Ada Lovelace',
+        age: 30,
+      })
+      .then(() => {
+        console.log('User added!');
+      });
+  };
 
   return (
     <View
@@ -83,7 +103,7 @@ export const UserMessageScreen = ({route, navigation}: Props) => {
           flexDirection: 'row',
         }}>
         <TextInput
-          placeholder="Text"
+          placeholder="Write your message here."
           placeholderTextColor="rgba(0,0,0,0.4)"
           selectionColor="black"
           multiline={true}
@@ -94,31 +114,25 @@ export const UserMessageScreen = ({route, navigation}: Props) => {
             borderWidth: 1,
             // padding: 24,
           }}
-          // keyboardType="email-address"
-          // onChangeText={value => onChange(value, 'email')}
-          // value={email}
+          onChangeText={value => onChange(value, 'text')}
+          value={text}
           // onSubmitEditing={onLogin}
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <View
+        <TouchableOpacity
           style={{
             backgroundColor: '#2bc48a',
             justifyContent: 'center',
             marginLeft: 12,
             borderRadius: 24,
-            padding: 6,
+            padding: 14,
             paddingVertical: 14,
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              fontWeight: 'bold',
-            }}>
-            Enviar
-          </Text>
-          <View />
-        </View>
+            alignItems: 'center',
+          }}
+          onPress={handleSubmit}>
+          <Icon name="send-outline" size={20} color="white" />
+        </TouchableOpacity>
       </View>
     </View>
   );
