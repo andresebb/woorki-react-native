@@ -5,12 +5,12 @@ import {MapScreen} from '../screens/MapScreen';
 import {JobDetailScreen} from '../screens/JobDetailScreen';
 import {JobData} from '../interfaces/JobInterface';
 import {MessagesScreen} from '../screens/MessagesScreen';
-import {UserMessageScreen} from '../screens/UserMessageScreen';
+import {SendMessageScreen} from '../screens/SendMessageScreen';
 import {User} from '../interfaces/UserInterface';
 
 export type RootStackParams = {
   MessagesScreen: undefined;
-  UserMessageScreen: User;
+  SendMessageScreen: User;
 };
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -26,7 +26,7 @@ export const Tab4 = () => {
         },
       }}>
       <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
-      <Stack.Screen name="UserMessageScreen" component={UserMessageScreen} />
+      <Stack.Screen name="SendMessageScreen" component={SendMessageScreen} />
     </Stack.Navigator>
   );
 };

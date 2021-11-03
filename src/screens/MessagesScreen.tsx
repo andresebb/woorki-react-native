@@ -7,8 +7,7 @@ import {RootStackParams} from '../navigation/Tab4';
 import {UserActiveCard} from '../components/UserActiveCard';
 import {FlatList} from 'react-native-gesture-handler';
 
-interface Props
-  extends StackScreenProps<RootStackParams, 'UserMessageScreen'> {}
+interface Props extends StackScreenProps<RootStackParams, 'MessagesScreen'> {}
 
 export const MessagesScreen = ({navigation}: Props) => {
   const {chatsActives} = useContext(AppContext);

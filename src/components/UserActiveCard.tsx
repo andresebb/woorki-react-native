@@ -12,7 +12,7 @@ export const UserActiveCard = ({user, navigation}: Props) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('UserMessageScreen', user)}
+      onPress={() => navigation.navigate('SendMessageScreen', user)}
       style={styles.container}>
       <Image
         source={require('../assets/avatar.png')}

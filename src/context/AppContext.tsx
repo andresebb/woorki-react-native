@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 import firestore from '@react-native-firebase/firestore';
-import storage, {firebase} from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage';
 
 import {appReducer, AppState} from './appReducer';
 import {useAnimation} from '../hooks/useAnimation';
@@ -15,7 +15,7 @@ import {Platform} from 'react-native';
 import {AuthContext} from './authContext';
 import {JobData} from '../interfaces/JobInterface';
 import {User} from '../interfaces/UserInterface';
-import {whileStatement} from '@babel/types';
+import {Message} from '../interfaces/MessagesInterface';
 
 //Lo que exponemos en el context
 type AppContextProps = {
@@ -26,6 +26,8 @@ type AppContextProps = {
   updateNewOfferJob: (value: string, property: any) => void;
   sendJobToFirebase: () => void;
   addUserToChatActive: (users: User) => void;
+  sendMessageToUser: (user: User, text: string) => void;
+  getChatWithUser: (user: User) => void;
   opacity: any;
   translate: any;
   loading: boolean;
@@ -34,6 +36,7 @@ type AppContextProps = {
   favorites: JobData[];
   allUsers: User[];
   chatsActives: User[];
+  chatsWithUser: Message[];
 };
 
 const appInitialState: AppState = {
@@ -72,14 +75,12 @@ export const AppContext = createContext({} as AppContextProps);
 export const AppProvider = ({children}: any) => {
   const [state, dispatch] = useReducer(appReducer, appInitialState);
   const {currentUser} = useContext(AuthContext);
-  const [userToChatId, setUserToChatId] = useState('');
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [chatsActives, setChatActives] = useState<User[]>([]);
+  const [chatsWithUser, setChatsWithUser] = useState<Message[]>([]);
   const {opacity, translateHeader, translateHeaderDown, translate} =
     useAnimation();
-
-  const user1 = currentUser?.uid;
 
   useEffect(() => {
     getJobs();
@@ -282,10 +283,6 @@ export const AppProvider = ({children}: any) => {
         snapshot.forEach(doc => {
           userArray.push(doc.data());
         });
-
-        // //Don't touch
-        // setChatActives(userArray);
-
         //We put the type of user from Users collection in chatActives
         //So we can know when the user is online
         const usersWithChatActives = users.filter((data: any) => {
@@ -301,22 +298,58 @@ export const AppProvider = ({children}: any) => {
       });
   };
 
-  const sendMessageToUser = () => {
-    // const user2 = userToChatId
+  const sendMessageToUser = async (user: User, text: string) => {
+    const user1Id = currentUser!.uid;
+    const user2Id = user.uid;
 
-    console.log(userToChatId);
+    if (user1Id && user2Id) {
+      const id =
+        user1Id > user2Id ? `${user1Id + user2Id}` : `${user2Id + user1Id}`;
 
-    firestore()
-      .collection('Mensajesitos')
-      .doc('esteeselid')
-      .collection('chat')
-      .add({
-        name: 'Ada Lovelace',
-        age: 30,
-      })
-      .then(() => {
-        console.log('User added!');
-      });
+      await firestore()
+        .collection('Messages')
+        .doc(id)
+        .collection('chat')
+        .add({
+          text,
+          from: user1Id,
+          to: user2Id,
+          createdAt: firestore.Timestamp.fromDate(new Date()),
+          media: null,
+        })
+        .then(() => {
+          console.log('User added!');
+        });
+    }
+  };
+
+  const getChatWithUser = (user: User) => {
+    const user1 = currentUser?.uid;
+    const user2 = user.uid;
+
+    if (user1 && user2) {
+      const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
+
+      firestore()
+        .collection('Messages')
+        .doc(id)
+        .collection('chat')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(documentSnapshot => {
+          let messages: any[] = [];
+          documentSnapshot.forEach(doc => {
+            messages.push({
+              createdAt: doc.data().createdAt,
+              from: doc.data().from,
+              to: doc.data().to,
+              text: doc.data().text,
+              media: doc.data().media,
+              id: doc.id,
+            });
+          });
+          setChatsWithUser(messages);
+        });
+    }
   };
 
   return (
@@ -330,10 +363,13 @@ export const AppProvider = ({children}: any) => {
         updateNewOfferJob,
         sendJobToFirebase,
         addUserToChatActive,
+        sendMessageToUser,
+        getChatWithUser,
         opacity,
         loading,
         translate,
         chatsActives,
+        chatsWithUser,
       }}>
       {children}
     </AppContext.Provider>
