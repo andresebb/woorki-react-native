@@ -77,7 +77,7 @@ export const AppProvider = ({children}: any) => {
   const {currentUser} = useContext(AuthContext);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [chatsActives, setChatActives] = useState<User[]>([]);
+  const [chatsActives, setChatsActives] = useState<User[]>([]);
   const [chatsWithUser, setChatsWithUser] = useState<Message[]>([]);
   const {opacity, translateHeader, translateHeaderDown, translate} =
     useAnimation();
@@ -291,7 +291,7 @@ export const AppProvider = ({children}: any) => {
           }
         });
 
-        setChatActives(usersWithChatActives);
+        setChatsActives(usersWithChatActives);
       })
       .catch(e => {
         console.log(e);

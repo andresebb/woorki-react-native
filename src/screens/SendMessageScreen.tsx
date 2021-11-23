@@ -108,7 +108,7 @@ export const SendMessageScreen = ({route, navigation}: Props) => {
                 style={{
                   flexDirection: 'row',
                   justifyContent:
-                    item.from === currentUser!.uid ? 'flex-start' : 'flex-end',
+                    item.from === currentUser!.uid ? 'flex-end' : 'flex-start',
                   marginVertical: 12,
                 }}>
                 <Text
