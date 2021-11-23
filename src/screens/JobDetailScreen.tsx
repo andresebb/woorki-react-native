@@ -112,7 +112,10 @@ export const JobDetailScreen = ({route, navigation}: Props) => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => addUserToChatActive(job.user)}
+                  onPress={() => [
+                    addUserToChatActive(job.user),
+                    navigation.navigate('MessagesScreen'),
+                  ]}
                   style={styles.contactLogo}>
                   <Icon name="mail-outline" size={20} color="white" />
                 </TouchableOpacity>

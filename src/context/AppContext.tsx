@@ -28,6 +28,7 @@ type AppContextProps = {
   addUserToChatActive: (users: User) => void;
   sendMessageToUser: (user: User, text: string) => void;
   getChatWithUser: (user: User) => void;
+  destroyChatWithUser: () => void;
   opacity: any;
   translate: any;
   loading: boolean;
@@ -256,6 +257,8 @@ export const AppProvider = ({children}: any) => {
       const user1Id = currentUser?.uid;
       const user2Id = user.uid;
 
+      console.log(user1Id);
+
       //Add user2 to user1
       firestore()
         .collection('chatActives')
@@ -266,6 +269,7 @@ export const AppProvider = ({children}: any) => {
           console.log('User added!');
         });
 
+      //TODO: WHY WE DONT JUST PASS THE USER WHO WE ARE GONNA TALK WITH?
       getUsersWithChatActive(state.allUsers);
     } catch (e) {
       console.log(e);
@@ -352,6 +356,10 @@ export const AppProvider = ({children}: any) => {
     }
   };
 
+  const destroyChatWithUser = () => {
+    setChatsWithUser([]);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -365,6 +373,7 @@ export const AppProvider = ({children}: any) => {
         addUserToChatActive,
         sendMessageToUser,
         getChatWithUser,
+        destroyChatWithUser,
         opacity,
         loading,
         translate,

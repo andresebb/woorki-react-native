@@ -23,49 +23,26 @@ interface Props
 export const SendMessageScreen = ({route, navigation}: Props) => {
   const user = route.params;
   const [text, setText] = useState('');
-  const {sendMessageToUser, getChatWithUser, chatsWithUser} =
-    useContext(AppContext);
+  const {
+    sendMessageToUser,
+    getChatWithUser,
+    chatsWithUser,
+    destroyChatWithUser,
+  } = useContext(AppContext);
   const {currentUser} = useContext(AuthContext);
 
   useEffect(() => {
     getChatWithUser(user);
+
+    return () => {
+      destroyChatWithUser();
+    };
   }, []);
 
   const handleSubmit = async () => {
     await sendMessageToUser(user, text);
     setText('');
   };
-
-  // const dateTo = moment.utcOffset();
-
-  // <View
-  //   style={{
-  //     // backgroundColor:
-  //     //   item.from === currentUser!.uid ? 'green' : 'purple',
-  //     flexDirection: 'row',
-  //   }}>
-  //   <View
-  //     style={{
-  //       backgroundColor: 'red',
-  //       width: '100%',
-  //     }}>
-  //     <View
-  //       style={{
-  //         // flex: 1,
-  //         flexDirection: 'row',
-  //         justifyContent: 'flex-start',
-  //       }}>
-  //       <Text
-  //         style={{
-  //           color: 'orange',
-  //           backgroundColor: 'blue',
-  //           textAlign: 'right',
-  //         }}>
-  //         {item.text}
-  //       </Text>
-  //     </View>
-  //   </View>
-  // </View>;
 
   return (
     <View style={styles.container}>
