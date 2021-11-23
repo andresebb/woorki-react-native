@@ -29,6 +29,7 @@ type AppContextProps = {
   sendMessageToUser: (user: User, text: string) => void;
   getChatWithUser: (user: User) => void;
   destroyChatWithUser: () => void;
+  getLastMessageWithUser: () => void;
   opacity: any;
   translate: any;
   loading: boolean;
@@ -252,6 +253,7 @@ export const AppProvider = ({children}: any) => {
       });
   };
 
+  //TODO: ADD THE USER TO THE USER YOU ARE SENDING THE MESSAGE TO
   const addUserToChatActive = async (user: User) => {
     try {
       const user1Id = currentUser?.uid;
@@ -259,7 +261,9 @@ export const AppProvider = ({children}: any) => {
 
       console.log(user1Id);
 
-      //Add user2 to user1
+      // onPostLike(user1Id);
+
+      // Add user2 to user1
       firestore()
         .collection('chatActives')
         .doc(user1Id)
@@ -267,6 +271,22 @@ export const AppProvider = ({children}: any) => {
         .add(user)
         .then(() => {
           console.log('User added!');
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      //Add user1 to user2
+      firestore()
+        .collection('chatActives')
+        .doc(user2Id)
+        .collection('users')
+        .add(currentUser)
+        .then(() => {
+          console.log('User added!');
+        })
+        .catch(e => {
+          console.log(e);
         });
 
       //TODO: WHY WE DONT JUST PASS THE USER WHO WE ARE GONNA TALK WITH?
@@ -302,6 +322,7 @@ export const AppProvider = ({children}: any) => {
       });
   };
 
+  //TODO: MAKE THE LAST MESSAGE SHOW
   const sendMessageToUser = async (user: User, text: string) => {
     const user1Id = currentUser!.uid;
     const user2Id = user.uid;
@@ -360,6 +381,8 @@ export const AppProvider = ({children}: any) => {
     setChatsWithUser([]);
   };
 
+  const getLastMessageWithUser = () => {};
+
   return (
     <AppContext.Provider
       value={{
@@ -374,6 +397,7 @@ export const AppProvider = ({children}: any) => {
         sendMessageToUser,
         getChatWithUser,
         destroyChatWithUser,
+        getLastMessageWithUser,
         opacity,
         loading,
         translate,
