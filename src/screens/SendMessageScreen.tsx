@@ -12,7 +12,7 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigation/Tab4';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {AppContext} from '../context/appContext';
+import {AppContext} from '../context/AppContext';
 import Moment from 'react-moment';
 import moment from 'moment';
 import {AuthContext} from '../context/authContext';

@@ -16,7 +16,7 @@ import {OneBackArrow} from '../components/OneBackArrow';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 import MapView, {Marker} from 'react-native-maps';
 import {TouchableOpacity} from 'react-native';
-import {AppContext} from '../context/appContext';
+import {AppContext} from '../context/AppContext';
 
 const screemHeight = Dimensions.get('screen').height;
 

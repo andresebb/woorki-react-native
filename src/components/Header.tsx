@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {AppContext} from '../context/appContext';
+import {AppContext} from '../context/AppContext';
 import {useNavigation} from '@react-navigation/native';
 import {useLocation} from '../hooks/useLocation';
 import {SearchInput} from './SearchInput';

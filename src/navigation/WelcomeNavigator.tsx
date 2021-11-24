@@ -15,7 +15,7 @@ export type RootStackParams = {
 const Stack = createStackNavigator<RootStackParams>();
 
 export const WelcomeNavigator = () => {
-  const {status} = useContext(AuthContext);
+  // const {status} = useContext(AuthContext);
 
   return (
     <Stack.Navigator

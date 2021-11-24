@@ -3,9 +3,9 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthProvider} from './src/context/authContext';
 import {ChooseNavigator} from './src/navigation/ChooseNavigator';
-import {AppProvider} from './src/context/appContext';
+import {AppProvider} from './src/context/AppContext';
 
-import {LogBox} from 'react-native';
+import {LogBox, Text} from 'react-native';
 LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native core and will be removed in a future release.',
 ]); // Ignore log notification by message
@@ -26,6 +26,7 @@ export default function App() {
     <NavigationContainer>
       <AppState>
         <ChooseNavigator />
+        {/* <Text>Hola </Text> */}
       </AppState>
     </NavigationContainer>
   );

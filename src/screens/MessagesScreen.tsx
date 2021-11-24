@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {BackgroundWhite} from '../components/BackgroundWhite';
-import {AppContext} from '../context/appContext';
+import {AppContext} from '../context/AppContext';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigation/Tab4';
 import {UserActiveCard} from '../components/UserActiveCard';

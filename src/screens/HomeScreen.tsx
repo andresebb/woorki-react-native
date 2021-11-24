@@ -5,7 +5,7 @@ import {View, FlatList, StyleSheet, Image} from 'react-native';
 import {JobCard} from '../components/JobCard';
 import {BackgroundWhite} from '../components/BackgroundWhite';
 import {useContext} from 'react';
-import {AppContext} from '../context/appContext';
+import {AppContext} from '../context/AppContext';
 import {LoadingModal} from '../components/loadingModal';
 import {Header} from '../components/Header';
 import {JobData} from '../interfaces/JobInterface';

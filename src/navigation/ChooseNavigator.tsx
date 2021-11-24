@@ -4,6 +4,7 @@ import {AuthContext} from '../context/authContext';
 import {WelcomeNavigator} from './WelcomeNavigator';
 import {DrawerNavigation} from './DrawerNavigation';
 import {LoadingModal} from '../components/loadingModal';
+import {Text} from 'react-native';
 
 //We did chooseNavigator because we were not allow to do the if in the app.tsx
 export const ChooseNavigator = () => {

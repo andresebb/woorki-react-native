@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native';
 import {moveMaptoTheJob, onMarkerPress} from '../helpers/MapHelpers';
 import {useContext} from 'react';
-import {AppContext} from '../context/appContext';
+import {AppContext} from '../context/AppContext';
 import {MapJobCard} from './MapJobCard';
 
 const {width, height} = Dimensions.get('window');
