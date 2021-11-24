@@ -29,7 +29,7 @@ type AppContextProps = {
   sendMessageToUser: (user: User, text: string) => void;
   getChatWithUser: (user: User) => void;
   destroyChatWithUser: () => void;
-  getLastMessageWithUser: () => void;
+  openLastMessage: () => void;
   opacity: any;
   translate: any;
   loading: boolean;
@@ -259,10 +259,6 @@ export const AppProvider = ({children}: any) => {
       const user1Id = currentUser?.uid;
       const user2Id = user.uid;
 
-      console.log(user1Id);
-
-      // onPostLike(user1Id);
-
       // Add user2 to user1
       firestore()
         .collection('chatActives')
@@ -345,6 +341,18 @@ export const AppProvider = ({children}: any) => {
         .then(() => {
           console.log('User added!');
         });
+
+      firestore()
+        .collection('lastMsg')
+        .doc(id)
+        .set({
+          text,
+          from: user1Id,
+          to: user2Id,
+          createdAt: firestore.Timestamp.fromDate(new Date()),
+          media: null,
+          unread: true,
+        });
     }
   };
 
@@ -381,7 +389,7 @@ export const AppProvider = ({children}: any) => {
     setChatsWithUser([]);
   };
 
-  const getLastMessageWithUser = () => {};
+  const openLastMessage = () => {};
 
   return (
     <AppContext.Provider
@@ -397,7 +405,7 @@ export const AppProvider = ({children}: any) => {
         sendMessageToUser,
         getChatWithUser,
         destroyChatWithUser,
-        getLastMessageWithUser,
+        openLastMessage,
         opacity,
         loading,
         translate,
